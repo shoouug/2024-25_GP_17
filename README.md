@@ -3,6 +3,8 @@ GenNews
 
 GenNews project aims to revolutionize the way journalists create and consume articles. GenNews will provide journalists with a powerful tool that automates tasks such as articles generation, fact-checking, and news aggregation, ultimately enhancing their efficiency and productivity.
 
+
+
 Technology Stack:
 
 
