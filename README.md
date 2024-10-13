@@ -20,7 +20,7 @@ Clone the Repository: Download the project code from the GitHub repository.
 
 Set Up Environment: Install the necessary dependencies using a package manager like npm or pip.
 
-Configure Database: Create a MySQL database and configure the connection details in the project settings.
+Configure Database: Create a NoSQL database and configure the connection details in the project settings.
 
 Run the Application: Start the development server using a command like npm start or python main.py.
 
