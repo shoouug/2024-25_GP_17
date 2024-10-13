@@ -10,7 +10,7 @@ Technology Stack:
 
 Frontend: React.js
 Backend: Python
-Database: MySQL
+Database: NoSQL
 
 
 Launching Instructions:
