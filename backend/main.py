@@ -1,4 +1,5 @@
 #simple FastAPI route 
+#Befor enything We should set up a Python backend with a React frontend
 from fastapi import FastAPI
 
 app = FastAPI()

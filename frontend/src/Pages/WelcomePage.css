@@ -1,0 +1,148 @@
+/* Global styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #FFFFFF;
+}
+
+/* Welcome Page Styles */
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 20px 50px;
+  background-color: #FFFFFF;
+}
+
+.logo {
+  height: 50px;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  color: #333333;
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 18px;
+  position: relative;
+  padding-bottom: 5px;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #5B95A1;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #5B95A1;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Welcome Content */
+.welcome-content {
+  text-align: center;
+  z-index: 1;
+  max-width: 800px;
+  padding: 20px;
+}
+
+.welcome-title {
+  font-size: 48px;
+  font-weight: 400;
+  color: #333;
+}
+
+.welcome-description {
+  font-size: 20px;
+  font-weight: 400;
+  color: #666;
+}
+
+/* Wave Section */
+.wave-container {
+  position: absolute;
+  bottom: 20%; /* Raise the wave higher on the page */
+  left: 0;
+  width: 100%;
+  height: 20vh;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.waves {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  animation: circularMotion 15s cubic-bezier(0.42, 0, 0.58, 1) infinite; /* Smooth, circular wave motion */
+}
+
+@keyframes circularMotion {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  25% {
+    transform: translateX(10px) translateY(-5px);
+  }
+  50% {
+    transform: translateX(20px) translateY(0);
+  }
+  75% {
+    transform: translateX(10px) translateY(5px);
+  }
+  100% {
+    transform: translateX(0) translateY(0);
+  }
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+  .welcome-title {
+    font-size: 36px;
+  }
+
+  .welcome-description {
+    font-size: 18px;
+  }
+
+  .navbar {
+    padding: 15px 20px;
+  }
+
+  .navbar-links {
+    gap: 15px;
+  }
+
+  .logo {
+    height: 40px;
+  }
+
+  .wave-container {
+    height: 120px;
+  }
+}
