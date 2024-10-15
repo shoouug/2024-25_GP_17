@@ -14,6 +14,14 @@ function App() {
           <Route path="/" element={<WelcomePage />} /> {/* This is the Welcome Page */}
           <Route path="/signup" element={<SignUp />} /> {/* This is the Sign-Up Page */}
           <Route path="/confirm-email" element={<EmailConfirmation />} /> {/* This is the Email Confirmation Page */}
+
+
+
+
+          {/* Redirect the default path to /login */}
+          {/* Define the login route */}
+          <Route path="/login" element={<Login />} />
+        
         </Routes>
       </div>
     </Router>
