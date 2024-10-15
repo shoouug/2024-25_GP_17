@@ -27,21 +27,22 @@ const ResetPassword1 = () => {
       <p className="title">Reset your password</p>
 
       <form onSubmit={handleContinue}>
+        <p class="label">Enter your email address</p>
         <div className="input-container">
           <input
             type="email"
+            name="email"
             value={email}
-            placeholder="Enter your email address"
             onChange={(e) => setEmail(e.target.value)}
             required
           />
           <i className="fas fa-envelope"></i>
         </div>
+        <p class="label">Enter the code sent to your email</p>
         <div className="input-container">
           <input
             type="text"
             value={code}
-            placeholder="Enter the code sent to your email"
             onChange={(e) => setCode(e.target.value)}
             required
           />
