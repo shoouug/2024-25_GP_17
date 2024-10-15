@@ -1,6 +1,9 @@
-import React from 'react';
+import { default as React, default as React } from 'react';
 import './App.css';
 import WelcomePage from './Pages/WelcomePage';
+
+
+
 
 function App() {
   return (
