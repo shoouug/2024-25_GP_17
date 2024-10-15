@@ -1,9 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
 import WelcomePage from './Pages/WelcomePage';
 import SignUp from './Pages/Signup';
 import EmailConfirmation from './Pages/emailconfirmation'; // Adjust the path based on your folder structure
+import Login from './Pages/login';  // Updated path to reflect new location of login.js
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
         </Routes>
       </div>
     </Router>
-  );
+
+  )
 }
 
 export default App;
