@@ -5,6 +5,7 @@ import WelcomePage from './Pages/WelcomePage';
 import SignUp from './Pages/Signup';
 import EmailConfirmation from './Pages/emailconfirmation'; // Adjust the path based on your folder structure
 import Login from './Pages/login';  // Updated path to reflect new location of login.js
+import ResetPassword1 from './Pages/reset-password1';
 
 function App() {
   return (
@@ -15,10 +16,10 @@ function App() {
           <Route path="/signup" element={<SignUp />} /> {/* This is the Sign-Up Page */}
           <Route path="/confirm-email" element={<EmailConfirmation />} /> {/* This is the Email Confirmation Page */}
 
-          {/* Redirect the default path to /login */}
-          {/* Define the login route */}
+
           <Route path="/login" element={<Login />} />
-        
+          <Route path="/reset-password1" element={<ResetPassword1 />} /> {/* This is the Reset Password Page */}
+
         </Routes>
       </div>
     </Router>
