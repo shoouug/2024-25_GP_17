@@ -28,7 +28,7 @@
   }
   
   .topic-item {
-    background-color: #e0e0e0;
+    background-color: #a2d7e1;
     padding: 10px 15px;
     border-radius: 20px;
     cursor: pointer;
@@ -40,7 +40,7 @@
   }
   
   .topic-item.selected {
-    background-color: #5cb85c;
+    background-color: #5B95A1;
     color: white;
   }
   
@@ -49,7 +49,7 @@
   }
   
   textarea {
-    width: 100%;
+    width: 80%;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
@@ -62,7 +62,7 @@
   }
   
   .submit-btn {
-    background-color: #5cb85c;
+    background-color: #5B95A1;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -70,20 +70,11 @@
     cursor: pointer;
   }
   
-  .close-btn {
-    background-color: #d9534f;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+ 
   
   .submit-btn:hover {
-    background-color: #4cae4c;
+    background-color: #4b818c;
   }
   
-  .close-btn:hover {
-    background-color: #c9302c;
-  }
+
   
