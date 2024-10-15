@@ -48,11 +48,12 @@ const Login = () => {
           <input
             type="password"
             value={password}
-            placeholder="Password"//imge
+            placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <i className="fas fa-lock"></i>
+                    <i className="fas fa-lock"></i>
+
         </div>
         {error && <p className="error-message">{error}</p>}
 
