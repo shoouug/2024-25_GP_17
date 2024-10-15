@@ -1,0 +1,101 @@
+/* Centering the container horizontally and vertically */
+body, html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Styling for the login container */
+.login-container {
+  max-width: 400px;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional for a subtle shadow */
+}
+
+.logo {
+  width: 200px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.welcoming {
+  font-size: 16px;
+  color: #6BA6A6;
+  margin-bottom: 40px;
+  margin-top: -20px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); 
+
+}
+
+.black_p {
+  color: black;
+}
+
+/* Input fields styling */
+.input-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-container input {
+  width: 80%;
+  padding: 10px 12px; /* Adjusted padding for balance */
+  padding-left: 40px; /* This ensures the space for the icon */
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.input-container i {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 18px;
+  color: #6BA6A6;
+}
+
+.forgot-password {
+  margin-bottom: 20px;
+  margin-top: -10px;
+  margin-left: 10px;
+  text-align: left;
+  font-size: 80%;
+}
+
+.forgot-password a {
+  color: #6BA6A6;
+  text-decoration: none;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+}
+
+/* Button styling */
+.login-button {
+  background-color: #6BA6A6;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 50%;
+  font-size: 16px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3); 
+}
+
+.login-button:hover {
+  background-color: #5a9393;
+}
+
+/* Error message */
+.error-message {
+  color: red;
+  font-size: 14px;
+}
