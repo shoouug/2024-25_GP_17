@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link from React Router
 import './WelcomePage.css';
 
 const WelcomePage = () => {
@@ -8,9 +9,9 @@ const WelcomePage = () => {
       <nav className="navbar">
         <img src={require('../images/Logo.png')} alt="GenNews Logo" className="logo" />
         <div className="navbar-links">
-          <a href="#signup" className="nav-link">Sign Up</a>
-          <a href="#login" className="nav-link">Log In</a>
-          <a href="#about" className="nav-link">About Us</a>
+          <Link to="/signup" className="nav-link">Sign Up</Link> {/* Use Link for navigation */}
+          <Link to="/login" className="nav-link">Log In</Link>
+          <Link to="/about" className="nav-link">About Us</Link>
         </div>
       </nav>
 
