@@ -1,18 +1,18 @@
-import axios from 'axios'; // For sending HTTP requests
 import React, { useState } from 'react';
-import './SignUp.css'; // Assuming you have some CSS for styling
+import './Signup.css'; // Assuming you have some CSS for styling
 
 const SignUp = () => {
   const [step, setStep] = useState(1); // Track the step: Sign up, confirmation, preferences
+  const [codeSent, setCodeSent] = useState(false); // Track if the confirmation code has been sent
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
     confirmPassword: '',
+    confirmationCode: '',
     topics: [],
     uploadedFile: null,
   });
-  const [codeSent, setCodeSent] = useState(false);
 
   // Handle form data changes
   const handleChange = (e) => {
@@ -41,7 +41,7 @@ const SignUp = () => {
     });
   };
 
-  // Submit sign-up form
+  // Simulate API call for sign-up (Step 1: Sign Up)
   const handleSubmitSignUp = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
@@ -49,36 +49,34 @@ const SignUp = () => {
       return;
     }
 
-    // Send user details to the backend (mock API)
+    // Simulate successful sign-up and email confirmation code being sent
     try {
-      await axios.post('/api/signup', {
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-      });
-      setStep(2); // Move to email confirmation step
+      setTimeout(() => {
+        console.log('Sign-up successful, sending confirmation code...');
+        setStep(2); // Move to email confirmation step
+      }, 1000); // Simulating a 1-second delay
     } catch (error) {
       console.error('Error during sign-up:', error);
+      alert('Sign-up failed. Please try again.');
     }
   };
 
-  // Handle email confirmation
+  // Simulate email confirmation code verification (Step 2: Confirm Email)
   const handleSubmitCode = async (e) => {
     e.preventDefault();
-    // Mock: send confirmation code request (replace with actual logic)
-    try {
-      await axios.post('/api/confirm-email', { email: formData.email });
-      setCodeSent(true);
+
+    // Mock validation of the confirmation code
+    if (formData.confirmationCode === '123456') {
+      alert('Email confirmed successfully!');
       setStep(3); // Move to preferences step
-    } catch (error) {
-      console.error('Error sending confirmation code:', error);
+    } else {
+      alert('Invalid confirmation code. Please try again.');
     }
   };
 
-  // Handle preferences submission
+  // Simulate submitting preferences (Step 3: Preferences)
   const handleSubmitPreferences = async (e) => {
     e.preventDefault();
-
     const preferencesData = new FormData();
     preferencesData.append('email', formData.email);
     preferencesData.append('topics', formData.topics.join(','));
@@ -86,16 +84,26 @@ const SignUp = () => {
       preferencesData.append('file', formData.uploadedFile);
     }
 
+    // Mock preferences submission
     try {
-      await axios.post('/api/preferences', preferencesData);
-      alert('Preferences saved!');
+      setTimeout(() => {
+        console.log('Preferences saved:', preferencesData);
+        alert('Preferences saved successfully!');
+      }, 1000);
     } catch (error) {
       console.error('Error saving preferences:', error);
+      alert('Failed to save preferences.');
     }
+  };
+
+  // Handle resending the confirmation code
+  const resendCode = () => {
+    alert('A new confirmation code has been sent to your email.');
   };
 
   return (
     <div className="sign-up-container">
+      {/* Step 1: Sign Up Form */}
       {step === 1 && (
         <form onSubmit={handleSubmitSignUp}>
           <h2>Sign Up</h2>
@@ -135,21 +143,33 @@ const SignUp = () => {
         </form>
       )}
 
+      {/* Step 2: Email Confirmation */}
       {step === 2 && (
         <form onSubmit={handleSubmitCode}>
-          <h2>We just sent a confirmation code over your email</h2>
-          <button type="submit">Send Code</button>
-          {codeSent && <p>Didn't work? Send another code.</p>}
+          <h2>We just sent a confirmation code to your email</h2>
+          <input
+            type="text"
+            name="confirmationCode"
+            placeholder="Enter Confirmation Code"
+            value={formData.confirmationCode}
+            onChange={handleChange}
+            required
+          />
+          <button type="submit">Submit Code</button>
+          <button type="button" onClick={resendCode}>
+            Didn't work? Send another code.
+          </button>
         </form>
       )}
 
+      {/* Step 3: Preferences */}
       {step === 3 && (
         <form onSubmit={handleSubmitPreferences}>
           <h2>Complete your account</h2>
           <div className="preferences">
             <label>Choose your preference topics:</label>
             <div className="topics">
-              {['Technology', 'Finance', 'Art', 'Health', 'Science'].map((topic) => (
+              {['Technology', 'Finance', 'Art', 'Health', 'Science', 'Crime', 'Economy', 'Beauty', 'Sport', 'Entertainment'].map((topic) => (
                 <div key={topic}>
                   <input
                     type="checkbox"
