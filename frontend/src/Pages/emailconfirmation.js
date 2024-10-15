@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import './emailconfirmation.css'; // Add your CSS file for styling
+import './emailconfirmation.css'; // Assuming you have some CSS for styling
 
 const EmailConfirmation = () => {
-  const [confirmationCode, setConfirmationCode] = useState(''); // Store the confirmation code entered by the user
+  const [confirmationCode, setConfirmationCode] = useState('');
 
   // Handle form input change for confirmation code
   const handleChange = (e) => {
@@ -14,7 +14,7 @@ const EmailConfirmation = () => {
     e.preventDefault();
 
     // Simulate confirmation logic
-    if (confirmationCode === '123456') {  // Replace '123456' with the correct logic in production
+    if (confirmationCode === '123456') {
       alert('Email confirmed successfully!');
       // Redirect to the next step in your flow (e.g., preferences page)
     } else {
