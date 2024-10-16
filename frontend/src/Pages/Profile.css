@@ -1,0 +1,58 @@
+/* src/pages/Profile.css */
+.profile-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .profile-header {
+    background-color: #5b95a1;
+    color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .edit-profile-btn {
+    background-color: #fff;
+    color: #5b95a1;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .user-info {
+    margin-top: 20px;
+  }
+  
+  .password-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .change-password-btn {
+    background-color: #5b95a1;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .previous-articles {
+    margin-top: 20px;
+  }
+  
+  .previous-articles ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .previous-articles li {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+  }
+  
