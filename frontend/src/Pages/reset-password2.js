@@ -6,7 +6,7 @@ import './buttons.css';
 
 
 
-import Logo from '../images/Logo.png';
+import Logo from '../images/logo.png';
 
 const ResetPassword2 = () => {
   const [code, setCode] = useState('');
