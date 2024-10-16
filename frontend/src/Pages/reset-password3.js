@@ -2,6 +2,9 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './reset-password1.css';
+import './reset-password3.css';
+
+
 import Logo from '../images/Logo.png';
 
 const ResetPassword3 = () => {
