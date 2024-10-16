@@ -8,6 +8,8 @@ import Login from './Pages/login';  // Updated path to reflect new location of l
 import ResetPassword1 from './Pages/reset-password1';
 import ResetPassword2 from './Pages/reset-password2';
 import ResetPassword3 from './Pages/reset-password3';
+import AboutUs from './Pages/about'; 
+import Profile from './Pages/Profile';
 
 function App() {
   return (
@@ -23,6 +25,9 @@ function App() {
           <Route path="/reset-password1" element={<ResetPassword1 />} /> {/* This is the Reset Password Page */}
          <Route path="/reset-password2" element={<ResetPassword2 />} />
          <Route path="/reset-password3" element={<ResetPassword3 />} />
+
+         <Route path="/profile" element={<Profile />} />
+         <Route path="/about" element={<AboutUs/>} />
 
         </Routes>
       </div>
