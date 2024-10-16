@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './reset-password1.css';
-import './reset-password3.css';
+import './buttons.css';
 
 
 import Logo from '../images/Logo.png';
@@ -30,7 +30,7 @@ const ResetPassword3 = () => {
 
   return (
     <div className="reset-password-container">
-      <img src={Logo} alt="Logo" className="logo" />
+      <img src={Logo} alt="Logo" className="logo3" />
       <p className="title">Set your new password</p>
 
       <form onSubmit={handleSubmit}>
@@ -56,7 +56,7 @@ const ResetPassword3 = () => {
         </div>
         {error && <p className="error-message">{error}</p>}
 
-        <button type="submit" className="continue-button">Reset Password</button>
+        <button type="submit" className="continue-button3">Reset Password</button>
       </form>
     </div>
   );

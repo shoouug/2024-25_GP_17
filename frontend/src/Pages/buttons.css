@@ -1,0 +1,62 @@
+
+.continue-button {
+        padding: 10px 10px;  /* Increase padding for bigger button */
+        font-size: 15px;  /* Increase font size */
+        width: 50%;  /* You can adjust the width as needed */
+      }
+
+
+.continue-button3{
+    padding: 10px 10px;  /* Increase padding for bigger button */
+    font-size: 15px;  /* Increase font size */
+    width: 50%;  /* You can adjust the width as needed */
+
+    background-color: #6BA6A6;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 60%;
+    font-size: 15px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+
+}
+
+.reset-password2-continue-button{
+  width: 42%;
+  position: relative;
+  top: 10px;
+  
+  
+  background-color: #6BA6A6;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  
+  .continue-button:hover {
+      background-color: #5a9393;
+  }
+  
+  .logo2{
+      width: 250px !important;
+      height: auto;
+      margin-bottom: 20px;
+      position: relative;
+      top: -139px; /* Moves the logo upwards */
+    }
+
+    .logo3{
+      width: 250px !important;
+      height: auto;
+      margin-bottom: 20px;
+      position: relative;
+      top: -101px; /* Moves the logo upwards */
+    }
+

@@ -23,7 +23,7 @@ const ResetPassword1 = () => {
 
   return (
     <div className="reset-password-container">
-      <img src={Logo} alt="Logo" className="logo" />
+      <img src={Logo} alt="Logo" className="logo1" />
       <p className="title">Reset your password</p>
 
       <form onSubmit={handleContinue}>
