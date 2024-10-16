@@ -6,6 +6,8 @@ import SignUp from './Pages/Signup';
 import EmailConfirmation from './Pages/emailconfirmation'; // Adjust the path based on your folder structure
 import Login from './Pages/login';  // Updated path to reflect new location of login.js
 import ResetPassword1 from './Pages/reset-password1';
+import ResetPassword2 from './Pages/reset-password2';
+import ResetPassword3 from './Pages/reset-password3';
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
 
           <Route path="/login" element={<Login />} />
           <Route path="/reset-password1" element={<ResetPassword1 />} /> {/* This is the Reset Password Page */}
+         <Route path="/reset-password2" element={<ResetPassword2 />} />
+         <Route path="/reset-password3" element={<ResetPassword3 />} />
 
         </Routes>
       </div>

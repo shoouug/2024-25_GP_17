@@ -1,41 +1,42 @@
-// reset-password1.js
+// reset-password2.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './reset-password1.css';
 import Logo from '../images/Logo.png';
 
-const ResetPassword1 = () => {
-  const [email, setEmail] = useState('');
+const ResetPassword2 = () => {
+  const [code, setCode] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
+  const email = location.state?.email; 
 
   const handleContinue = (e) => {
     e.preventDefault();
 
-    // Validation logic for email
-    if (email) {
+    // Fake validation 
+    if (code === '123456') {
       setError('');
-      navigate('/reset-password2', { state: { email } }); // Pass email to reset-password2
+      navigate('/reset-password3', { state: { email } }); // Pass email to reset-password3
     } else {
-      setError('Please enter your email address.');
+      setError('Invalid code. Please try again.');
     }
   };
 
   return (
     <div className="reset-password-container">
       <img src={Logo} alt="Logo" className="logo" />
-      <p className="title">Reset your password</p>
+      <p className="title">Enter the code sent to your email</p>
 
       <form onSubmit={handleContinue}>
-        <p className="label">Enter your email address</p>
         <div className="input-container">
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
             required
           />
-          <i className="fas fa-envelope"></i>
+          <i className="fas fa-key"></i>
         </div>
         {error && <p className="error-message">{error}</p>}
 
@@ -45,4 +46,4 @@ const ResetPassword1 = () => {
   );
 };
 
-export default ResetPassword1;
+export default ResetPassword2;
