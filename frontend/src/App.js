@@ -12,7 +12,7 @@ import ResetPassword1 from './Pages/reset-password1';
 import ResetPassword2 from './Pages/reset-password2';
 import ResetPassword3 from './Pages/reset-password3';
 
-import AboutUs from './Pages/AboutUs';
+import AboutUs from './Pages/AboutUs'; 
 import Profile from './Pages/Profile';
 
 function App() {
