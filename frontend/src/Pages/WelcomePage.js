@@ -7,7 +7,7 @@ const WelcomePage = () => {
     <div className="welcome-container">
       {/* Navigation Bar */}
       <nav className="navbar">
-        <img src={require('../images/Logo.png')} alt="GenNews Logo" className="logo" />
+        <img src={require('../images/logo.png')} alt="GenNews Logo" className="logo" />
         <div className="navbar-links">
           <Link to="/signup" className="nav-link">Sign Up</Link> {/* Use Link for navigation */}
           <Link to="/login" className="nav-link">Log In</Link>
