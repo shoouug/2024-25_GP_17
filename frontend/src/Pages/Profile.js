@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Import Link for navigation
-import logo from '../images/logo.png'; // Update the path according to your folder structure
+import logo from '../images/Logo.png'; // Update the path according to your folder structure
 import './Profile.css';
 
 const Profile = () => {
