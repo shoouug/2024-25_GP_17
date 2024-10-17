@@ -11,7 +11,7 @@ const WelcomePage = () => {
         <div className="navbar-links">
           <Link to="/signup" className="nav-link">Sign Up</Link> {/* Use Link for navigation */}
           <Link to="/login" className="nav-link">Log In</Link>
-          <Link to="/about" className="nav-link">About Us</Link>
+          <Link to="/AboutUs" className="nav-link">About Us</Link>
         </div>
       </nav>
 

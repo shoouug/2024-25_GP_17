@@ -23,11 +23,10 @@ body {
   align-items: center;
   width: 100%;
   padding: 20px 50px;
-  background-color: #FFFFFF;
 }
 
 .logo {
-  height: 50px;
+  height: 500%;
 }
 
 .navbar-links {

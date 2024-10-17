@@ -2,13 +2,17 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
 import WelcomePage from './Pages/WelcomePage';
+
 import SignUp from './Pages/Signup';
-import EmailConfirmation from './Pages/emailconfirmation'; // Adjust the path based on your folder structure
-import Login from './Pages/login';  // Updated path to reflect new location of login.js
+import EmailConfirmation from './Pages/emailconfirmation'; 
+
+import Login from './Pages/login'; 
+
 import ResetPassword1 from './Pages/reset-password1';
 import ResetPassword2 from './Pages/reset-password2';
 import ResetPassword3 from './Pages/reset-password3';
-import AboutUs from './Pages/about'; 
+
+import AboutUs from './Pages/AboutUs';
 import Profile from './Pages/Profile';
 
 function App() {
@@ -27,7 +31,8 @@ function App() {
          <Route path="/reset-password3" element={<ResetPassword3 />} />
 
          <Route path="/profile" element={<Profile />} />
-         <Route path="/about" element={<AboutUs/>} />
+         <Route path="/AboutUs" element={<AboutUs/>} />
+         
 
         </Routes>
       </div>
