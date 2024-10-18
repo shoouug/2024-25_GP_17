@@ -10,7 +10,7 @@ const SignUp = () => {
     confirmPassword: '',
   });
 
-  const navigate = useNavigate();  // Use navigate hook for redirection
+  const navigate = useNavigate(); // Use navigate hook for redirection
 
   // Handle form data changes
   const handleChange = (e) => {
@@ -45,7 +45,7 @@ const SignUp = () => {
     <div className="sign-up-container">
       <form onSubmit={handleSubmitSignUp}>
         <h2>Sign Up</h2>
-        <h4> Create your account</h4>
+        <h5> Create your account</h5>
         <input
           type="text"
           name="username"
