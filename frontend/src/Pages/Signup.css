@@ -44,11 +44,7 @@ body, html {
   background-color: #5a9393;
 }
 
-/* Error message styling */
-.sign-up-container .error-message {
-  color: red;
-  font-size: 14px;
-}
+
 .creation {
   font-size: 16px;
   color: #6BA6A6;
