@@ -1,0 +1,218 @@
+/* General Layout */
+.homepage-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background-color: #f1f1f1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    border-right: 1px solid #ccc;
+}
+
+.new-chat-btn {
+    background-color: #5B95A1;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.chats {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chat-btn {
+    background-color: #e0e0e0;
+    border: none;
+    padding: 10px;
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.sidebar-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mode-btn, .logout-btn {
+    background-color: transparent;
+    border: none;
+    color: #5B95A1;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+/* Main Content Styles */
+.main-content {
+    flex-grow: 1;
+    padding: 40px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Logo and Welcome Section */
+.logo-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0px;
+}
+
+.logo {
+    width: 80px; /* Set a fixed width */
+    height: auto; /* Maintain aspect ratio */
+    max-width: 100px; /* Set a maximum width */
+    max-height: 100px; /* Set a maximum height */
+    margin-right: 20px; /* Space between logo and text */
+    object-fit: contain; /* Ensures the logo fits inside the defined area */
+}
+
+/* Welcome Section Styling */
+.welcome-section {
+    text-align: left; /* Align the text to the left */
+    margin-top: 50px; /* Adjust the margin-top as needed */
+    margin-left: -135px; /* Remove any left margin */
+    padding-left: 20px; /* Add padding for a little space from the edge */
+}
+
+/* Welcome Text Styling */
+.welcome-heading {
+    font-size: 28px;
+    color: #5B95A1;
+    font-weight: 400;
+    margin-bottom: 10px;
+    max-width: 100%;
+}
+
+.welcome-subtext {
+    font-size: 18px;
+    color: #5B95A1;
+    margin-bottom: 40px;
+    max-width: 100%;
+}
+
+/* Responsive Styling for Welcome Text */
+@media (max-width: 768px) {
+    .welcome-heading {
+        font-size: 24px;
+    }
+
+    .welcome-subtext {
+        font-size: 16px;
+    }
+}
+
+/* Topics Section */
+.topics-section {
+    margin-bottom: 40px;
+}
+
+.topics-section h2 {
+    font-size: 18px;
+    color: #5B95A1;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+/* Remove gap between topic cards */
+.topics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    grid-template-rows: repeat(2, auto);  /* 2 rows */
+    gap: 1 2px; 
+    justify-items: center; /* Centers each card in the grid */
+    grid-column-gap:0%; 
+}
+
+/* Topic Card Styling */
+.topic-card {
+    background-color: #ffffff; /* Background color for the topic card */
+    border: 1px solid #ccc; /* Border color */
+    padding: 8px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 16px;
+    color: #5B95A1; /* Updated font color */
+    width: 50%; /* Make the topic card fill the grid cell */
+    box-sizing: border-box; /* Ensure padding and border are included in the element's total width/height */
+}
+
+/* Custom Topic Section */
+.custom-topic-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding-top: 190px; /* Move the entire section further down */
+}
+
+/* Styling for the sentence above the input fields */
+.topic-prompt {
+    font-size: 18px; /* Adjust font size */
+    color: #5B95A1;  /* Same color as the other elements */
+    margin-bottom: -160px; /* Space between the sentence and the input fields */
+    text-align: center; 
+    margin-top: 200px; /* Center the text */
+  }
+
+.custom-topic-section input {
+    padding: 10px;
+    border: 2px solid #5B95A1; /* Border color for the text fields */
+    border-radius: 4px;
+    width: 99px; /* Adjust width to control the size */
+    height: 15px; /* Set height to make the fields rectangular */
+}
+
+.custom-topic-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Input Fields */
+.custom-topic-inputs input {
+    padding: 10px;
+    border: 1px solid #5B95A1; /* Updated border color */
+    border-radius: 4px;
+    width: 400px;
+}
+
+/* Generate Button */
+.generate-btn {
+    background-color: #5B95A1;
+    color: white;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    margin-top: 10px;
+    width: 150px;
+    text-align: center;
+}

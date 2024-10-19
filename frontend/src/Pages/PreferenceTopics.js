@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 import './PreferenceTopics.css'; // Assuming you will create a CSS file for styling
 
 const PreferenceTopics = ({ onClose }) => {
   const [selectedTopics, setSelectedTopics] = useState([]);
   const [article, setArticle] = useState('');
   const [error, setError] = useState(''); // For showing error messages
+  const navigate = useNavigate(); // useNavigate hook for navigation
 
   const topics = [
     'Technology', 'Finance', 'Health', 'Art', 'Science', 'Entertainment', 'Economy', 'Crime', 'Sport', 'Beauty'
@@ -41,8 +43,13 @@ const PreferenceTopics = ({ onClose }) => {
     console.log('Selected Topics:', selectedTopics);
     console.log('Article:', article || 'No article provided'); // Article is optional
 
-    // Call the onClose function after successful submission
-    onClose();
+    // Redirect to the HomePage after submission
+    navigate('/homepage'); // Assuming the home page route is '/homepage'
+
+    // Call the onClose function after successful submission (if needed)
+    if (onClose) {
+      onClose();
+    }
   };
 
   return (

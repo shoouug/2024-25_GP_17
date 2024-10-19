@@ -3,15 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import './login.css';
 import Logo from '../images/Logo.png';
 
-
-
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e) => { //prevent default form behavior when submit
+  const handleLogin = (e) => {
     e.preventDefault();
 
     // Sample static login data
@@ -20,9 +18,10 @@ const Login = () => {
       password: 'password123',
     };
 
-    if (email === userData.email && password === userData.password) {//******************************* */
+    // Validate email and password
+    if (email === userData.email && password === userData.password) {
       setError('');
-      navigate('/home'); // Navigate to the homepage on success
+      navigate('/homepage'); // Navigate to the home page after successful login
     } else {
       setError('Invalid email or password');
     }
@@ -31,7 +30,7 @@ const Login = () => {
   return (
     <div className="login-container">
       <img src={Logo} alt="Logo" className="logo" />
-      <p class="welcoming">Back to your newsroom!</p>
+      <p className="welcoming">Back to your newsroom!</p>
 
       <form onSubmit={handleLogin}>
         <div className="input-container">
@@ -52,13 +51,12 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-                    <i className="fas fa-lock"></i>
-
+          <i className="fas fa-lock"></i>
         </div>
         {error && <p className="error-message">{error}</p>}
 
         <div className="forgot-password">
-        <p class="black_p">Forgot your password? <a href="/reset-password1">Reset Password</a></p>
+          <p className="black_p">Forgot your password? <a href="/reset-password1">Reset Password</a></p>
         </div>
 
         <button type="submit" className="login-button">Log In</button>
