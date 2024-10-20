@@ -34,7 +34,7 @@ const EmailConfirmation = () => {
     <div className="email-confirmation-container">
       {!isConfirmed ? (
         <form onSubmit={handleSubmit}>
-          <h3>We just sent a confirmation code to your email</h3>
+          <h3 className=' conf-msg'>We just sent a confirmation code to your email</h3>
           <input
             type="text"
             name="confirmationCode"
