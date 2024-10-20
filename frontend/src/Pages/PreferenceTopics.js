@@ -75,9 +75,8 @@ const PreferenceTopics = ({ onClose }) => {
           />
         </div>
 
-        <div className="buttons">
           <button className="submit-btn" onClick={handleSubmit}>Submit</button>
-        </div>
+        
       </div>
     </div>
   );

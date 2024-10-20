@@ -55,11 +55,7 @@
     border: 1px solid #ccc;
   }
   
-  .buttons {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-  }
+  
   
   .submit-btn {
     background-color: #5B95A1;
