@@ -1,25 +1,37 @@
-.email-confirmation-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f0f8ff;
-    border-radius: 10px;
-    text-align: center;
-  }
-  
-  input, button {
-    margin-bottom: 15px;
-    padding: 10px;
-    font-size: 16px;
-    width: 100%;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  button {
-    background-color: #5B95A1;
+.body{
+ 
+  height: 100%;
+  margin-left: 30%;
+    background-color: #ffffff; /* Light background for contrast */
+    
+
+}
+  input{
+    margin-bottom: 3%;
+    padding: 2.5%;
+    font-size: 80%;
+    width: 50%;
+    border-radius: 3%;
+    border: 1px solid #6BA6A6;
+
+    
+  } button {
+    margin-bottom: 3%;
+    margin-top: 1%;
+    width: 49%;
+    border-radius: 8px; 
+    background-color: #6BA6A6;
     color: white;
-    border: none;
     cursor: pointer;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+   
+  }
+  button:hover {
+    background-color: #5a9393;
+  }
+  .conf-msg{
+    font-weight:normal;
   }
   

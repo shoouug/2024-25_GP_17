@@ -1,54 +1,84 @@
-/* Make sure body and html are full height and center the container */
+/* Ensure body and html take up the full height and center the content */
 body, html {
   height: 100%;
   margin: 0;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-.sign-up-container {
-  max-width: 400px;
+/* Form styling for responsiveness and centering */
+form {
   width: 100%;
-  padding: 20px;
+  max-width: 400px;
   background-color: #fff;
   border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
 }
 
-/* Input fields styling */
-.sign-up-container input {
+/* Uniform styling for inputs and dropdown */
+form input, form select {
   margin-bottom: 15px;
-  padding: 10px;
-  width: 80%;
+  padding: 12px;
+  width: 100%;
   font-size: 16px;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid #6BA6A6;
+  background-color: #fffcfc;
+  box-sizing: border-box; /* Ensures consistent padding and width */
+ 
+}
+
+/* Select styling */
+form select {
+  appearance: none; /* Removes default arrow for custom styling */
+  background-color: #fffcfc;
 }
 
 /* Button styling */
-.sign-up-container button {
+.signup-btn {
+  width: 70%;
+  border-radius: 8px; 
   background-color: #6BA6A6;
   color: white;
+  cursor: pointer;
   padding: 10px;
   border: none;
   border-radius: 8px;
-  cursor: pointer;
-  width: 50%;
-  font-size: 16px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3); 
 }
 
-.sign-up-container button:hover {
+.signup-btn:hover {
   background-color: #5a9393;
 }
 
-/* Error message styling */
-.sign-up-container .error-message {
-  color: red;
-  font-size: 14px;
+.sigi {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #000000;
+  font-weight: normal;
 }
-h5{
-  color: #5a9393;
+
+.creation {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #6BA6A6;
+  text-align: center;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 480px) {
+  form {
+    padding: 15px;
+  }
+  .signup-btn {
+    width: 100%;
+  }
 }

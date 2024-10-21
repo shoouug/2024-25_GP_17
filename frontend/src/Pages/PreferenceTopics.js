@@ -55,7 +55,7 @@ const PreferenceTopics = ({ onClose }) => {
   return (
     <div className="modal">
       <div className="modal-content">
-        <h2>Choose Your Preference Topics</h2>
+        <h2 className='pre-msg'>Choose Your Preference Topics</h2>
 
         {/* Show error if no topic is selected */}
         {error && <p className="error-message">{error}</p>}
@@ -73,7 +73,7 @@ const PreferenceTopics = ({ onClose }) => {
         </div>
 
         <div className="article-section">
-          <h3>Write Your Article (optional)</h3>
+          <h3 className='pre-msg'>Write Your Article (optional)</h3>
           <textarea
             placeholder="Paste or write your article here..."
             value={article}
@@ -82,9 +82,8 @@ const PreferenceTopics = ({ onClose }) => {
           />
         </div>
 
-        <div className="buttons">
           <button className="submit-btn" onClick={handleSubmit}>Submit</button>
-        </div>
+        
       </div>
     </div>
   );

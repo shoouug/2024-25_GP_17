@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // For page navigation
-import './Signup.css'; // Assuming you have some CSS for styling
+import { useNavigate } from 'react-router-dom';
+import './Signup.css';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
-    username: '',
+    firstName: '',
+    lastName: '',
     email: '',
+    affiliation: '',
+    country: '',
     password: '',
     confirmPassword: '',
   });
 
-  const navigate = useNavigate(); // Use navigate hook for redirection
+  const navigate = useNavigate();
+
+  const countries = [
+    "United States", "Canada", "United Kingdom", "Australia", "Germany", 
+    "France", "Saudi Arabia", "United Arab Emirates", "India", "China"
+    // Add more countries as needed
+  ];
 
   // Handle form data changes
   const handleChange = (e) => {
@@ -29,12 +38,11 @@ const SignUp = () => {
       return;
     }
 
-    // Simulate successful sign-up and redirect to email confirmation page
     try {
       setTimeout(() => {
         console.log('Sign-up successful, redirecting to email confirmation...');
-        navigate('/confirm-email'); // Redirect to email confirmation page
-      }, 1000); // Simulating a 1-second delay
+        navigate('/confirm-email');
+      }, 1000);
     } catch (error) {
       console.error('Error during sign-up:', error);
       alert('Sign-up failed. Please try again.');
@@ -42,45 +50,82 @@ const SignUp = () => {
   };
 
   return (
-    <div className="sign-up-container">
-      <form onSubmit={handleSubmitSignUp}>
-        <h2>Sign Up</h2>
-        <h5> Create your account</h5>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm Password"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmitSignUp}>
+      <h2 className="sigi">Sign Up</h2>
+      <p className="creation">Create your account</p>
+      
+      <input
+        type="text"
+        name="firstName"
+        placeholder="First Name"
+        value={formData.firstName}
+        onChange={handleChange}
+        required
+      />
+      
+      <input
+        type="text"
+        name="lastName"
+        placeholder="Last Name"
+        value={formData.lastName}
+        onChange={handleChange}
+        required
+      />
+      
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        value={formData.email}
+        onChange={handleChange}
+        required
+      />
+      
+      <input
+        type="text"
+        name="affiliation"
+        placeholder="Affiliation"
+        value={formData.affiliation}
+        onChange={handleChange}
+        required
+      />
+      
+      <select
+        className="country"
+        name="country"
+        value={formData.country}
+        onChange={handleChange}
+        required
+      >
+        <option value="" disabled>Select your country</option>
+        {countries.map((country) => (
+          <option key={country} value={country}>
+            {country}
+          </option>
+        ))}
+      </select>
+      
+      <input
+        type="password"
+        name="password"
+        placeholder="Password (min 8 characters)"
+        value={formData.password}
+        onChange={handleChange}
+        minLength="8"
+        required
+      />
+      
+      <input
+        type="password"
+        name="confirmPassword"
+        placeholder="Confirm Password"
+        value={formData.confirmPassword}
+        onChange={handleChange}
+        required
+      />
+      
+      <button className="signup-btn" type="submit">Submit</button>
+    </form>
   );
 };
 
