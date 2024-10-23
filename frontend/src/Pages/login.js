@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword } from 'firebase/auth'; // Firebase Auth function
+import { auth } from '../firebase'; // Import Firebase auth instance
 import './login.css';
 import Logo from '../images/Logo.png';
 
@@ -9,21 +11,22 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setError(''); // Reset error message
 
-    // Sample static login data
-    const userData = {
-      email: 'user@example.com',
-      password: 'password123',
-    };
-
-    // Validate email and password
-    if (email === userData.email && password === userData.password) {
-      setError('');
+    try {
+      // Use Firebase to sign in the user with email and password
+      await signInWithEmailAndPassword(auth, email, password);
       navigate('/homepage'); // Navigate to the home page after successful login
-    } else {
-      setError('Invalid email or password');
+    } catch (error) {
+      if (error.code === 'auth/user-not-found') {
+        setError('Email does not exist.');
+      } else if (error.code === 'auth/wrong-password') {
+        setError('Invalid password.');
+      } else {
+        setError('Failed to log in. Please try again.');
+      }
     }
   };
 

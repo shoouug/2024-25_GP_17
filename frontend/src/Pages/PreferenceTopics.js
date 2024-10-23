@@ -1,63 +1,60 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
-import './PreferenceTopics.css'; // Assuming you will create a CSS file for styling
+import { useNavigate } from 'react-router-dom';
+import { doc, updateDoc } from 'firebase/firestore'; // Import Firestore update function
+import { auth, db } from '../firebase';
+import './PreferenceTopics.css';
 
-const PreferenceTopics = ({ onClose }) => {
+const PreferenceTopics = () => {
   const [selectedTopics, setSelectedTopics] = useState([]);
   const [article, setArticle] = useState('');
-  const [error, setError] = useState(''); // For showing error messages
-  const navigate = useNavigate(); // useNavigate hook for navigation
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const topics = [
     'Technology', 'Finance', 'Health', 'Art', 'Science', 'Entertainment', 'Economy', 'Crime', 'Sport', 'Beauty'
   ];
 
-  // Handle topic selection
   const handleTopicClick = (topic) => {
     setSelectedTopics((prev) => {
       if (prev.includes(topic)) {
-        return prev.filter(t => t !== topic); // Unselect the topic
+        return prev.filter(t => t !== topic);
       } else {
-        return [...prev, topic]; // Select the topic
+        return [...prev, topic];
       }
     });
   };
 
-  // Handle article input change
-  const handleArticleChange = (e) => {
-    setArticle(e.target.value);
-  };
-
-  // Handle form submission
-  const handleSubmit = () => {
-    // Check if at least one topic is selected
+  const handleSubmit = async () => {
     if (selectedTopics.length === 0) {
       setError('Please select at least one topic.');
       return;
     }
 
-    // Reset error if the form is valid
     setError('');
 
-    // You can perform an API call or logic to save the selected topics and article
-    console.log('Selected Topics:', selectedTopics);
-    console.log('Article:', article || 'No article provided'); // Article is optional
+    try {
+      // Update Firestore document for the current user with selected topics and articles
+      const user = auth.currentUser;
+      const userDocRef = doc(db, 'Journalists', user.uid);
 
-    // Redirect to the HomePage after submission
-    navigate('/homepage'); // Assuming the home page route is '/homepage'
+      await updateDoc(userDocRef, {
+        selectedTopics: selectedTopics,
+        previousArticles: article ? [article] : []
+      });
 
-    // Call the onClose function after successful submission (if needed)
-    if (onClose) {
-      onClose();
+      console.log('Preferences saved! Redirecting to homepage...');
+      navigate('/homepage');
+    } catch (error) {
+      console.error('Error updating preferences:', error);
+      setError('Failed to save preferences. Please try again.');
     }
   };
 
   return (
     <div className="modal">
       <div className="modal-content">
-        <h2 className='pre-msg'>Choose Your Preference Topics</h2>
+        <h2>Choose Your Preference Topics</h2>
 
-        {/* Show error if no topic is selected */}
         {error && <p className="error-message">{error}</p>}
 
         <div className="topics-grid">
@@ -73,17 +70,16 @@ const PreferenceTopics = ({ onClose }) => {
         </div>
 
         <div className="article-section">
-          <h3 className='pre-msg'>Write Your Article (optional)</h3>
+          <h3>Write Your Article (optional)</h3>
           <textarea
             placeholder="Paste or write your article here..."
             value={article}
-            onChange={handleArticleChange}
+            onChange={(e) => setArticle(e.target.value)}
             rows="6"
           />
         </div>
 
-          <button className="submit-btn" onClick={handleSubmit}>Submit</button>
-        
+        <button className="submit-btn" onClick={handleSubmit}>Submit</button>
       </div>
     </div>
   );
