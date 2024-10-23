@@ -6,26 +6,26 @@ import './WelcomePage.css';
 
 const WelcomePage = () => {
   return (
-    <div className="welcome-container">
+    <div className="welcome-containerW">
       {/* Lottie animation as background */}
-      <div className="background-animation">
+      <div className="background-animationW">
         <Lottie animationData={animationData} loop={true} />
       </div>
 
       {/* Navigation Bar */}
-      <nav className="navbar">
-        <img src={require('../images/Logo.png')} alt="GenNews Logo" className="logo" />
-        <div className="navbar-links">
-          <Link to="/signup" className="nav-link">Sign Up</Link>
-          <Link to="/login" className="nav-link">Log In</Link>
-          <Link to="/AboutUs" className="nav-link">About Us</Link>
+      <nav className="navbarW">
+        <img src={require('../images/Logo.png')} alt="GenNews Logo" className="logoW" />
+        <div className="navbar-linksW">
+          <Link to="/signup" className="nav-linkW">Sign Up</Link>
+          <Link to="/login" className="nav-linkW">Log In</Link>
+          <Link to="/AboutUs" className="nav-linkW">About Us</Link>
         </div>
       </nav>
 
       {/* Main Welcome Section */}
-      <div className="welcome-content">
-        <h1 className="welcome-title">Welcome to GenNews</h1>
-        <p className="welcome-description">Empowering journalists with AI-powered tools for efficient article creation and trend analysis.</p>
+      <div className="welcome-contentW">
+        <h1 className="welcome-titleW">Welcome to GenNews</h1>
+        <p className="welcome-descriptionW">Empowering journalists with AI-powered tools for efficient article creation and trend analysis.</p>
       </div>
     </div>
   );

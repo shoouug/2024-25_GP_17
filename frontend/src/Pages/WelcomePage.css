@@ -3,11 +3,24 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Inter', sans-serif;
-  background-color: #FFFFFF;
+  background-color: #FFFFFF;  /* Keep body background white */
+  overflow: hidden;  /* Ensure no unwanted scroll or overflow */
+}
+
+/* Lottie Animation as Background */
+.background-animationW {
+  position: absolute;
+  top: 1%;  /* Move the animation higher above the welcome text */
+  left: 50%;  /* Center horizontally */
+  width: 60%;  /* Adjust width */
+  height: auto;  /* Ensure aspect ratio is preserved */
+  transform: translateX(-50%);  /* Center horizontally */
+  z-index: 1;  /* Ensure animation stays above the content */
+  opacity: 0.3;  /* Adjust transparency */
 }
 
 /* Welcome Page Styles */
-.welcome-container {
+.welcome-containerW {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,43 +28,32 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-}
-
-.background-animation {
-  position: absolute;
-  top: 5%;  /* Adjust this value to move the animation higher or lower on the page */
-  left: 50%;  /* Center horizontally */
-  width: 60%;  /* Keep the width at 60% */
-  height: auto;  /* Ensure the aspect ratio is preserved */
-  transform: translateX(-50%);  /* Only translate horizontally for centering */
-  z-index: -1;  /* Ensure the animation stays behind the content */
-  opacity: 0.5;  /* Optional: Adjust the transparency */
+  position: relative;
 }
 
 /* Navbar and Logo Styles */
-.navbar {
+.navbarW {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 95%;
-  background-color: transparent; /* Let the background show through */
+  background-color: transparent;  /* No background for the navbar */
   position: fixed;
-  top: 0.1%;
+  top: 20px;
   z-index: 1000; /* Ensure navbar stays above animation */
 }
 
-.logo {
-  height: 0px; /* Adjust logo size */
-  margin-top: 80px; /* Move the logo down a bit */
+.logoW {
+  height: 60px;  /* Adjust logo size */
 }
 
 /* Navbar Links */
-.navbar-links {
-  display:flex;
-  gap: 30px; /* Adjust spacing between links */
+.navbar-linksW {
+  display: flex;
+  gap: 30px;  /* Adjust spacing between links */
 }
 
-.nav-link {
+.nav-linkW {
   color: #333333;
   text-decoration: none;
   font-weight: 400;
@@ -60,51 +62,53 @@ body {
   transition: color 0.3s ease;
 }
 
-.nav-link:hover {
+.nav-linkW:hover {
   color: #5B95A1;
 }
 
 /* Welcome Content */
-.welcome-content {
+.welcome-contentW {
   text-align: center;
-  z-index: 1; /* Ensure the text stays above the animation */
+  z-index: 2;  /* Ensure the text stays above the animation */
   max-width: 800px;
   padding: 20px;
-  margin-top: 200px; /* Space for the navbar */
+  margin-top: 30px;  /* Increase space for the animation above */
+  background-color: transparent;  /* No background for the content */
 }
 
-.welcome-title {
+.welcome-titleW {
   font-size: 36px;
   font-weight: 400;
   color: #333;
+  background-color: transparent;  /* No background for the title */
 }
 
-.welcome-description {
+.welcome-descriptionW {
   font-size: 20px;
   font-weight: 400;
   color: #666;
+  background-color: transparent;  /* No background for the description */
 }
 
 /* Responsive Styling */
 @media (max-width: 768px) {
-  .welcome-title {
+  .welcome-titleW {
     font-size: 28px;
   }
 
-  .welcome-description {
+  .welcome-descriptionW {
     font-size: 16px;
   }
 
-  .navbar {
+  .navbarW {
     padding: 10px 20px;
   }
 
-  .navbar-links {
+  .navbar-linksW {
     gap: 15px;
   }
 
-  .logo {
-    height: 40px; /* Smaller logo for mobile */
-    margin-top: 0; /* Adjust for mobile */
+  .logoW {
+    height: 40px;
   }
 }

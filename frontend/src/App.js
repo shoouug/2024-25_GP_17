@@ -12,6 +12,7 @@ import AboutUs from './Pages/AboutUs';
 import Profile from './Pages/Profile';
 import PreferenceTopics from './Pages/PreferenceTopics'; // Import PreferenceTopics component
 import HomePage from './Pages/HomePage'; // Import HomePage component
+import { db, auth } from './firebase'; // Import Firebase Auth
 
 function App() {
   return (
