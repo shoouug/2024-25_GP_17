@@ -14,8 +14,18 @@ body, html {
   height: auto;
   margin-bottom: 20px;
   position: relative;
-  top: -80px; /* Moves the logo upwards */
+  top: -80px; 
 }
+
+.logoIn {
+  width: 250px !important;
+  height: auto;
+  margin-bottom: 20px;
+  position: relative;
+  top: -80px; 
+}
+
+
 
 .welcoming {
   font-size: 16px;
@@ -36,8 +46,17 @@ body, html {
   margin-bottom: 10px;
 }
 
-.input-container input {
+/*.input-container input {
   width: 80%;
+  padding: 10px 12px; 
+  padding-left: 40px; 
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}*/
+
+.input-container input {
+  width: 100%;
   padding: 10px 12px; /* Adjusted padding for balance */
   padding-left: 40px; /* This ensures the space for the icon */
   font-size: 16px;
@@ -91,3 +110,9 @@ body, html {
 .error-message {
   color: red;
   font-size: 14px;}
+
+  /*form {
+    margin-right: 150px; 
+    
+  }*/
+  
