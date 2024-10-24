@@ -99,7 +99,6 @@ body, html {
   cursor: pointer;
   width: 50%;
   font-size: 16px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3); 
 }
 
 .login-button:hover {

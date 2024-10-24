@@ -52,7 +52,7 @@ const ResetPassword1 = () => {
         {error && <p className="error-message">{error}</p>}
         {successMessage && <p className="success-message">{successMessage}</p>} {/* Success Message */}
 
-        <button type="submit" className="continue-button">Send Reset Link</button> {/* Changed button text */}
+        <button type="submit" className="sendLink-button">Send Reset Link</button> {/* Changed button text */}
       </form>
     </div>
   );
