@@ -25,7 +25,8 @@ function App() {
           <Route path="/reset-password3" element={<ResetPassword3 />} /> {/* Reset Password Step 3 */}
           <Route path="/profile" element={<Profile />} /> {/* User Profile Page */}
           <Route path="/about-us" element={<AboutUs />} /> {/* About Us Page */}
-          <Route path="/VerifyEmail" element={< VerifyEmail />} /> 
+          <Route path="/verify-email" element={<VerifyEmail />} />
+
           <Route path="/preference-topics" element={<PreferenceTopics />} /> 
           
           {/* Route for Home Page after successful sign up */}

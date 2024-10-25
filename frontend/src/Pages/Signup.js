@@ -1,3 +1,4 @@
+// SignUp.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
@@ -35,19 +36,7 @@ const SignUp = () => {
 
   const navigate = useNavigate();
 
-  const countries = [
-    "Saudi Arabia", "United States", "Canada", "United Kingdom", "Australia", "Germany", "France",
-    "United Arab Emirates", "India", "China", "Japan", "South Korea",
-    "Brazil", "Mexico", "Italy", "Spain", "Russia", "Turkey", "South Africa", "Argentina",
-    "Nigeria", "Egypt", "Netherlands", "Sweden", "Switzerland", "Belgium", "Denmark",
-    "Norway", "Finland", "Greece", "Portugal", "Poland", "Indonesia", "Malaysia",
-    "Thailand", "Vietnam", "Philippines", "New Zealand", "Pakistan", "Bangladesh",
-    "Chile", "Colombia", "Venezuela", "Peru", "Austria", "Israel", "Singapore", "Ireland",
-    "Czech Republic", "Hungary", "Romania", "Ukraine", "Kenya", "Ethiopia", "Iceland",
-    "Norway", "Cuba", "Ghana", "Qatar", "Kuwait", "Oman", "Lebanon", "Jordan", "Morocco",
-    "Algeria", "Tunisia", "Luxembourg", "Malta", "Sri Lanka", "Nepal", "Cambodia", "Laos",
-    "Bolivia", "Paraguay", "Uruguay", "Trinidad and Tobago", "Barbados"
-  ];
+  const countries = ["Saudi Arabia", "United States", "Canada", "United Kingdom", "Australia", "Germany", "France", "United Arab Emirates", "India", "China", "Japan", "South Korea", "Brazil", "Mexico", "Italy", "Spain", "Russia", "Turkey", "South Africa", "Argentina", "Nigeria", "Egypt", "Netherlands", "Sweden", "Switzerland", "Belgium", "Denmark", "Norway", "Finland", "Greece", "Portugal", "Poland", "Indonesia", "Malaysia", "Thailand", "Vietnam", "Philippines", "New Zealand", "Pakistan", "Bangladesh", "Chile", "Colombia", "Venezuela", "Peru", "Austria", "Israel", "Singapore", "Ireland", "Czech Republic", "Hungary", "Romania", "Ukraine", "Kenya", "Ethiopia", "Iceland", "Norway", "Cuba", "Ghana", "Qatar", "Kuwait", "Oman", "Lebanon", "Jordan", "Morocco", "Algeria", "Tunisia", "Luxembourg", "Malta", "Sri Lanka", "Nepal", "Cambodia", "Laos", "Bolivia", "Paraguay", "Uruguay", "Trinidad and Tobago", "Barbados"];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -146,12 +135,12 @@ const SignUp = () => {
 
         <input type="text" name="firstName" placeholder="First Name" className="signup-input" value={formData.firstName} onChange={handleChange} required />
         <input type="text" name="lastName" placeholder="Last Name" className="signup-input" value={formData.lastName} onChange={handleChange} required />
-        
+
         <input
           type="email"
           name="email"
           placeholder="Email"
-          className={`signup-input ${!isEmailValid ? 'invalid-input' : ''}`} 
+          className={`signup-input ${!isEmailValid ? 'invalid-input' : ''}`}
           value={formData.email}
           onChange={handleChange}
           required
@@ -159,7 +148,7 @@ const SignUp = () => {
         {emailError && <p className="error-message">{emailError}</p>}
 
         <input type="text" name="affiliation" placeholder="Affiliation" className="signup-input" value={formData.affiliation} onChange={handleChange} required />
-        
+
         <select className="signup-input" name="country" value={formData.country} onChange={handleChange} required>
           <option value="" disabled>Select your country</option>
           {countries.map((country) => (
