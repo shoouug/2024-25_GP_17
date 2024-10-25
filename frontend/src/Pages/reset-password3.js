@@ -30,7 +30,7 @@ const ResetPassword3 = () => {
 
   return (
     <div className="reset-password-container">
-      <img src={Logo} alt="Logo" className="logo3" />
+      <img src={Logo} alt="Logo" className="logoIn" />
       <p className="title">Set your new password</p>
 
       <form onSubmit={handleSubmit}>

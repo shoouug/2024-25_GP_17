@@ -32,7 +32,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <img src={Logo} alt="Logo" className="logo" />
+      <img src={Logo} alt="Logo" className="logoIn " />
       <p className="welcoming">Back to your newsroom!</p>
 
       <form onSubmit={handleLogin}>
