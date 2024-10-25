@@ -7,24 +7,22 @@ body, html {
   align-items: center;
   background-color: #ffffff;
   padding: 10px;
-  box-sizing: border-box;
 }
 
 /* Form styling for responsiveness and centering */
-form {
+.signup-form {
   width: 100%;
   max-width: 400px;
   background-color: #fff;
   border-radius: 10px;
-  
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  
 }
 
 /* Uniform styling for inputs and dropdown */
-form input, form select {
+.signup-input {
   margin-bottom: 15px;
   padding: 12px;
   width: 100%;
@@ -33,51 +31,92 @@ form input, form select {
   border: 1px solid #6BA6A6;
   background-color: #fffcfc;
   box-sizing: border-box; /* Ensures consistent padding and width */
- 
+  position: relative; /* Added to position the icon */
 }
 
-/* Select styling */
-form select {
-  appearance: none; /* Removes default arrow for custom styling */
-  background-color: #fffcfc;
+/* Styling for the password container and input field */
+.password-input-container {
+  position: relative; /* Ensure the icon is positioned relative to this container */
+  width: 100%;
+}
+
+.toggle-password, .toggle2-password {
+  position: absolute;
+  right: 40px; /* Adjusted to place the icon inside the input */
+  top: 39%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #6BA6A6;
+  font-size: 18px;
+  background: none;
+  border: none;
 }
 
 /* Button styling */
 .signup-btn {
   width: 70%;
-  border-radius: 8px; 
   background-color: #6BA6A6;
   color: white;
   cursor: pointer;
-  padding: 10px;
+  padding: 12px;
   border: none;
   border-radius: 8px;
+  font-size: 16px;
 }
 
 .signup-btn:hover {
   background-color: #5a9393;
 }
 
-.sigi {
-  font-size: 24px;
+.signup-header {
+  font-size: 30px;
   margin-bottom: 10px;
   color: #000000;
   font-weight: normal;
 }
 
-.creation {
-  font-size: 16px;
+.signup-subtitle {
+  font-size: 18px;
   margin-bottom: 20px;
   color: #6BA6A6;
   text-align: center;
 }
 
+/* Password requirements styling */
+.password-requirements {
+  text-align: left;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.password-requirements p {
+  margin: 4px 0;
+}
+
+.valid {
+  color: green;
+}
+
+.invalid {
+  color: red;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
 /* Responsive design for smaller screens */
 @media (max-width: 480px) {
-  form {
+  .signup-form {
     padding: 15px;
   }
   .signup-btn {
     width: 100%;
+  }
+  .password-input-container input {
+    width: calc(100% - 50px);
   }
 }
