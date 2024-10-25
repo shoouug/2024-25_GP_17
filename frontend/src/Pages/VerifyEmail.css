@@ -1,52 +1,51 @@
 
+.logo-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.website-logo {
+  width: 100px; /* Adjust the size as needed */
+  height: auto;
+}
+
+.message-box {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 100%;
+}
+
+.message-box h3 {
   
-  .logo-container {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-  }
-  
-  .website-logo {
-    width: 100px; /* Adjust the size as needed */
-    height: auto;
-  }
-  
-  .message-box {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    max-width: 500px;
-    width: 100%;
-  }
-  
-  .message-box h3 {
-    
-    font-size: 22px;
-    color: #5a9393;
-    margin-bottom: 10px;
-  }
-  
-  .message-box p {
-    font-size: 18px;
-    color: #292727;
-    margin: 15px 0;
-    font-weight: normal;
-  }
-  
-  .next-button {
-    background-color: #6ba6a6;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .next-button:hover {
-    background-color: #5a9393;
-  }
-  
+  font-size: 22px;
+  color: #5a9393;
+  margin-bottom: 10px;
+}
+
+.message-box p {
+  font-size: 18px;
+  color: #292727;
+  margin: 15px 0;
+  font-weight: normal;
+}
+
+.next-button {
+  background-color: #6ba6a6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.next-button:hover {
+  background-color: #5a9393;
+}
+

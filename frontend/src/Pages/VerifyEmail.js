@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, applyActionCode } from 'firebase/auth';
 import './VerifyEmail.css';
-import Logo from '../images/Logo.png';
+import Logo from '../images/logo.png';
 const VerifyEmail = () => {
   const navigate = useNavigate();
   const auth = getAuth();

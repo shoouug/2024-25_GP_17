@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { confirmPasswordReset } from 'firebase/auth'; // Import Firebase function for confirming password reset
 import { auth } from '../firebase'; // Import Firebase auth instance
 import './reset-password1.css';
-import Logo from '../images/Logo.png';
+import Logo from '../images/logo.png';
 
 const ResetPassword3 = () => {
   const [password, setPassword] = useState('');

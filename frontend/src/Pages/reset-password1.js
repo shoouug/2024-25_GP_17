@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { sendPasswordResetEmail } from 'firebase/auth'; // Firebase function for sending the reset email
 import { auth } from '../firebase'; // Import Firebase auth instance
 import './reset-password1.css';
-import Logo from '../images/Logo.png';
+import Logo from '../images/logo.png';
 
 const ResetPassword1 = () => {
   const [email, setEmail] = useState('');

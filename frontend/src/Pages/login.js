@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth'; // Firebase Auth function
 import { auth } from '../firebase'; // Import Firebase auth instance
 import './login.css';
-import Logo from '../images/Logo.png';
+import Logo from '../images/logo.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');
