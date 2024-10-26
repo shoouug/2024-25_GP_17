@@ -36,23 +36,30 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 95%;
-  background-color: transparent;  /* No background for the navbar */
+  width: 100%;
+  max-width: 1200px; /* Limit the maximum width */
+  margin: 0 auto; /* Center the navbar */
+  padding: 10px 20px; /* Add some padding for better spacing */
+  background-color: transparent; /* No background for the navbar */
   position: fixed;
-  top: 20px;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 1000; /* Ensure navbar stays above animation */
 }
 
+/* Logo Styles */
 .logoW {
-  height: 60px;  /* Adjust logo size */
+  height: 80px; /* Make the logo slightly larger */
 }
 
 /* Navbar Links */
 .navbar-linksW {
   display: flex;
-  gap: 30px;  /* Adjust spacing between links */
+  gap: 20px; /* Adjust spacing between links */
 }
 
+/* Individual Link Styles */
 .nav-linkW {
   color: #333333;
   text-decoration: none;
@@ -61,6 +68,30 @@ body {
   position: relative;
   transition: color 0.3s ease;
 }
+
+/* Hover Effect for Links */
+.nav-linkW:hover {
+  color: #5B95A1;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .navbarW {
+    flex-direction: column; /* Stack the navbar items vertically on small screens */
+    align-items: flex-start; /* Align items to the start */
+    padding-top: 15px; /* Add some top padding */
+  }
+
+  .navbar-linksW {
+    flex-direction: column; /* Stack links vertically */
+    gap: 15px; /* Adjust gap between links for small screens */
+  }
+
+  .logoW {
+    height: 70px; /* Slightly reduce logo size on small screens */
+  }
+}
+
 
 .nav-linkW:hover {
   color: #5B95A1;

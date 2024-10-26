@@ -4,24 +4,26 @@ import './AboutUs.css';
 import Lottie from 'lottie-react';
 import animationData from '../images/Animation - 1729347628307.json'; 
 
-const AboutUs = () => {
+const AboutUs2 = () => {
     return (
-      <div className="about-us-container">
-        <div className="background-animationW">
-          <Lottie animationData={animationData} loop={true} />
-        </div>
-  
-        {/* Navigation Bar */}
-        <nav className="navbarW">
-          <img src={require('../images/logo.png')} alt="GenNews Logo" className="logoW" />
-          <div className="navbar-linksW">
-            <Link to="/homepage" className="nav-linkW">Home Page</Link>
-            <Link to="/Profile" className="nav-linkW">Profile Page</Link>
-            <Link to="/" className="nav-linkW">Log out</Link>
-          </div>
-        </nav>
-  
-        <header className="about-us-header">
+
+            <div className="about-us-container">
+              <div className="background-animationW">
+                <Lottie animationData={animationData} loop={true} />
+              </div>
+        
+              {/* Navigation Bar */}
+      <nav className="navbarW">
+        <img src={require('../images/logo.png')} alt="GenNews Logo" className="logoW" />
+        <div className="navbar-linksW">
+        <Link to="/" className="nav-linkW">Welcome Page</Link>
+        <Link to="/signup" className="nav-linkW">Sign Up</Link>
+          <Link to="/login" className="nav-linkW">Log In</Link>
+        </div> 
+      </nav>
+        
+              {/* Main Content */}
+              <header className="about-us-header">
           <h1>About GenNews</h1>
           <p>Empowering journalists through automated content creation with advanced technologies.</p>
         </header>
@@ -48,5 +50,5 @@ const AboutUs = () => {
       </div>
     );
   };
+  export default AboutUs2;
   
-  export default AboutUs;

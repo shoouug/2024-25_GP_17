@@ -1,206 +1,159 @@
-
+/* Main Container Styles */
 .about-us-container {
-    max-width: 100%;
-    background-color: #f8f8f8;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px; /* Adjust as needed */
+  height: auto; /* Allow height to grow with content */
+  max-width: 1200px; /* Optional: Set a maximum width */
+  margin: 0 auto; /* Center the container */
+}
 
-  .nav-link:hover {
-    text-decoration: underline;
-  }
-  
-  /* Header Styles */
-  .about-us-header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .about-us-header h1 {
-    font-size: 2em;
-    color: #333;
-  }
-  
-  .about-us-header p {
-    font-size: 1em;
-    color: #777;
-  }
-  
-  /* Content Styles */
-  .about-us-content {
-    line-height: 1.6;
-    color: #555;
-  }
-  
-  .about-us-content h2 {
-    color: #5b95a1;
-    margin-top: 20px;
-    font-size: 1.5em;
-  }
-  
-  .about-us-content p {
-    margin-bottom: 16px;
-    font-size: 0.9em;
-  }
-  
-  /* Footer Styles */
-  .about-us-footer {
-    margin-top: 30px;
-    text-align: center;
-    color: #777;
-    font-size: 0.8em;
-  }
-  
-  /* Responsive Styles */
-  @media (min-width: 768px) {
-    .about-us-container {
-      max-width: 700px;
-      padding: 50px;
-    }
-  
-    .navbar {
-      flex-direction: row;
-      justify-content: space-between;
-      padding: 10px 20px;
-    }
-  
-  
-    .nav-link {
-      font-size: 1.1em;
-    }
-  
-    .about-us-header h1 {
-      font-size: 2.2em;
-    }
-  
-    .about-us-content h2 {
-      font-size: 1.8em;
-    }
-  
-    .about-us-content p {
-      font-size: 1em;
-    }
-  
-    .about-us-footer {
-      font-size: 0.9em;
-    }
-  }
-  
-  @media (min-width: 1024px) {
-    .about-us-container {
-      max-width: 900px;
-    }
-  
-    .about-us-header h1 {
-      font-size: 2.5em;
-    }
-  
-    .about-us-content h2 {
-      font-size: 2em;
-    }
-  
-    .about-us-content p {
-      font-size: 1.1em;
-    }
-  }
-  
+/* Prevent scrolling */
+body {
+  overflow: hidden; /* Disable scrolling */
+}
 
-  .nav-link:hover {
-    text-decoration: underline;
+/* Header Styles */
+.about-us-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.about-us-header h1 {
+  font-size: 2em;
+  color: #333;
+}
+
+.about-us-header p {
+  font-size: 1em;
+  color: #777;
+}
+
+/* Content Styles */
+.about-us-content {
+  line-height: 1.6;
+  color: #555;
+}
+
+.about-us-content h2 {
+  color: #5b95a1;
+  margin-top: 20px;
+  font-size: 1.5em;
+}
+
+.about-us-content p {
+  margin-bottom: 16px;
+  font-size: 0.9em;
+}
+
+/* Footer Styles */
+.about-us-footer {
+  margin-top: 30px;
+  text-align: center;
+  color: #777;
+  font-size: 0.8em;
+}
+
+/* Navbar and Logo Styles */
+.navbarW {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px; /* Limit the maximum width */
+  margin: 0 auto; /* Center the navbar */
+  padding: 10px 20px; /* Add some padding for better spacing */
+  background-color: transparent; /* No background for the navbar */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; /* Ensure navbar stays above animation */
+}
+
+/* Logo Styles */
+.logoW {
+  height: 80px; /* Make the logo slightly larger */
+}
+
+/* Navbar Links */
+.navbar-linksW {
+  display: flex;
+  gap: 20px; /* Adjust spacing between links */
+}
+
+/* Individual Link Styles */
+.nav-linkW {
+  color: #333333;
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 18px;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+/* Hover Effect for Links */
+.nav-linkW:hover {
+  color: #5B95A1;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .navbarW {
+      flex-direction: column; /* Stack the navbar items vertically on small screens */
+      align-items: flex-start; /* Align items to the start */
+      padding-top: 15px; /* Add some top padding */
   }
-  
-  /* Header Styles */
-  .about-us-header {
-    text-align: center;
-    margin-bottom: 20px;
+
+  .navbar-linksW {
+      flex-direction: column; /* Stack links vertically */
+      gap: 15px; /* Adjust gap between links for small screens */
   }
-  
-  .about-us-header h1 {
-    font-size: 2em;
-    color: #333;
+
+  .logoW {
+      height: 70px; /* Slightly reduce logo size on small screens */
   }
-  
-  .about-us-header p {
-    font-size: 1em;
-    color: #777;
-  }
-  
-  /* Content Styles */
-  .about-us-content {
-    line-height: 1.6;
-    color: #555;
-  }
-  
-  .about-us-content h2 {
-    color: #5b95a1;
-    margin-top: 20px;
-    font-size: 1.5em;
-  }
-  
-  .about-us-content p {
-    margin-bottom: 16px;
-    font-size: 0.9em;
-  }
-  
-  /* Footer Styles */
-  .about-us-footer {
-    margin-top: 30px;
-    text-align: center;
-    color: #777;
-    font-size: 0.8em;
-  }
-  
-  /* Responsive Styles */
-  @media (min-width: 768px) {
-    .about-us-container {
+}
+
+/* Additional Responsive Styles for larger screens */
+@media (min-width: 768px) {
+  .about-us-container {
       max-width: 700px;
       padding: 30px;
-    }
-  
-    .navbar {
-      flex-direction: row;
-      justify-content: space-between;
-      padding: 10px 20px;
-    }
-  
-  
-    .nav-link {
-      font-size: 1.1em;
-    }
-  
-    .about-us-header h1 {
+  }
+
+  .about-us-header h1 {
       font-size: 2.2em;
-    }
-  
-    .about-us-content h2 {
+  }
+
+  .about-us-content h2 {
       font-size: 1.8em;
-    }
-  
-    .about-us-content p {
+  }
+
+  .about-us-content p {
       font-size: 1em;
-    }
-  
-    .about-us-footer {
+  }
+
+  .about-us-footer {
       font-size: 0.9em;
-    }
   }
-  
-  @media (min-width: 1024px) {
-    .about-us-container {
+}
+
+@media (min-width: 1024px) {
+  .about-us-container {
       max-width: 900px;
-    }
-  
-    .about-us-header h1 {
-      font-size: 2.5em;
-    }
-  
-    .about-us-content h2 {
-      font-size: 2em;
-    }
-  
-    .about-us-content p {
-      font-size: 1.1em;
-    }
   }
-  
+
+  .about-us-header h1 {
+      font-size: 2.5em;
+  }
+
+  .about-us-content h2 {
+      font-size: 2em;
+  }
+
+  .about-us-content p {
+      font-size: 1.1em;
+  }
+}

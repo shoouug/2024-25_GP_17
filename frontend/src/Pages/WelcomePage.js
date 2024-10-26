@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Import Link from React Router
 import Lottie from 'lottie-react';
-import animationData from '../images/Animation - 1729347628307.json'; // Import your animation JSON file
+import animationData from '../images/Animation - 1729347628307.json'; 
 import './WelcomePage.css';
 
 const WelcomePage = () => {
@@ -19,6 +19,9 @@ const WelcomePage = () => {
           <Link to="/signup" className="nav-linkW">Sign Up</Link>
           <Link to="/login" className="nav-linkW">Log In</Link>
           <Link to="/AboutUs" className="nav-linkW">About Us</Link>
+
+          {/* I will move this link but i add it so i can quickly move to my page (: */}
+          <Link to="/Profile" className="nav-linkW">Profile Page</Link>
         </div>
       </nav>
 

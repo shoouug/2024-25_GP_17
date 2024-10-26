@@ -1,10 +1,4 @@
-.logo {
-    width: 250px !important;
-    height: auto;
-    margin-bottom: 20px;
-    position: relative;
-    top: -80px; /* Moves the logo upwards */
-  }
+
 
 .profile-container {
     padding: 20px;
@@ -13,8 +7,8 @@
   }
   
   .profile-header {
-    background-color: #2e7684;
-    color: #fff;
+    background-color: #f1f1f1;
+    color: #000000;
     padding: 20px;
     border-radius: 8px;
     text-align: center;
@@ -23,15 +17,14 @@
  
   /* Button styling */
   .edit-profile-btn {
-    background-color: #6BA6A6;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    width: 50%;
-    font-size: 16px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3); 
+    font-weight: normal;
+  font-size: 17px;
+  background-color: #6ba6a6;
+  color: white;
+  padding: 10px 20px;
+  border: none;/* Center the modal in the viewport */
+  border-radius: 5px;
+  width: 30%;
   }
   
   .edit-profile-btn:hover {

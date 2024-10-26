@@ -5,6 +5,10 @@ import sunIcon from '../images/sun.png';
 import exitIcon from '../images/exit.png'; 
 import logo from '../images/AIPress.png';  // Path to the logo image
 
+{/* for the links 
+import { Link } from 'react-router-dom';
+*/}
+
 const HomePage = () => {
   const [chats, setChats] = useState([]);
   const [journalistName, setJournalistName] = useState('Journalist Name'); 
@@ -44,6 +48,14 @@ const HomePage = () => {
           </button>
         </div>
       </div>
+
+{/* Navigation Bar *
+<nav className="navbarW">
+        <div className="navbar-linksW">
+          <Link to="/Profile" className="nav-linkW">Profile Page</Link>
+        </div>
+      </nav>/}
+
 
       {/* Main Content */}
       <div className="main-content">

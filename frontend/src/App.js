@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
-import AboutUs from './Pages/AboutUs';
+
 import HomePage from './Pages/HomePage'; // Import HomePage component
 import VerifyEmail from './Pages/VerifyEmail';
 import PreferenceTopics from './Pages/PreferenceTopics'; // Import PreferenceTopics component
@@ -11,6 +11,9 @@ import WelcomePage from './Pages/WelcomePage';
 import Login from './Pages/login';
 import ResetPassword1 from './Pages/reset-password1';
 import ResetPassword3 from './Pages/reset-password3';
+
+import AboutUs from './Pages/AboutUs';
+import AboutUs2 from './Pages/AboutUs2';
 
 function App() {
   return (
@@ -24,9 +27,13 @@ function App() {
           <Route path="/reset-password1" element={<ResetPassword1 />} /> {/* Reset Password Step 1 */}
           <Route path="/reset-password3" element={<ResetPassword3 />} /> {/* Reset Password Step 3 */}
           <Route path="/profile" element={<Profile />} /> {/* User Profile Page */}
-          <Route path="/about-us" element={<AboutUs />} /> {/* About Us Page */}
+  
           <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/preference-topics" element={<PreferenceTopics />} />
+
+          <Route path="/aboutus" element={<AboutUs />} /> {/* About Us Page after signing in*/}
+          <Route path="/aboutus2" element={<AboutUs2 />} /> {/* About Us Page before signing in*/}
+
 
           
           {/* Route for Home Page after successful sign up */}
