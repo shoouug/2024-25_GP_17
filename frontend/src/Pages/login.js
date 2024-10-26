@@ -56,7 +56,7 @@ const Login = () => {
           />
           <i className="fas fa-lock"></i>
         </div>
-        {error && <p className="error-message">{error}</p>}
+        {error && <p className="error-message1">{error}</p>}
 
         <div className="forgot-password">
           <p className="black_p">Forgot your password? <a href="/reset-password1">Reset Password</a></p>

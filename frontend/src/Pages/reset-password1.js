@@ -11,22 +11,29 @@ const ResetPassword1 = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleContinue = async (e) => {
+const handleContinue = async (e) => {
     e.preventDefault();
 
     if (email) {
-      try {
-        // Trigger Firebase to send the password reset link
-        await sendPasswordResetEmail(auth, email);
-        setSuccessMessage('A password reset link has been sent   to your email address.');
-        setError('');
-      } catch (error) {
-        setError('Failed to send reset link. Please try again.');
-      }
+        try {
+            // Attempt to send the reset email
+            await sendPasswordResetEmail(auth, email);
+            setSuccessMessage("Sent successfully");
+            setError(''); // Clear any existing error message
+        } catch (error) {
+            if (error.code === 'auth/user-not-found') {
+                setError("This email does not exist in our records.");
+                setSuccessMessage(''); // Clear any existing success message
+            } else {
+                setError("Failed to send reset link. Please try again.");
+                setSuccessMessage('');
+            }
+        }
     } else {
-      setError('Please enter your email address.');
+        setError("Please enter your email address.");
     }
-  };
+};
+
 
   return (
     <div className="reset-password-container">
@@ -47,10 +54,10 @@ const ResetPassword1 = () => {
 
 
 
-        <p className="hint">A password reset link will be sent<br/>to your email address.</p>
+        <p className="hint">a password reset link will be sent to your Email<br/>If the Email exists in our records.</p>
 
-        {error && <p className="error-message">{error}</p>}
-        {successMessage && <p className="success-message">{successMessage}</p>} {/* Success Message */}
+        {error && <p className="error-message1">{error}</p>}
+        {successMessage && <p className="success-message1">{successMessage}</p>} {/* Success Message */}
 
         <button type="submit" className="sendLink-button">Send Reset Link</button> {/* Changed button text */}
       </form>

@@ -89,6 +89,19 @@ const ResetPassword3 = () => {
           />
           <i className="fas fa-lock"></i>
         </div>
+
+
+        <div className="input-container">
+          <input
+            type="password"
+            value={confirmPassword}
+            placeholder="Confirm password"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+          <i className="fas fa-lock"></i>
+        </div>
+
         <ul className="validation-checklist">
           <li className={isPasswordValid.length ? 'valid' : 'invalid'}>
             {isPasswordValid.length ? '✔' : '✘'} At least 8 characters
@@ -106,17 +119,6 @@ const ResetPassword3 = () => {
             {isPasswordValid.specialChar ? '✔' : '✘'} At least one special character
           </li>
         </ul>
-
-        <div className="input-container">
-          <input
-            type="password"
-            value={confirmPassword}
-            placeholder="Confirm password"
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-          <i className="fas fa-lock"></i>
-        </div>
         {error && <p className="error-message2">{error}</p>}
         {successMessage && <p className="success-message2">{successMessage}</p>}
         <button type="submit" className="reset-button">Reset Password</button>

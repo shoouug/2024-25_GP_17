@@ -43,8 +43,19 @@ body, html {
 /* Input fields styling */
 .input-container {
   position: relative;
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start;
   margin-bottom: 10px;
 }
+
+/*.input-container {
+  display: flex;
+  align-items: center;
+  width: 100%; 
+  margin-bottom: 1rem;
+}*/
+
 
 /*.input-container input {
   width: 80%;
@@ -56,7 +67,7 @@ body, html {
 }*/
 
 .input-container input {
-  width: 100%;
+  width: 250px;
   padding: 10px 12px; /* Adjusted padding for balance */
   padding-left: 40px; /* This ensures the space for the icon */
   font-size: 16px;
@@ -73,11 +84,9 @@ body, html {
 }
 
 .forgot-password {
-  margin-bottom: 20px;
-  margin-top: -10px;
-  margin-left: 10px;
-  text-align: left;
-  font-size: 80%;
+  margin-bottom: 1.5rem;
+text-align: center;
+font-size: 80%;
 }
 
 .forgot-password a {
@@ -106,7 +115,7 @@ body, html {
 }
 
 /* Error message */
-.error-message {
+.error-message1 {
   color: red;
   font-size: 14px;}
 
