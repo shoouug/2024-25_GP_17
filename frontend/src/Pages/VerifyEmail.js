@@ -13,13 +13,14 @@ const VerifyEmail = () => {
     const queryParams = new URLSearchParams(window.location.search);
     const oobCode = queryParams.get('oobCode');
   
-    console.log('Verification Code:', oobCode); // Add this for debugging
+    console.log('Verification Code:', oobCode); // For debugging
   
     if (oobCode) {
       applyActionCode(auth, oobCode)
         .then(() => {
           console.log('Email verified successfully!');
           setIsVerified(true); // Update state to show the "Next" button
+          console.log('isVerified is now true'); // For debugging
         })
         .catch((error) => {
           console.error('Error verifying email:', error);
@@ -39,11 +40,12 @@ const VerifyEmail = () => {
       <div className="message-box">
         <h3>Your email has been verified!</h3>
         <p>Please click "Next" to complete your profile.</p>
-        {isVerified && (
-          <button className="next-button" onClick={handleNextClick}>
-            Next
-          </button>
-        )}
+        {true && (
+  <button className="next-button" onClick={handleNextClick}>
+    Next
+  </button>
+)}
+
       </div>
     </div>
   );

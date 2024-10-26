@@ -1,12 +1,3 @@
-.verify-email-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
- 
-  padding: 20px;
-}
 
 .logo-container {
   position: absolute;
@@ -15,7 +6,7 @@
 }
 
 .website-logo {
-  width: 100px;
+  width: 100px; /* Adjust the size as needed */
   height: auto;
 }
 
@@ -30,6 +21,7 @@
 }
 
 .message-box h3 {
+  
   font-size: 22px;
   color: #5a9393;
   margin-bottom: 10px;
@@ -51,9 +43,9 @@
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-top: 20px;
 }
 
 .next-button:hover {
   background-color: #5a9393;
 }
+

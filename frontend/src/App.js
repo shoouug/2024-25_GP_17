@@ -26,8 +26,8 @@ function App() {
           <Route path="/profile" element={<Profile />} /> {/* User Profile Page */}
           <Route path="/about-us" element={<AboutUs />} /> {/* About Us Page */}
           <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/preference-topics" element={<PreferenceTopics />} />
 
-          <Route path="/preference-topics" element={<PreferenceTopics />} /> 
           
           {/* Route for Home Page after successful sign up */}
           <Route path="/homepage" element={<HomePage />} /> {/* Home Page after preferences */}
