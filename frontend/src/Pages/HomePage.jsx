@@ -1,24 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
+import { doc, getDoc } from 'firebase/firestore'; // Import Firestore functions
+import { auth, db } from '../firebase'; // Import Firebase auth and db
 import './HomePage.css'; 
 import sunIcon from '../images/sun.png'; 
 import exitIcon from '../images/exit.png'; 
 import logo from '../images/AIPress.png';  // Path to the logo image
 
-{/* for the links 
-import { Link } from 'react-router-dom';
-*/}
-
 const HomePage = () => {
   const [chats, setChats] = useState([]);
-  const [journalistName, setJournalistName] = useState('Journalist Name'); 
+  const [journalistName, setJournalistName] = useState('Journalist Name');
+  const [selectedTopics, setSelectedTopics] = useState([]);
   const [topic, setTopic] = useState('');
   const [keyword, setKeyword] = useState('');
   const navigate = useNavigate();
 
-  const topics = [
-    'Technology', 'Finance', 'Health', 'Art', 'Entertainment', 'Economy', 'Crime', 'Sport', 
-  ];
+  useEffect(() => {
+    const fetchJournalistData = async () => {
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const docRef = doc(db, 'Journalists', user.uid);
+          const docSnap = await getDoc(docRef);
+          
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            setJournalistName(`${data.firstName} ${data.lastName}`);
+            setSelectedTopics(data.selectedTopics || []);
+          } else {
+            console.log("No such document found!");
+          }
+        } else {
+          console.log("User is not logged in.");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchJournalistData();
+  }, []);
 
   const handleNewChat = () => {
     const newChat = `Chat ${chats.length + 1}`;
@@ -49,28 +70,20 @@ const HomePage = () => {
         </div>
       </div>
 
-{/* Navigation Bar *
-<nav className="navbarW">
-        <div className="navbar-linksW">
-          <Link to="/Profile" className="nav-linkW">Profile Page</Link>
-        </div>
-      </nav>/}
-
-
       {/* Main Content */}
       <div className="main-contentH">
         <div className="logo-sectionH">
           <img src={logo} alt="Logo" className="logoH" />
           <div className="welcome-sectionH">
-  <h1 className="welcome-headingH">Good morning, {journalistName}!</h1>
-  <p className="welcome-subtextH">Let’s dive into the latest!</p>
-</div>
+            <h1 className="welcome-headingH">Good morning, {journalistName}</h1>
+            <p className="welcome-subtextH">Let’s dive into the latest!</p>
+          </div>
         </div>
 
         <div className="topics-sectionH">
           <h2>Start writing what’s happening now</h2>
           <div className="topics-gridH">
-            {topics.map((topic, index) => (
+            {selectedTopics.map((topic, index) => (
               <div key={index} className="topic-cardH">
                 {topic}
               </div>
@@ -79,7 +92,7 @@ const HomePage = () => {
         </div>
 
         {/* Custom Topic Section */}
-        <p className="topic-promptH">If you have a topic in your mind, start here!</p>
+        <p className="topic-promptH">Or if you have a topic in your mind, start here!</p>
         <div className="custom-topic-sectionH">
           <div className="custom-topic-inputsH">
             <input

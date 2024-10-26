@@ -84,12 +84,13 @@
 }
 
 .logoH {
-    width: 80px; /* Set a fixed width */
+    width: 100px; /* Set a fixed width */
     height: auto; /* Maintain aspect ratio */
     max-width: 100px; /* Set a maximum width */
     max-height: 100px; /* Set a maximum height */
     margin-right: 20px; /* Space between logo and text */
     object-fit: contain; /* Ensures the logo fits inside the defined area */
+    margin-bottom: 160px;
 }
 
 /* Welcome Section Styling */
