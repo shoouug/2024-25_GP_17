@@ -40,9 +40,10 @@
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 17px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  width: 30%;
 }
 
 .next-button:hover {

@@ -53,14 +53,14 @@ body, html {
 
 /* Button styling */
 .signup-btn {
-  width: 70%;
+  width: 40%;
   background-color: #6BA6A6;
   color: white;
   cursor: pointer;
   padding: 12px;
   border: none;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 17px;
 }
 
 .signup-btn:hover {
