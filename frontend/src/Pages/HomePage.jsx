@@ -108,7 +108,7 @@ const HomePage = () => {
               onChange={(e) => setKeyword(e.target.value)}
             />
           </div>
-          <button className="generate-btnH">Generate Article</button>
+          <button className="generate-btnH">Geneerate Article</button>
         </div>
       </div>
     </div>
