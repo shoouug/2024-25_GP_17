@@ -1,5 +1,5 @@
 /* General Layout */
-.homepage-container {
+.homepage-containerH {
     display: flex;
     height: 100vh;
     width: 100vw;
@@ -7,7 +7,7 @@
 }
 
 /* Sidebar Styles */
-.sidebar {
+.sidebarH {
     width: 250px;
     background-color: #f1f1f1;
     display: flex;
@@ -17,7 +17,7 @@
     border-right: 1px solid #ccc;
 }
 
-.new-chat-btn {
+.new-chat-btnH {
     background-color: #5B95A1;
     color: white;
     padding: 10px;
@@ -28,13 +28,13 @@
     margin-bottom: 20px;
 }
 
-.chats {
+.chatsH {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.chat-btn {
+.chat-btnH {
     background-color: #e0e0e0;
     border: none;
     padding: 10px;
@@ -44,13 +44,13 @@
     border-radius: 4px;
 }
 
-.sidebar-footer {
+.sidebar-footerH {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.mode-btn, .logout-btn {
+.mode-btnH, .logout-btnH {
     background-color: transparent;
     border: none;
     color: #5B95A1;
@@ -61,14 +61,14 @@
     align-items: center;
 }
 
-.icon {
+.iconH {
     width: 20px;
     height: 20px;
     margin-right: 10px;
 }
 
 /* Main Content Styles */
-.main-content {
+.main-contentH {
     flex-grow: 1;
     padding: 40px;
     overflow-y: auto;
@@ -77,13 +77,13 @@
 }
 
 /* Logo and Welcome Section */
-.logo-section {
+.logo-sectionH {
     display: flex;
     align-items: center;
     margin-bottom: 0px;
 }
 
-.logo {
+.logoH {
     width: 80px; /* Set a fixed width */
     height: auto; /* Maintain aspect ratio */
     max-width: 100px; /* Set a maximum width */
@@ -93,7 +93,7 @@
 }
 
 /* Welcome Section Styling */
-.welcome-section {
+.welcome-sectionH {
     text-align: left; /* Align the text to the left */
     margin-top: 50px; /* Adjust the margin-top as needed */
     margin-left: -135px; /* Remove any left margin */
@@ -101,7 +101,7 @@
 }
 
 /* Welcome Text Styling */
-.welcome-heading {
+.welcome-headingH {
     font-size: 28px;
     color: #5B95A1;
     font-weight: 400;
@@ -109,7 +109,7 @@
     max-width: 100%;
 }
 
-.welcome-subtext {
+.welcome-subtextH {
     font-size: 18px;
     color: #5B95A1;
     margin-bottom: 40px;
@@ -118,21 +118,21 @@
 
 /* Responsive Styling for Welcome Text */
 @media (max-width: 768px) {
-    .welcome-heading {
+    .welcome-headingH {
         font-size: 24px;
     }
 
-    .welcome-subtext {
+    .welcome-subtextH {
         font-size: 16px;
     }
 }
 
 /* Topics Section */
-.topics-section {
+.topics-sectionH {
     margin-bottom: 40px;
 }
 
-.topics-section h2 {
+.topics-sectionH h2 {
     font-size: 18px;
     color: #5B95A1;
     font-weight: 400;
@@ -140,7 +140,7 @@
 }
 
 /* Remove gap between topic cards */
-.topics-grid {
+.topics-gridH {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 columns */
     grid-template-rows: repeat(2, auto);  /* 2 rows */
@@ -150,7 +150,7 @@
 }
 
 /* Topic Card Styling */
-.topic-card {
+.topic-cardH {
     background-color: #ffffff; /* Background color for the topic card */
     border: 1px solid #ccc; /* Border color */
     padding: 8px;
@@ -164,7 +164,7 @@
 }
 
 /* Custom Topic Section */
-.custom-topic-section {
+.custom-topic-sectionH {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -173,7 +173,7 @@
 }
 
 /* Styling for the sentence above the input fields */
-.topic-prompt {
+.topic-promptH {
     font-size: 18px; /* Adjust font size */
     color: #5B95A1;  /* Same color as the other elements */
     margin-bottom: -160px; /* Space between the sentence and the input fields */
@@ -181,7 +181,7 @@
     margin-top: 200px; /* Center the text */
   }
 
-.custom-topic-section input {
+.custom-topic-sectionH input {
     padding: 10px;
     border: 2px solid #5B95A1; /* Border color for the text fields */
     border-radius: 4px;
@@ -189,14 +189,14 @@
     height: 15px; /* Set height to make the fields rectangular */
 }
 
-.custom-topic-inputs {
+.custom-topic-inputsH {
     display: flex;
     justify-content: center;
     gap: 20px;
 }
 
 /* Input Fields */
-.custom-topic-inputs input {
+.custom-topic-inputsH input {
     padding: 10px;
     border: 1px solid #5B95A1; /* Updated border color */
     border-radius: 4px;
@@ -204,7 +204,7 @@
 }
 
 /* Generate Button */
-.generate-btn {
+.generate-btnH {
     background-color: #5B95A1;
     color: white;
     padding: 10px 20px;
