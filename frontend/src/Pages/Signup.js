@@ -116,12 +116,12 @@ const SignUp = () => {
       });
 
       alert('Verification email sent! Please check your inbox to verify your account.');
-      navigate('/verify-email');
+      
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
         setError('This email is already associated with an account. Please use another email.');
       } else {
-        setError('Sign-up failed. Please try again.');
+        setError('this email is taken');
       }
     }
   };
