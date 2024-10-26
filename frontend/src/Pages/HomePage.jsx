@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
-import { doc, getDoc } from 'firebase/firestore'; // Import Firestore functions
-import { auth, db } from '../firebase'; // Import Firebase auth and db
-import './HomePage.css'; 
-import sunIcon from '../images/sun.png'; 
-import exitIcon from '../images/exit.png'; 
-import logo from '../images/AIPress.png';  // Path to the logo image
+import { useNavigate } from 'react-router-dom';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase';
+import './HomePage.css';
+import sunIcon from '../images/sun.png';
+import exitIcon from '../images/exit.png';
+import logo from '../images/AIPress.png';
+import ProfileIcon from '../images/ProfileIcon.png';
+import { Link } from 'react-router-dom';
 
 const HomePage = () => {
   const [chats, setChats] = useState([]);
@@ -72,6 +74,9 @@ const HomePage = () => {
 
       {/* Main Content */}
       <div className="main-contentH">
+      <Link to="/profile">
+        <img src={ProfileIcon} alt="Profile Icon" className="ProfileIconH" />
+      </Link>
         <div className="logo-sectionH">
           <img src={logo} alt="Logo" className="logoH" />
           <div className="welcome-sectionH">
@@ -92,7 +97,7 @@ const HomePage = () => {
         </div>
 
         {/* Custom Topic Section */}
-        <p className="topic-promptH">Or if you have a topic in your mind, start here!</p>
+        <p className="topic-promptH">If you have a topic in your mind, start here!</p>
         <div className="custom-topic-sectionH">
           <div className="custom-topic-inputsH">
             <input
@@ -108,7 +113,7 @@ const HomePage = () => {
               onChange={(e) => setKeyword(e.target.value)}
             />
           </div>
-          <button className="generate-btnH">Geneerate Article</button>
+          <button className="generate-btnH">Generate Article</button>
         </div>
       </div>
     </div>

@@ -91,12 +91,19 @@
     margin-right: 20px; /* Space between logo and text */
     object-fit: contain; /* Ensures the logo fits inside the defined area */
     margin-bottom: 160px;
+    margin-top: -80px;
 }
 
+.ProfileIconH{
+    width: 50px; /* Set a fixed width */
+    height: auto; /* Maintain aspect ratio */
+    margin-left: 1050px; /* Space between logo and text */
+    object-fit: contain; /* Ensures the logo fits inside the defined area */
+}
 /* Welcome Section Styling */
 .welcome-sectionH {
     text-align: left; /* Align the text to the left */
-    margin-top: 50px; /* Adjust the margin-top as needed */
+    margin-top: 30px; /* Adjust the margin-top as needed */
     margin-left: -135px; /* Remove any left margin */
     padding-left: 20px; /* Add padding for a little space from the edge */
 }

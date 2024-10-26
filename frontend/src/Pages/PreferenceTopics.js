@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { doc, updateDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase'; // Import Firebase auth and db
 import './PreferenceTopics.css';
- 
+
 const PreferenceTopics = () => {
   const [selectedTopics, setSelectedTopics] = useState([]);
   const [article, setArticle] = useState('');
-  const [error, setError] = useState(''); // For showing error messages
-  const navigate = useNavigate(); // Initialize the navigate function
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const topics = [
     'Technology', 'Finance', 'Health', 'Art', 'Science', 'Entertainment', 'Economy', 'Crime', 'Sport', 'Beauty'
@@ -29,22 +31,32 @@ const PreferenceTopics = () => {
   };
 
   // Handle form submission
-  const handleSubmit = () => {
-    // Check if at least one topic is selected
+  const handleSubmit = async () => {
     if (selectedTopics.length === 0) {
       setError('Please select at least one topic.');
       return;
     }
 
-    // Reset error if the form is valid
     setError('');
 
-    // You can perform an API call or logic to save the selected topics and article
-    console.log('Selected Topics:', selectedTopics);
-    console.log('Article:', article || 'No article provided'); // Article is optional
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        // Save selected topics and article to the user's document in Firestore
+        const userDocRef = doc(db, 'Journalists', user.uid);
+        await updateDoc(userDocRef, {
+          selectedTopics: selectedTopics, // Save selected topics
+          previousArticle: article || 'No article provided' // Save optional article
+        });
 
-    // Redirect to the HomePage after submission
-    navigate('/HomePage');
+        console.log('Preferences saved successfully.');
+        navigate('/HomePage'); // Redirect to the homepage after saving
+      } else {
+        console.error('No user is logged in.');
+      }
+    } catch (error) {
+      console.error('Error saving preferences:', error);
+    }
   };
 
   return (
@@ -52,7 +64,6 @@ const PreferenceTopics = () => {
       <div className="modal-content">
         <h2>Choose Your Preference Topics</h2>
 
-        {/* Show error if no topic is selected */}
         {error && <p className="error-message">{error}</p>}
 
         <div className="topics-grid">
