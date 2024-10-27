@@ -37,7 +37,6 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const countries = ["Saudi Arabia", "United States", "Canada", "United Kingdom", "Australia", "Germany", "France", "United Arab Emirates", "India", "China", "Japan", "South Korea", "Brazil", "Mexico", "Italy", "Spain", "Russia", "Turkey", "South Africa", "Argentina", "Nigeria", "Egypt", "Netherlands", "Sweden", "Switzerland", "Belgium", "Denmark", "Norway", "Finland", "Greece", "Portugal", "Poland", "Indonesia", "Malaysia", "Thailand", "Vietnam", "Philippines", "New Zealand", "Pakistan", "Bangladesh", "Chile", "Colombia", "Venezuela", "Peru", "Austria", "Israel", "Singapore", "Ireland", "Czech Republic", "Hungary", "Romania", "Ukraine", "Kenya", "Ethiopia", "Iceland", "Norway", "Cuba", "Ghana", "Qatar", "Kuwait", "Oman", "Lebanon", "Jordan", "Morocco", "Algeria", "Tunisia", "Luxembourg", "Malta", "Sri Lanka", "Nepal", "Cambodia", "Laos", "Bolivia", "Paraguay", "Uruguay", "Trinidad and Tobago", "Barbados"];
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -101,7 +100,7 @@ const SignUp = () => {
 
       // Send verification email with a custom URL for the verification page.
       await sendEmailVerification(user, {
-        url: 'http://localhost:3000/verify-email', // Replace with your verification page URL
+        url: 'http://localhost:3000/verify-email', 
         handleCodeInApp: true,
       });
 
@@ -115,7 +114,8 @@ const SignUp = () => {
         previousArticles: [],
       });
 
-      alert('Verification email sent! Please check your inbox to verify your account.');
+      alert('Verification email sent!');
+      
       
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
