@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './AboutUs.css';
 import Lottie from 'lottie-react';
 import animationData from '../images/Animation - 1729347628307.json'; 
-import ProfileIcon from '../images/ProfileIcon.png';
+import logo from '../images/AIPress.png';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -16,15 +16,9 @@ const AboutUs = () => {
         <div className="about-us-container">
             <div className="background-animation1">
                 <Lottie animationData={animationData} loop={true} />
-            </div>
-                <div className="logoANDprofile">
-                    <Link to="/homepage">
-                        <img src={require('../images/logo.png')} alt="GenNews Logo" className="logoW" />
-                    </Link>
-
-                    <Link to="/profile">
-                    <img src={ProfileIcon} alt="Profile Icon" className="ProfileIconH" />
-                </Link>
+                </div>
+                <div className="logo-sectionH">
+              <img src={logo} alt="Logo" className="logoH" />
                 </div>
 
                 <div className="cards-container">

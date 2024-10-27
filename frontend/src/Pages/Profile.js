@@ -16,8 +16,9 @@ const Profile = () => {
   const navigate = useNavigate();
 
   const topics = [
-    'Technology', 'Finance', 'Health', 'Art', 'Science', 
-    'Entertainment', 'Economy', 'Crime', 'Sport', 'Beauty'
+    'Technology', 'Finance', 'Health', 'Art', 'Science', 'Entertainment', 'Economy', 'Crime', 'Sport', 'Beauty',
+    'Politics', 'Education', 'Environment', 'Travel', 'Food', 'Lifestyle', 'History', 'Culture', 'Business', 'Fashion',
+    'Automobile', 'Gaming', 'Movies', 'Music', 'Real Estate', 'Personal Finance', 'Pets', 'Parenting', 'Space', 'Weather'
   ];
 
     // Fetch journalist data from Firestore
@@ -85,22 +86,6 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
-
-      {/* Left Sidebar */}
-      <div className="sidebarH">
-        <div className="sidebar-footerH">
-          <button className="mode-btnH">
-            <img src={sunIcon} alt="Sun Icon" className="iconH" /> Dark mode
-          </button>
-          <button className="logout-btnH" onClick={handleLogout}>
-            <img src={exitIcon} alt="Exit Icon" className="iconH" /> Log out
-          </button>
-
-          <button className="about-btnH">
-          About Us
-          </button>
-        </div>
-      </div>
 
       {/* Header Section */}
       <header className="profile-header">
