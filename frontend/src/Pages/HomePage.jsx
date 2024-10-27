@@ -7,7 +7,7 @@ import sunIcon from '../images/sun.png';
 import exitIcon from '../images/exit.png';
 import logo from '../images/AIPress.png';
 import ProfileIcon from '../images/ProfileIcon.png';
-import { Link } from 'react-router-dom';
+import EditProfile from './EditProfile'; // Importing the EditProfile component
 
 const HomePage = () => {
   const [chats, setChats] = useState([]);
@@ -17,6 +17,10 @@ const HomePage = () => {
   const [keyword, setKeyword] = useState('');
   const navigate = useNavigate();
 
+  const [userData, setUserData] = useState(null);
+  const [showTooltip, setShowTooltip] = useState(false); // Tooltip state
+  const [isEditing, setIsEditing] = useState(false); // State for editing profile
+
   useEffect(() => {
     const fetchJournalistData = async () => {
       try {
@@ -24,11 +28,12 @@ const HomePage = () => {
         if (user) {
           const docRef = doc(db, 'Journalists', user.uid);
           const docSnap = await getDoc(docRef);
-          
+
           if (docSnap.exists()) {
             const data = docSnap.data();
             setJournalistName(`${data.firstName} ${data.lastName}`);
             setSelectedTopics(data.selectedTopics || []);
+            setUserData(data); // Set the user data here
           } else {
             console.log("No such document found!");
           }
@@ -50,6 +55,18 @@ const HomePage = () => {
 
   const handleLogout = () => {
     navigate('/');
+  };
+
+  const handleMouseEnter = () => {
+    setShowTooltip(true); // Show tooltip on hover
+  };
+
+  const handleMouseLeave = () => {
+    setShowTooltip(false); // Hide tooltip when not hovering
+  };
+
+  const handleEditProfile = () => {
+    setIsEditing(true); // Open the EditProfile component
   };
 
   return (
@@ -74,9 +91,33 @@ const HomePage = () => {
 
       {/* Main Content */}
       <div className="main-contentH">
-      <Link to="/profile">
-        <img src={ProfileIcon} alt="Profile Icon" className="ProfileIconH" />
-      </Link>
+        {/* Tooltip */}
+        <div 
+          className="profile-linkH" 
+          onMouseEnter={handleMouseEnter} 
+          onMouseLeave={handleMouseLeave}
+        >
+          <img 
+            src={ProfileIcon} 
+            alt="Profile Icon" 
+            className="ProfileIconH" 
+          />
+          {showTooltip && userData && (
+            <div className="profile-tooltipH">
+              <h2>{`${userData.firstName} ${userData.lastName}`}</h2>
+              <p><strong>Email:</strong> {userData.email}</p>
+              <p><strong>Affiliation:</strong> {userData.affiliation}</p>
+              <p><strong>Country:</strong> {userData.country}</p>
+              <button 
+                className="edit-profile-btnH" 
+                onClick={handleEditProfile} // Open EditProfile on click
+              >
+                Edit Profile
+              </button>
+            </div>
+          )}
+        </div>
+        
         <div className="logo-sectionH">
           <img src={logo} alt="Logo" className="logoH" />
           <div className="welcome-sectionH">
@@ -115,6 +156,14 @@ const HomePage = () => {
           </div>
           <button className="generate-btnH">Generate Article</button>
         </div>
+
+        {/* Edit Profile Modal */}
+        {isEditing && (
+          <EditProfile 
+            userData={userData} 
+            onClose={() => setIsEditing(false)} // Close the modal
+          />
+        )}
       </div>
     </div>
   );

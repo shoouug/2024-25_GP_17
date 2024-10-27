@@ -4,11 +4,14 @@ import { signInWithEmailAndPassword } from 'firebase/auth'; // Firebase Auth fun
 import { auth } from '../firebase'; // Import Firebase auth instance
 import './login.css';
 import Logo from '../images/logo.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State for password visibility
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -32,7 +35,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <img src={Logo} alt="Logo" className="logoIn " />
+      <img src={Logo} alt="Logo" className="logoIn" />
       <p className="welcoming">Back to your newsroom!</p>
 
       <form onSubmit={handleLogin}>
@@ -48,13 +51,18 @@ const Login = () => {
         </div>
         <div className="input-container">
           <input
-            type="password"
+            type={isPasswordVisible ? 'text' : 'password'}
             value={password}
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
             required
           />
           <i className="fas fa-lock"></i>
+          <FontAwesomeIcon
+            icon={isPasswordVisible ? faEyeSlash : faEye}
+            onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+            className="toggle-password-icon"
+          />
         </div>
         {error && <p className="error-message1">{error}</p>}
 

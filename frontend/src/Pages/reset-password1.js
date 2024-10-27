@@ -37,7 +37,7 @@ const handleContinue = async (e) => {
 
   return (
     <div className="reset-password-container">
-      <img src={Logo} alt="Logo" className="logoIn" />
+      <img src={Logo} alt="Logo" className="logoIn1" />
       <p className="title">Reset your password</p>
 
       <form className="form2" onSubmit={handleContinue}>

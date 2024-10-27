@@ -20,8 +20,6 @@ const WelcomePage = () => {
           <Link to="/login" className="nav-linkW">Log In</Link>
           <Link to="/AboutUs" className="nav-linkW">About Us</Link>
 
-          {/* I will move this link but i add it so i can quickly move to my page (: */}
-          <Link to="/Profile" className="nav-linkW">Profile Page</Link>
         </div>
       </nav>
 

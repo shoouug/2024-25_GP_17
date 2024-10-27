@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { confirmPasswordReset } from 'firebase/auth'; // Import Firebase function for confirming password reset
-import { auth } from '../firebase'; // Import Firebase auth instance
+import { confirmPasswordReset } from 'firebase/auth';
+import { auth } from '../firebase';
 import './reset-password1.css';
 import Logo from '../images/logo.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const ResetPassword3 = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [actionCode, setActionCode] = useState(null); // Stores the token from URL
+  const [actionCode, setActionCode] = useState(null);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState({
     length: false,
     lowercase: false,
@@ -25,10 +29,9 @@ const ResetPassword3 = () => {
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const oobCode = queryParams.get('oobCode');
-    setActionCode(oobCode); // Store the oobCode (token)
+    setActionCode(oobCode);
   }, [location]);
 
-  // Function to validate password
   const validatePassword = (password) => {
     setIsPasswordValid({
       length: password.length >= 8,
@@ -74,32 +77,41 @@ const ResetPassword3 = () => {
   };
 
   return (
-    <div className="reset-password-container">
+    <div className="reset-password-container2">
       <img src={Logo} alt="Logo" className="logoIn" />
       <p className="title">Set your new password</p>
 
       <form onSubmit={handleSubmit}>
         <div className="input-container">
           <input
-            type="password"
+            type={isPasswordVisible ? 'text' : 'password'}
             value={password}
             placeholder="New password"
             onChange={handlePasswordChange}
             required
           />
           <i className="fas fa-lock"></i>
+          <FontAwesomeIcon
+            icon={isPasswordVisible ? faEyeSlash : faEye}
+            onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+            className="toggle-password-icon"
+          />
         </div>
-
 
         <div className="input-container">
           <input
-            type="password"
+            type={isConfirmPasswordVisible ? 'text' : 'password'}
             value={confirmPassword}
             placeholder="Confirm password"
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
           <i className="fas fa-lock"></i>
+          <FontAwesomeIcon
+            icon={isConfirmPasswordVisible ? faEyeSlash : faEye}
+            onClick={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}
+            className="toggle-password-icon"
+          />
         </div>
 
         <ul className="validation-checklist">
