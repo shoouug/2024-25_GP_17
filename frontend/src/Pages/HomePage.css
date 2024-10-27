@@ -100,6 +100,99 @@
     margin-left: 1050px; /* Space between logo and text */
     object-fit: contain; /* Ensures the logo fits inside the defined area */
 }
+
+/* Tooltip styling */
+.profile-tooltipH {
+    position: fixed;
+    right:  0;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 17px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    width: 260px; /* Adjusted width */
+    text-align: left; /* Left-align text */
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Add spacing between elements */
+  }
+  
+  /* Styling for Tooltip Text */
+  .profile-tooltipH h2 {
+    font-size: 18px;
+    color: #5B95A1;
+    margin: 0;
+  }
+  
+  .profile-tooltipH p {
+    font-size: 14px;
+    color: #333;
+    margin: 5px 0;
+  }
+  
+  /* Edit Profile Button Styling */
+  .edit-profile-btnH {
+    background-color: #5B95A1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+  }
+  
+  .edit-profile-btnH:hover {
+    background-color: #4A7C87;
+  }
+  
+  /* Responsive Tooltip Styling */
+  @media (max-width: 768px) {
+    .profile-tooltipH {
+      width: 200px; /* Reduce width on smaller screens */
+      padding: 12px; /* Adjust padding for smaller devices */
+    }
+  
+    .profile-tooltipH h2 {
+      font-size: 16px; /* Reduce font size on smaller screens */
+    }
+  
+    .profile-tooltipH p {
+      font-size: 13px; /* Adjust font size for smaller screens */
+    }
+  
+    .edit-profile-btnH {
+      font-size: 13px; /* Reduce font size of the button text */
+      padding: 7px 14px; /* Adjust padding */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .profile-tooltipH {
+      width: 180px; /* Further reduce width */
+      left: calc(100% + 5px); /* Keep some margin on the right side */
+      padding: 10px;
+    }
+  
+    
+    .profile-tooltipH h2 {
+      font-size: 15px;
+    }
+  
+    .profile-tooltipH p {
+      font-size: 12px;
+    }
+  
+    .edit-profile-btnH {
+      font-size: 12px;
+      padding: 6px 12px;
+    }
+  }
+  
 /* Welcome Section Styling */
 .welcome-sectionH {
     text-align: left; /* Align the text to the left */

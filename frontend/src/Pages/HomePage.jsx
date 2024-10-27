@@ -7,7 +7,6 @@ import sunIcon from '../images/sun.png';
 import exitIcon from '../images/exit.png';
 import logo from '../images/AIPress.png';
 import ProfileIcon from '../images/ProfileIcon.png';
-import { Link } from 'react-router-dom';
 
 const HomePage = () => {
   const [chats, setChats] = useState([]);
@@ -16,6 +15,10 @@ const HomePage = () => {
   const [topic, setTopic] = useState('');
   const [keyword, setKeyword] = useState('');
   const navigate = useNavigate();
+
+  const [userData, setUserData] = useState(null);
+  const [showTooltip, setShowTooltip] = useState(false); // Tooltip state
+
 
   useEffect(() => {
     const fetchJournalistData = async () => {
@@ -29,6 +32,7 @@ const HomePage = () => {
             const data = docSnap.data();
             setJournalistName(`${data.firstName} ${data.lastName}`);
             setSelectedTopics(data.selectedTopics || []);
+            setUserData(data); // Set the user data here
           } else {
             console.log("No such document found!");
           }
@@ -39,9 +43,9 @@ const HomePage = () => {
         console.error("Error fetching user data:", error);
       }
     };
-
+  
     fetchJournalistData();
-  }, []);
+  }, []);  
 
   const handleNewChat = () => {
     const newChat = `Chat ${chats.length + 1}`;
@@ -52,11 +56,19 @@ const HomePage = () => {
     navigate('/');
   };
 
+  const handleMouseEnter = () => {
+    setShowTooltip(true); // Show tooltip on hover
+  };
+
+  const handleMouseLeave = () => {
+    setShowTooltip(false); // Hide tooltip when not hovering
+  };
+
   return (
     <div className="homepage-containerH">
       {/* Left Sidebar */}
       <div className="sidebarH">
-        <button className="new-chat-btnH" onClick={handleNewChat}>+ New chat</button>
+        <button className="new-chat-btnH">+ New chat</button>
         <div className="chatsH">
           {chats.map((chat, index) => (
             <button key={index} className="chat-btnH">{chat}</button>
@@ -66,7 +78,7 @@ const HomePage = () => {
           <button className="mode-btnH">
             <img src={sunIcon} alt="Sun Icon" className="iconH" /> Dark mode
           </button>
-          <button className="logout-btnH" onClick={handleLogout}>
+          <button className="logout-btnH">
             <img src={exitIcon} alt="Exit Icon" className="iconH" /> Log out
           </button>
         </div>
@@ -74,9 +86,34 @@ const HomePage = () => {
 
       {/* Main Content */}
       <div className="main-contentH">
-      <Link to="/profile">
-        <img src={ProfileIcon} alt="Profile Icon" className="ProfileIconH" />
-      </Link>
+
+        {/* Tooltip */}
+      <div 
+           className="profile-linkH" 
+           onMouseEnter={handleMouseEnter} 
+           onMouseLeave={handleMouseLeave}
+        >
+          <img 
+            src={ProfileIcon} 
+            alt="Profile Icon" 
+            className="ProfileIconH" 
+          />
+          {showTooltip && userData && (
+            <div className="profile-tooltipH">
+              <h2>{`${userData.firstName} ${userData.lastName}`}</h2>
+              <p><strong>Email:</strong> {userData.email}</p>
+              <p><strong>Affiliation:</strong> {userData.affiliation}</p>
+              <p><strong>Country:</strong> {userData.country}</p>
+              <button 
+                className="edit-profile-btnH" 
+                onClick={() => navigate('/Profile')}
+              >
+                Edit Profile
+              </button>
+            </div>
+          )}
+        </div>
+        
         <div className="logo-sectionH">
           <img src={logo} alt="Logo" className="logoH" />
           <div className="welcome-sectionH">

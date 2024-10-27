@@ -46,6 +46,17 @@
   max-width: 800px; /* Limit maximum width for cards */
   margin: 20px auto; /* Centered with margin */
 }
+/* Cards Styles */
+.cards-container {
+  width: 100%; /* Full width */
+  max-width: 800px; /* Limit maximum width for cards */
+  padding: 10px; /* Space inside container */
+  overflow-y: auto; /* Enable vertical scrolling */
+  height: 400px; /* Set a fixed height for imitation scrolling */
+  border: 1px solid #ccc; /* Optional: add a border */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+}
 
 /* Card Styles */
 .card {
@@ -53,9 +64,14 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px; /* Space inside card */
-  transition: opacity 0.5s ease, transform 0.3s ease; /* Smooth transition for fade and lift */
-  opacity: 1; /* Initial opacity */
+  transition: transform 0.3s;
 }
+
+/* Hover effect for cards */
+.card:hover {
+  transform: translateY(-5px); /* Slight lift effect */
+}
+
 
 /* Fade-out effect for cards */
 .card.fade-out {
@@ -63,10 +79,7 @@
   transform: translateY(5px); /* Slightly lower position */
 }
 
-/* Hover effect for cards */
-.card:hover {
-  transform: translateY(-5px); /* Lift effect on hover */
-}
+
 
 
 .about-us-content h2 {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import Link for navigation and useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import './Profile.css';
 
 import sunIcon from '../images/sun.png';
@@ -94,6 +94,10 @@ const Profile = () => {
           </button>
           <button className="logout-btnH" onClick={handleLogout}>
             <img src={exitIcon} alt="Exit Icon" className="iconH" /> Log out
+          </button>
+
+          <button className="about-btnH">
+          About Us
           </button>
         </div>
       </div>
