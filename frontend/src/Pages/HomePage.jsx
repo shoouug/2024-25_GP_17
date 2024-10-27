@@ -7,6 +7,7 @@ import sunIcon from '../images/sun.png';
 import exitIcon from '../images/exit.png';
 import logo from '../images/AIPress.png';
 import ProfileIcon from '../images/ProfileIcon.png';
+import EditProfile from './EditProfile'; // Importing the EditProfile component
 
 const HomePage = () => {
   const [chats, setChats] = useState([]);
@@ -18,7 +19,7 @@ const HomePage = () => {
 
   const [userData, setUserData] = useState(null);
   const [showTooltip, setShowTooltip] = useState(false); // Tooltip state
-
+  const [isEditing, setIsEditing] = useState(false); // State for editing profile
 
   useEffect(() => {
     const fetchJournalistData = async () => {
@@ -27,7 +28,7 @@ const HomePage = () => {
         if (user) {
           const docRef = doc(db, 'Journalists', user.uid);
           const docSnap = await getDoc(docRef);
-          
+
           if (docSnap.exists()) {
             const data = docSnap.data();
             setJournalistName(`${data.firstName} ${data.lastName}`);
@@ -43,9 +44,9 @@ const HomePage = () => {
         console.error("Error fetching user data:", error);
       }
     };
-  
+
     fetchJournalistData();
-  }, []);  
+  }, []);
 
   const handleNewChat = () => {
     const newChat = `Chat ${chats.length + 1}`;
@@ -64,11 +65,15 @@ const HomePage = () => {
     setShowTooltip(false); // Hide tooltip when not hovering
   };
 
+  const handleEditProfile = () => {
+    setIsEditing(true); // Open the EditProfile component
+  };
+
   return (
     <div className="homepage-containerH">
       {/* Left Sidebar */}
       <div className="sidebarH">
-        <button className="new-chat-btnH">+ New chat</button>
+        <button className="new-chat-btnH" onClick={handleNewChat}>+ New chat</button>
         <div className="chatsH">
           {chats.map((chat, index) => (
             <button key={index} className="chat-btnH">{chat}</button>
@@ -78,7 +83,7 @@ const HomePage = () => {
           <button className="mode-btnH">
             <img src={sunIcon} alt="Sun Icon" className="iconH" /> Dark mode
           </button>
-          <button className="logout-btnH">
+          <button className="logout-btnH" onClick={handleLogout}>
             <img src={exitIcon} alt="Exit Icon" className="iconH" /> Log out
           </button>
         </div>
@@ -86,12 +91,11 @@ const HomePage = () => {
 
       {/* Main Content */}
       <div className="main-contentH">
-
         {/* Tooltip */}
-      <div 
-           className="profile-linkH" 
-           onMouseEnter={handleMouseEnter} 
-           onMouseLeave={handleMouseLeave}
+        <div 
+          className="profile-linkH" 
+          onMouseEnter={handleMouseEnter} 
+          onMouseLeave={handleMouseLeave}
         >
           <img 
             src={ProfileIcon} 
@@ -106,7 +110,7 @@ const HomePage = () => {
               <p><strong>Country:</strong> {userData.country}</p>
               <button 
                 className="edit-profile-btnH" 
-                onClick={() => navigate('/Profile')}
+                onClick={handleEditProfile} // Open EditProfile on click
               >
                 Edit Profile
               </button>
@@ -152,6 +156,14 @@ const HomePage = () => {
           </div>
           <button className="generate-btnH">Generate Article</button>
         </div>
+
+        {/* Edit Profile Modal */}
+        {isEditing && (
+          <EditProfile 
+            userData={userData} 
+            onClose={() => setIsEditing(false)} // Close the modal
+          />
+        )}
       </div>
     </div>
   );

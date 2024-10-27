@@ -14,6 +14,8 @@ const EditProfile = ({ userData, onClose }) => {
   });
   const [selectedTopics, setSelectedTopics] = useState([]);
   const [allTopics, setAllTopics] = useState([]);
+  const [article, setArticle] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     setFormData({
@@ -30,7 +32,11 @@ const EditProfile = ({ userData, onClose }) => {
 
   const fetchAllTopics = () => {
     // Define or fetch topics
-    setAllTopics(['Politics', 'Sports', 'Health', 'Technology']);
+    setAllTopics([
+      'Technology', 'Finance', 'Health', 'Art', 'Science', 'Entertainment', 'Economy', 'Crime', 'Sport', 'Beauty',
+      'Politics', 'Education', 'Environment', 'Travel', 'Food', 'Lifestyle', 'History', 'Culture', 'Business', 'Fashion',
+      'Automobile', 'Gaming', 'Movies', 'Music', 'Real Estate', 'Personal Finance', 'Pets', 'Parenting', 'Space', 'Weather'
+    ]);
   };
 
   const handleInputChange = (e) => {
@@ -46,7 +52,11 @@ const EditProfile = ({ userData, onClose }) => {
     );
   };
 
-  const handleSubmit = async (e) => {
+  const handleArticleChange = (e) => {
+    setArticle(e.target.value);
+  };
+
+  const handleProfileUpdate = async (e) => {
     e.preventDefault();
     try {
       const user = auth.currentUser;
@@ -56,16 +66,29 @@ const EditProfile = ({ userData, onClose }) => {
           ...formData,
           selectedTopics: selectedTopics,
         });
+        
+        // Show a confirmation popup
+        alert('Profile updated successfully!');
+
+        // Close the edit profile modal
         onClose();
       }
     } catch (error) {
       console.error('Error updating profile:', error);
+      setError('Failed to update profile. Please try again.');
     }
   };
 
+  const handleArticleSubmit = async (e) => {
+    e.preventDefault();
+    // Logic to handle article submission
+    console.log('Article submitted:', article);
+    setArticle('');
+  };
+
   return (
-    <div className="edit-profile-container">
-      <form onSubmit={handleSubmit}>
+    <div className="edit-profile-containerW">
+      <form onSubmit={handleProfileUpdate}>
         <h2>Edit Profile</h2>
         <input
           type="text"
@@ -110,20 +133,38 @@ const EditProfile = ({ userData, onClose }) => {
           placeholder="New Password"
         />
 
-        <h3>Topics of Interest</h3>
-        {allTopics.map((topic) => (
-          <div key={topic}>
-            <input
-              type="checkbox"
-              checked={selectedTopics.includes(topic)}
-              onChange={() => handleTopicChange(topic)}
-            />
-            {topic}
+        {/* Preference Topics Section */}
+        <section className="preference-topicsW">
+          <h2>Choose Your Preference Topics</h2>
+          {error && <p className="error-messageW">{error}</p>}
+          <div className="topics-gridW">
+            {allTopics.map((topic) => (
+              <div
+                key={topic}
+                className={`topic-itemW ${selectedTopics.includes(topic) ? 'selectedW' : ''}`}
+                onClick={() => handleTopicChange(topic)}
+              >
+                {topic}
+              </div>
+            ))}
           </div>
-        ))}
+        </section>
 
-        <button type="submit">Update Profile</button>
-        <button type="button" onClick={onClose}>Cancel</button>
+        {/* Article Writing Section */}
+        <section className="article-sectionW">
+          <h3>Write Your Article</h3>
+          <textarea
+            placeholder="Paste or write your article here..."
+            value={article}
+            onChange={handleArticleChange}
+            rows="6"
+          />
+          <div className="buttonsW">
+            <button className="submit-btnW" type="submit">Update Profile</button>
+            <button className="submit-btnW" onClick={handleArticleSubmit}>Add Article</button>
+            <button type="button" className="cancel-btnW" onClick={onClose}>Cancel</button>
+          </div>
+        </section>
       </form>
     </div>
   );

@@ -1,44 +1,155 @@
 /* EditProfile styling */
-.edit-profile-container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 90%;
-    max-width: 400px;
+.edit-profile-containerW {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 500px;
+  overflow-y: auto;
+  max-height: 90%;
+}
+
+/* Form styling */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Input fields styling */
+input {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100%;
+  font-size: 16px;
+}
+
+/* Preference Topics Section Styling */
+.preference-topicsW {
+  margin-bottom: 30px;
+}
+
+.preference-topicsW h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Error message styling */
+.error-messageW {
+  color: red;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Topics Grid */
+.topics-gridW {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+/* Topic Item Styling */
+.topic-itemW {
+  background-color: #83cdcd;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Darker background for selected topics */
+.topic-itemW.selectedW {
+  background-color: #3a6b6b;
+}
+
+.topic-itemW:hover {
+  background-color: #5a9393;
+}
+
+/* Article Section Styling */
+.article-sectionW {
+  margin-top: 20px;
+}
+
+.article-sectionW h3 {
+  font-size: 18px;
+  color: #4a4a4a;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+textarea {
+  width: 100%;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+/* Buttons Styling */
+.buttonsW {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.submit-btnW {
+  background-color: #6ba6a6;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btnW:hover {
+  background-color: #5a9393;
+}
+
+/* Cancel Button Styling */
+.cancel-btnW {
+  background-color: #a6a5a5;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.cancel-btnW:hover {
+  background-color: #919090;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .edit-profile-containerW {
+    padding: 10px;
   }
-  
-  form {
-    display: flex;
-    flex-direction: column;
+
+  .preference-topicsW h2,
+  .article-sectionW h3 {
+    font-size: 16px;
   }
-  
-  input {
-    margin-bottom: 10px;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    width: 100%;
+
+  .submit-btnW,
+  .cancel-btnW {
+    font-size: 14px;
+    padding: 10px 15px;
   }
-  
-  button {
-    margin-top: 10px;
-  }
-  
-  /* Make the form more compact on smaller screens */
-  @media (max-width: 480px) {
-    .edit-profile-container {
-      width: 95%;
-      max-width: 350px;
-      padding: 15px;
-    }
-  
-    input, button {
-      font-size: 14px;
-    }
-  }
-  
+}
