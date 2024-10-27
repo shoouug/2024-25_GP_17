@@ -15,6 +15,9 @@ import ResetPassword3 from './Pages/reset-password3';
 import AboutUs from './Pages/AboutUs';
 import AboutUs2 from './Pages/AboutUs2';
 
+
+
+
 function App() {
   return (
     <Router>
@@ -38,6 +41,8 @@ function App() {
           
           {/* Route for Home Page after successful sign up */}
           <Route path="/homepage" element={<HomePage />} /> {/* Home Page after preferences */}
+
+
         </Routes>
       </div>
     </Router>
