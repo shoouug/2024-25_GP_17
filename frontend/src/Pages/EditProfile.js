@@ -88,7 +88,7 @@ const EditProfile = ({ userData, onClose }) => {
 
   return (
     <div className="edit-profile-containerW">
-      <form onSubmit={handleProfileUpdate}>
+      <form className='formW' onSubmit={handleProfileUpdate}>
         <h2>Edit Profile</h2>
         <input
           type="text"

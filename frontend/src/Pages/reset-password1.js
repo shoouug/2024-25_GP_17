@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { sendPasswordResetEmail } from 'firebase/auth'; // Firebase function for sending the reset email
-import { auth } from '../firebase'; // Import Firebase auth instance
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { auth } from '../firebase';
 import './reset-password1.css';
 import Logo from '../images/logo.png';
 
@@ -11,29 +11,31 @@ const ResetPassword1 = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
 
-const handleContinue = async (e) => {
+  const handleContinue = async (e) => {
     e.preventDefault();
 
     if (email) {
-        try {
-            // Attempt to send the reset email
-            await sendPasswordResetEmail(auth, email);
-            setSuccessMessage("Sent successfully");
-            setError(''); // Clear any existing error message
-        } catch (error) {
-            if (error.code === 'auth/user-not-found') {
-                setError("This email does not exist in our records.");
-                setSuccessMessage(''); // Clear any existing success message
-            } else {
-                setError("Failed to send reset link. Please try again.");
-                setSuccessMessage('');
-            }
+      try {
+        // Send the reset password email with a custom action URL
+        await sendPasswordResetEmail(auth, email, {
+          url: 'http://localhost:3000/login', // Link to your reset-password3.js page
+          handleCodeInApp: true,
+        });
+        setSuccessMessage("Sent successfully");
+        setError(''); // Clear any existing error message
+      } catch (error) {
+        if (error.code === 'auth/user-not-found') {
+          setError("This email does not exist in our records.");
+          setSuccessMessage(''); // Clear any existing success message
+        } else {
+          setError("Failed to send reset link. Please try again.");
+          setSuccessMessage('');
         }
+      }
     } else {
-        setError("Please enter your email address.");
+      setError("Please enter your email address.");
     }
-};
-
+  };
 
   return (
     <div className="reset-password-container">
@@ -52,14 +54,12 @@ const handleContinue = async (e) => {
           <i className="fas fa-envelope"></i>
         </div>
 
-
-
-        <p className="hint">a password reset link will be sent to your Email<br/>If the Email exists in our records.</p>
+        <p className="hint">A password reset link will be sent to your email.<br />If the email exists in our records.</p>
 
         {error && <p className="error-message1">{error}</p>}
-        {successMessage && <p className="success-message1">{successMessage}</p>} {/* Success Message */}
+        {successMessage && <p className="success-message1">{successMessage}</p>}
 
-        <button type="submit" className="sendLink-button">Send Reset Link</button> {/* Changed button text */}
+        <button type="submit" className="sendLink-button">Send Reset Link</button>
       </form>
     </div>
   );

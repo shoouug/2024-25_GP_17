@@ -15,13 +15,13 @@
 }
 
 /* Form styling */
-form {
+.formW {
   display: flex;
   flex-direction: column;
 }
 
 /* Input fields styling */
-input {
+.formW input {
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 4px;
