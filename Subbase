@@ -1,5 +1,0 @@
-REACR_APP_SUPABASE_URL= https://jpewtvjdgtdnhwdlefdw.supabase.co 
-REACT_APP_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
-eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwZXd0dmpkZ3Rkbmh3ZGxlZmR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAwMTU3MDEsImV4cCI6MjA0NTU5MTcwMX0.-3KhPy8BJwYfQRjjwPvFXJR2BhJEmMw0tGKQdhpspW8 
-
-// then npm install @supabase/supabase-js@rc 
