@@ -1,36 +1,40 @@
-body, html {
-  height: 100%;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #ffffff;
-  padding: 10px;
+
+
+/* Logo styling */
+.logo-container {
+  position: absolute;
+  top: 20px; /* Position the logo from the top */
+  left: 8px; /* Position the logo from the left */
+}
+
+.signup-logo {
+  width: 100px; /* Adjust the width as needed for your layout */
+  height: auto; /* Maintain the aspect ratio */
 }
 
 /* Form styling for responsiveness and centering */
 .signup-form {
-  width: 100%;
-  max-width: 400px;
+  width: 250px;
+  max-width: 400%;
   background-color: #fff;
   border-radius: 10px;
-  padding: 20px;
+  padding: 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 80px; /* Add margin to avoid overlap with the logo */
 }
 
 /* Uniform styling for inputs and dropdown */
 .signup-input {
-  margin-bottom: 15px;
-  padding: 12px;
-  width: 100%;
+  width: 250px;
+  padding: 10px 12px; /* Adjusted padding for balance */
+  padding-left: 40px; /* This ensures the space for the icon */
+  margin-bottom: 13px;
   font-size: 16px;
   border-radius: 5px;
   border: 1px solid #6BA6A6;
   background-color: #fffcfc;
-  box-sizing: border-box; /* Ensures consistent padding and width */
-  position: relative; /* Added to position the icon */
 }
 
 /* Styling for the password container and input field */
@@ -53,14 +57,15 @@ body, html {
 
 /* Button styling */
 .signup-btn {
-  width: 40%;
   background-color: #6BA6A6;
   color: white;
-  cursor: pointer;
-  padding: 12px;
+  padding: 10px;
+  margin-left: 75px;
   border: none;
   border-radius: 8px;
-  font-size: 17px;
+  cursor: pointer;
+  width: 50%;
+  font-size: 16px;
 }
 
 .signup-btn:hover {
@@ -71,7 +76,7 @@ body, html {
   font-size: 30px;
   margin-bottom: 10px;
   color: #000000;
-  font-weight: normal;
+  
 }
 
 .signup-subtitle {

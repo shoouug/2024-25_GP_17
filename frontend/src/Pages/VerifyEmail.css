@@ -1,52 +1,66 @@
-
-.logo-container {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-}
-
-.website-logo {
-  width: 100px; /* Adjust the size as needed */
-  height: auto;
-}
-
-.message-box {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  max-width: 500px;
-  width: 100%;
-}
-
-.message-box h3 {
+/* Overlay styling for pop-up effect */
+.verify-email-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
   
-  font-size: 22px;
-  color: #5a9393;
-  margin-bottom: 10px;
-}
-
-.message-box p {
-  font-size: 18px;
-  color: #292727;
-  margin: 15px 0;
-  font-weight: normal;
-}
-
-.next-button {
-  background-color: #6ba6a6;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 17px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 30%;
-}
-
-.next-button:hover {
-  background-color: #5a9393;
-}
-
+  /* Pop-up message box styling */
+  .verify-email-popup {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+  }
+  
+  /* Logo styling */
+  .logo-container {
+    margin-bottom: 20px;
+  }
+  
+  .website-logo {
+    width: 80px; /* Adjust the size as needed */
+    height: auto;
+  }
+  
+  /* Message box styling */
+  .message-box h3 {
+    font-size: 22px;
+    color: #5a9393;
+    margin-bottom: 15px;
+  }
+  
+  .message-box p {
+    font-size: 18px;
+    color: #292727;
+    margin: 15px 0;
+    font-weight: normal;
+  }
+  
+  /* Button styling */
+  .next-button {
+    background-color: #6ba6a6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 17px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 50%;
+  }
+  
+  .next-button:hover {
+    background-color: #5a9393;
+  }
+  
