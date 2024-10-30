@@ -10,7 +10,6 @@ const EditProfile = ({ userData, onClose }) => {
     email: '',
     affiliation: '',
     country: '',
-    password: '',
   });
   const [selectedTopics, setSelectedTopics] = useState([]);
   const [allTopics, setAllTopics] = useState([]);
@@ -24,7 +23,6 @@ const EditProfile = ({ userData, onClose }) => {
       email: userData.email,
       affiliation: userData.affiliation,
       country: userData.country,
-      password: '',
     });
     setSelectedTopics(userData.selectedTopics || []);
     fetchAllTopics();
@@ -124,13 +122,6 @@ const EditProfile = ({ userData, onClose }) => {
           value={formData.country}
           onChange={handleInputChange}
           placeholder="Country"
-        />
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleInputChange}
-          placeholder="New Password"
         />
 
         {/* Preference Topics Section */}

@@ -26,28 +26,33 @@ const HomePage = () => {
   const [isProfileEditing, setIsProfileEditing] = useState(false); // State for editing profile
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchJournalistData = async () => {
-      try {
-        const user = auth.currentUser;
-        if (user) {
-          const docRef = doc(db, 'Journalists', user.uid);
-          const docSnap = await getDoc(docRef);
-
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            setJournalistName(`${data.firstName} ${data.lastName}`);
-            setSelectedTopics(data.selectedTopics || []);
-            setUserData(data); // Set the user data here
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
+  const fetchUserData = async () => {
+    const user = auth.currentUser;
+    if (user) {
+      const docRef = doc(db, 'Journalists', user.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setJournalistName(`${data.firstName} ${data.lastName}`);
+        setSelectedTopics(data.selectedTopics || []);
+        setUserData(data);
       }
-    };
+    } else {
+      // Redirect to login if no user is found
+      navigate('/');
+    }
+  };
 
-    fetchJournalistData();
-  }, []);
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        fetchUserData(); // Fetch user data if logged in
+      } else {
+        navigate('/'); // Redirect to login if not authenticated
+      }
+    });
+    return () => unsubscribe(); // Cleanup subscription
+  }, [navigate]);
 
   const handleNewChat = () => {
     setSelectedChat(null);
@@ -119,6 +124,11 @@ const HomePage = () => {
     setIsProfileEditing(true); // Open the EditProfile component
     setShowTooltip(false); // Hide the tooltip when editing
   };
+
+  // Function to refresh the page
+const refreshPage = () => {
+  window.location.reload(); // Reloads the current page
+};
 
   return (
     <div className="homepage-containerH">
@@ -253,11 +263,14 @@ const HomePage = () => {
 
         {/* Edit Profile Modal */}
         {isProfileEditing && (
-          <EditProfile 
-            userData={userData} 
-            onClose={() => setIsProfileEditing(false)} // Close the modal
-          />
-        )}
+           <EditProfile 
+           userData={userData} 
+           onClose={() => {
+             setIsProfileEditing(false); // Close the modal
+             refreshPage(); // Reload the page to show updated data
+           }} 
+         />
+       )}
       </div>
     </div>
   );
