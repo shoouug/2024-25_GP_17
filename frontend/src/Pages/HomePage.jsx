@@ -8,6 +8,8 @@ import exitIcon from '../images/exit.png';
 import logo from '../images/AIPress.png';
 import ProfileIcon from '../images/ProfileIcon.png';
 import EditProfile from './EditProfile'; // Importing the EditProfile component
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 const HomePage = () => {
   const [chats, setChats] = useState([]);
@@ -15,11 +17,14 @@ const HomePage = () => {
   const [selectedTopics, setSelectedTopics] = useState([]);
   const [topic, setTopic] = useState('');
   const [keyword, setKeyword] = useState('');
-  const navigate = useNavigate();
-
+  const [selectedChat, setSelectedChat] = useState(null);
+  const [articleContent, setArticleContent] = useState('');
+  const [isArticleGenerated, setIsArticleGenerated] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [userData, setUserData] = useState(null);
   const [showTooltip, setShowTooltip] = useState(false); // Tooltip state
-  const [isEditing, setIsEditing] = useState(false); // State for editing profile
+  const [isProfileEditing, setIsProfileEditing] = useState(false); // State for editing profile
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchJournalistData = async () => {
@@ -34,11 +39,7 @@ const HomePage = () => {
             setJournalistName(`${data.firstName} ${data.lastName}`);
             setSelectedTopics(data.selectedTopics || []);
             setUserData(data); // Set the user data here
-          } else {
-            console.log("No such document found!");
           }
-        } else {
-          console.log("User is not logged in.");
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -49,12 +50,61 @@ const HomePage = () => {
   }, []);
 
   const handleNewChat = () => {
-    const newChat = `Chat ${chats.length + 1}`;
+    setSelectedChat(null);
+    setArticleContent('');
+    setIsArticleGenerated(false);
+    setTopic('');
+    setKeyword('');
+  };
+
+  const handleGenerateArticle = () => {
+    if (!topic) return;
+
+    const newChat = {
+      title: topic,
+      content: `This is an article about ${topic}. Focus keyword: ${keyword}`,
+      timestamp: new Date().toLocaleTimeString(),
+    };
+
     setChats([...chats, newChat]);
+    setSelectedChat(newChat);
+    setArticleContent(newChat.content);
+    setIsArticleGenerated(true);
+  };
+
+  const handleChatClick = (chat) => {
+    setSelectedChat(chat);
+    setArticleContent(chat.content);
+    setIsArticleGenerated(true);
   };
 
   const handleLogout = () => {
     navigate('/');
+  };
+
+  const handleArticleChange = (e) => {
+    setArticleContent(e.target.value);
+  };
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleSave = () => {
+    if (selectedChat) {
+      const updatedChats = chats.map(chat =>
+        chat === selectedChat ? { ...chat, content: articleContent } : chat
+      );
+      setChats(updatedChats);
+      setIsEditing(false);
+    }
+  };
+
+  const handleExport = () => {
+    const doc = new jsPDF();
+    doc.text(selectedChat.title, 10, 10);
+    doc.text(articleContent, 10, 20);
+    doc.save('article.pdf');
   };
 
   const handleMouseEnter = () => {
@@ -66,17 +116,23 @@ const HomePage = () => {
   };
 
   const handleEditProfile = () => {
-    setIsEditing(true); // Open the EditProfile component
+    setIsProfileEditing(true); // Open the EditProfile component
+    setShowTooltip(false); // Hide the tooltip when editing
   };
 
   return (
     <div className="homepage-containerH">
-      {/* Left Sidebar */}
       <div className="sidebarH">
         <button className="new-chat-btnH" onClick={handleNewChat}>+ New chat</button>
         <div className="chatsH">
           {chats.map((chat, index) => (
-            <button key={index} className="chat-btnH">{chat}</button>
+            <button
+              key={index}
+              className="chat-btnH"
+              onClick={() => handleChatClick(chat)}
+            >
+              {chat.title}
+            </button>
           ))}
         </div>
         <div className="sidebar-footerH">
@@ -89,9 +145,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="main-contentH">
-        {/* Tooltip */}
         <div 
           className="profile-linkH" 
           onMouseEnter={handleMouseEnter} 
@@ -117,7 +171,7 @@ const HomePage = () => {
             </div>
           )}
         </div>
-        
+
         <div className="logo-sectionH">
           <img src={logo} alt="Logo" className="logoH" />
           <div className="welcome-sectionH">
@@ -126,42 +180,82 @@ const HomePage = () => {
           </div>
         </div>
 
-        <div className="topics-sectionH">
-          <h2>Start writing what’s happening now</h2>
-          <div className="topics-gridH">
-            {selectedTopics.map((topic, index) => (
-              <div key={index} className="topic-cardH">
-                {topic}
+        {!isArticleGenerated && (
+          <>
+            <div className="topics-sectionH">
+              <h2>Start writing what’s happening now</h2>
+              <div className="topics-gridH">
+                {selectedTopics.map((topic, index) => (
+                  <div key={index} className="topic-cardH">
+                    {topic}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
 
-        {/* Custom Topic Section */}
-        <p className="topic-promptH">If you have a topic in your mind, start here!</p>
-        <div className="custom-topic-sectionH">
-          <div className="custom-topic-inputsH">
-            <input
-              type="text"
-              placeholder="Topic"
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Focus Keyword"
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-            />
-          </div>
-          <button className="generate-btnH">Generate Article</button>
-        </div>
+            <p className="topic-promptH">If you have a topic in your mind, start here!</p>
+            <div className="custom-topic-sectionH">
+              <div className="custom-topic-inputsH">
+                <input
+                  type="text"
+                  placeholder="Topic"
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
+                />
+                <input
+                  type="text"
+                  placeholder="Focus Keyword"
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
+                />
+              </div>
+              <button className="generate-btnH" onClick={handleGenerateArticle}>
+                Generate Article
+              </button>
+            </div>
+          </>
+        )}
+
+        {isArticleGenerated && (
+          <>
+            <div className="generated-articleH">
+              <h3 className="article-titleH">{selectedChat.title}</h3>
+              <p className="article-timestampH">{selectedChat.timestamp}</p>
+              <textarea
+                className="article-contentH"
+                value={articleContent}
+                onChange={handleArticleChange}
+                readOnly={!isEditing}
+              />
+              <div className="article-actionsH">
+                {isEditing ? (
+                  <button className="save-btnH" onClick={handleSave}>Save</button>
+                ) : (
+                  <button className="edit-btnH" onClick={handleEdit}>Edit</button>
+                )}
+                <button className="export-btnH" onClick={handleExport}>
+                  Export
+                </button>
+              </div>
+            </div>
+
+            <div className="field-topic-change-container">
+              <input
+                type="text"
+                className="field-topic-change"
+                placeholder="Focus Keyword"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+              />
+            </div>
+          </>
+        )}
 
         {/* Edit Profile Modal */}
-        {isEditing && (
+        {isProfileEditing && (
           <EditProfile 
             userData={userData} 
-            onClose={() => setIsEditing(false)} // Close the modal
+            onClose={() => setIsProfileEditing(false)} // Close the modal
           />
         )}
       </div>

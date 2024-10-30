@@ -4,6 +4,13 @@
     height: 100vh;
     width: 100vw;
     font-family: 'Inter', sans-serif;
+    flex-direction: row; /* Ensure flex layout on larger screens */
+}
+
+@media (max-width: 768px) {
+    .homepage-containerH {
+        flex-direction: column; /* Stack sidebar and content on smaller screens */
+    }
 }
 
 /* Sidebar Styles */
@@ -17,6 +24,15 @@
     border-right: 1px solid #ccc;
 }
 
+@media (max-width: 768px) {
+    .sidebarH {
+        width: 100%; /* Make sidebar full width on smaller screens */
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 10px; /* Reduce padding */
+    }
+}
+
 .new-chat-btnH {
     background-color: #5B95A1;
     color: white;
@@ -26,6 +42,13 @@
     border: none;
     border-radius: 4px;
     margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .new-chat-btnH {
+        font-size: 14px; /* Reduce font size for smaller screens */
+        padding: 8px; /* Adjust padding */
+    }
 }
 
 .chatsH {
@@ -76,6 +99,12 @@
     flex-direction: column;
 }
 
+@media (max-width: 768px) {
+    .main-contentH {
+        padding: 20px; /* Reduce padding on smaller screens */
+    }
+}
+
 /* Logo and Welcome Section */
 .logo-sectionH {
     display: flex;
@@ -84,56 +113,54 @@
 }
 
 .logoH {
-    width: 100px; /* Set a fixed width */
-    height: auto; /* Maintain aspect ratio */
-    max-width: 100px; /* Set a maximum width */
-    max-height: 100px; /* Set a maximum height */
-    margin-right: 20px; /* Space between logo and text */
-    object-fit: contain; /* Ensures the logo fits inside the defined area */
+    width: 100px;
+    height: auto;
+    max-width: 100px;
+    max-height: 100px;
+    margin-right: 20px;
+    object-fit: contain;
     margin-bottom: 160px;
     margin-top: -80px;
 }
 
 .ProfileIconH{
-    width: 50px; /* Set a fixed width */
-    height: auto; /* Maintain aspect ratio */
-    margin-left: 1050px; /* Space between logo and text */
-    object-fit: contain; /* Ensures the logo fits inside the defined area */
+    width: 50px;
+    height: auto;
+    margin-left: 1050px;
+    object-fit: contain;
 }
 
 /* Tooltip styling */
 .profile-tooltipH {
     position: fixed;
-    right:  0;
+    right: 0;
     background-color: #ffffff;
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 17px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     z-index: 100;
-    width: 260px; /* Adjusted width */
-    text-align: left; /* Left-align text */
+    width: 260px;
+    text-align: left;
     display: flex;
     flex-direction: column;
-    gap: 8px; /* Add spacing between elements */
-  }
+    gap: 8px;
+}
   
-  /* Styling for Tooltip Text */
-  .profile-tooltipH h2 {
+.profile-tooltipH h2 {
     font-size: 18px;
     color: #5B95A1;
     margin: 0;
     text-align: center;
-  }
-  
-  .profile-tooltipH p {
+}
+
+.profile-tooltipH p {
     font-size: 14px;
     color: #333;
     margin: 5px 0;
-  }
+}
   
-  /* Edit Profile Button Styling */
-  .edit-profile-btnH {
+.edit-profile-btnH {
     background-color: #5B95A1;
     color: white;
     border: none;
@@ -145,64 +172,67 @@
     width: 100%;
     margin-top: 10px;
     transition: background-color 0.3s;
-  }
-  
-  .edit-profile-btnH:hover {
-    background-color: #4A7C87;
-  }
-  
-  /* Responsive Tooltip Styling */
-  @media (max-width: 768px) {
-    .profile-tooltipH {
-      width: 200px; /* Reduce width on smaller screens */
-      padding: 12px; /* Adjust padding for smaller devices */
-    }
-  
-    .profile-tooltipH h2 {
-      font-size: 16px; /* Reduce font size on smaller screens */
-    }
-  
-    .profile-tooltipH p {
-      font-size: 13px; /* Adjust font size for smaller screens */
-    }
-  
-    .edit-profile-btnH {
-      font-size: 13px; /* Reduce font size of the button text */
-      padding: 7px 14px; /* Adjust padding */
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .profile-tooltipH {
-      width: 180px; /* Further reduce width */
-      left: calc(100% + 5px); /* Keep some margin on the right side */
-      padding: 10px;
-    }
-  
-    
-    .profile-tooltipH h2 {
-      font-size: 15px;
-    }
-  
-    .profile-tooltipH p {
-      font-size: 12px;
-    }
-  
-    .edit-profile-btnH {
-      font-size: 12px;
-      padding: 6px 12px;
-    }
-  }
-  
-/* Welcome Section Styling */
-.welcome-sectionH {
-    text-align: left; /* Align the text to the left */
-    margin-top: 30px; /* Adjust the margin-top as needed */
-    margin-left: -135px; /* Remove any left margin */
-    padding-left: 20px; /* Add padding for a little space from the edge */
 }
 
-/* Welcome Text Styling */
+.edit-profile-btnH:hover {
+    background-color: #4A7C87;
+}
+  
+/* Responsive Tooltip Styling */
+@media (max-width: 768px) {
+    .profile-tooltipH {
+        width: 200px;
+        padding: 12px;
+    }
+
+    .profile-tooltipH h2 {
+        font-size: 16px;
+    }
+
+    .profile-tooltipH p {
+        font-size: 13px;
+    }
+
+    .edit-profile-btnH {
+        font-size: 13px;
+        padding: 7px 14px;
+    }
+}
+  
+@media (max-width: 480px) {
+    .profile-tooltipH {
+        width: 180px;
+        padding: 10px;
+    }
+
+    .profile-tooltipH h2 {
+        font-size: 15px;
+    }
+
+    .profile-tooltipH p {
+        font-size: 12px;
+    }
+
+    .edit-profile-btnH {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+}
+
+/* Welcome Section Styling */
+.welcome-sectionH {
+    text-align: left;
+    margin-top: -130px;
+    margin-left: -20px;
+    padding-left: 20px;
+}
+
+@media (max-width: 768px) {
+    .welcome-sectionH {
+        text-align: center; /* Center-align text on smaller screens */
+    }
+}
+
 .welcome-headingH {
     font-size: 28px;
     color: #5B95A1;
@@ -218,7 +248,6 @@
     max-width: 100%;
 }
 
-/* Responsive Styling for Welcome Text */
 @media (max-width: 768px) {
     .welcome-headingH {
         font-size: 24px;
@@ -241,28 +270,44 @@
     margin-bottom: 20px;
 }
 
-/* Remove gap between topic cards */
+/* Topics Grid */
 .topics-gridH {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 columns */
-    grid-template-rows: repeat(2, auto);  /* 2 rows */
-    gap: 1 2px; 
-    justify-items: center; /* Centers each card in the grid */
-    grid-column-gap:0%; 
+    grid-template-columns: repeat(3, 1fr); /* 3 columns by default */
+    grid-template-rows: repeat(2, auto);
+    gap: 12px; 
+    justify-items: center;
+}
+
+@media (max-width: 768px) {
+    .topics-gridH {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .topics-gridH {
+        grid-template-columns: 1fr; /* Single column on extra small screens */
+    }
 }
 
 /* Topic Card Styling */
 .topic-cardH {
-    background-color: #ffffff; /* Background color for the topic card */
-    border: 1px solid #ccc; /* Border color */
+    background-color: #ffffff;
+    border: 1px solid #ccc;
     padding: 8px;
     text-align: center;
     cursor: pointer;
     border-radius: 6px;
     font-size: 16px;
-    color: #5B95A1; /* Updated font color */
-    width: 50%; /* Make the topic card fill the grid cell */
-    box-sizing: border-box; /* Ensure padding and border are included in the element's total width/height */
+    color: #5B95A1;
+    width: 100%; /* Ensure card fills the grid cell */
+}
+
+@media (max-width: 768px) {
+    .topic-cardH {
+        font-size: 14px; /* Adjust font size on smaller screens */
+    }
 }
 
 /* Custom Topic Section */
@@ -271,50 +316,170 @@
     flex-direction: column;
     align-items: center;
     gap: 14px;
-    padding-top: 190px; /* Move the entire section further down */
+    padding-top: 100px;
 }
 
-/* Styling for the sentence above the input fields */
-.topic-promptH {
-    font-size: 18px; /* Adjust font size */
-    color: #5B95A1;  /* Same color as the other elements */
-    margin-bottom: -160px; /* Space between the sentence and the input fields */
-    text-align: center; 
-    margin-top: 200px; /* Center the text */
-  }
+@media (max-width: 768px) {
+    .custom-topic-sectionH {
+        padding-top: 50px;
+    }
+}
 
 .custom-topic-sectionH input {
     padding: 10px;
-    border: 2px solid #5B95A1; /* Border color for the text fields */
+    border: 2px solid #5B95A1;
     border-radius: 4px;
-    width: 99px; /* Adjust width to control the size */
-    height: 15px; /* Set height to make the fields rectangular */
+    width: 100%; /* Full width on larger screens */
+}
+
+@media (max-width: 768px) {
+    .custom-topic-sectionH input {
+        width: 90%; /* Reduce width for tablets */
+    }
+}
+
+@media (max-width: 480px) {
+    .custom-topic-sectionH input {
+        width: 80%; /* Further reduce width for mobile screens */
+    }
+}
+
+.topic-promptH {
+    font-size: 18px;
+    color: #5B95A1;
+    margin-bottom: -00px;
+    text-align: center;
+    margin-top: 230px;
 }
 
 .custom-topic-inputsH {
     display: flex;
     justify-content: center;
     gap: 20px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
 }
 
-/* Input Fields */
+@media (max-width: 768px) {
+    .custom-topic-inputsH {
+        gap: 15px; /* Adjust gap for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .custom-topic-inputsH {
+        gap: 10px; /* Adjust gap for mobile screens */
+        flex-direction: column; /* Stack inputs vertically on small screens */
+    }
+}
+
+
 .custom-topic-inputsH input {
-    padding: 10px;
-    border: 1px solid #5B95A1; /* Updated border color */
-    border-radius: 4px;
-    width: 400px;
+    width: 250px; /* Keep the same width unless overridden by the parent class */
 }
 
-/* Generate Button */
+@media (max-width: 480px) {
+    .custom-topic-inputsH input {
+        width: 100%; /* Full width for mobile */
+    }
+}
+
 .generate-btnH {
     background-color: #5B95A1;
     color: white;
+    border: none;
     padding: 10px 20px;
-    font-size: 14px;
     cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.generate-btnH:hover {
+    background-color: #4A7C87;
+}
+
+.custom-topic-sectionH button {
+    background-color: #5B95A1;
+    color: white;
+    padding: 10px;
     border: none;
     border-radius: 4px;
-    margin-top: 10px;
-    width: 150px;
-    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.generated-articleH {
+    background-color: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  
+  .article-titleH {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .article-timestampH {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 10px;
+  }
+  
+  .article-contentH {
+    width: 100%;
+    height: 200px;
+    border: none;
+    resize: none;
+    font-size: 14px;
+    color: #333;
+    background-color: transparent;
+    outline: none;
+    margin-bottom: 10px;
+  }
+  
+  .article-actionsH {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .edit-btnH, .export-btnH, .save-btnH {
+    background-color: #5B95A1;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .edit-btnH:hover, .export-btnH:hover, .save-btnH:hover {
+    background-color: #4A7C87;
+  }
+
+  .generated-articleH input {
+    width: 250px;
+    padding-top: 30px; /* Keep the same width unless overridden by the parent class */
+}
+
+@media (max-width: 480px) {
+    .generated-articleH input {
+        width: 100%; /* Full width for mobile */
+    }
+}
+
+.field-topic-change-container {
+    margin-top: 20px; /* Adjust the space as needed */
+}
+
+.field-topic-change {
+    width: 770px;
+}
+
+@media (max-width: 480px) {
+    .field-topic-change {
+        width: 100%;
+    }
 }
