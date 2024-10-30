@@ -182,11 +182,11 @@ const SignUp = () => {
 
         {showPasswordRules && (
           <div className="password-requirements">
-            <p className={passwordValidations.length ? 'valid' : 'invalid'}>✔️ At least 8 characters</p>
-            <p className={passwordValidations.lower ? 'valid' : 'invalid'}>✔️ At least one lowercase letter</p>
-            <p className={passwordValidations.upper ? 'valid' : 'invalid'}>✔️ At least one uppercase letter</p>
-            <p className={passwordValidations.number ? 'valid' : 'invalid'}>✔️ At least one number</p>
-            <p className={passwordValidations.special ? 'valid' : 'invalid'}>✔️ At least one special character</p>
+            <p className={passwordValidations.length ? 'valid' : 'invalid'}>✔ At least 8 characters</p>
+            <p className={passwordValidations.lower ? 'valid' : 'invalid'}>✔ At least one lowercase letter</p>
+            <p className={passwordValidations.upper ? 'valid' : 'invalid'}>✔ At least one uppercase letter</p>
+            <p className={passwordValidations.number ? 'valid' : 'invalid'}>✔ At least one number</p>
+            <p className={passwordValidations.special ? 'valid' : 'invalid'}>✔ At least one special character</p>
           </div>
         )}
 

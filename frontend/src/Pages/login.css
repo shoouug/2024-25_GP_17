@@ -12,7 +12,7 @@ body, html {
 
 
 .logoIn {
-  width: 250px !important;
+  width: 200px !important;
   height: auto;
   margin-bottom: 20px;
   position: relative;
@@ -66,7 +66,7 @@ body, html {
   padding-left: 40px; /* This ensures the space for the icon */
   font-size: 16px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #6BA6A6;
 }
 
 .input-container i {

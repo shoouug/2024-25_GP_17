@@ -2,9 +2,9 @@
 
 /* Logo styling */
 .logo-container {
-  position: absolute;
-  top: 20px; /* Position the logo from the top */
-  left: 8px; /* Position the logo from the left */
+ 
+  top: 20px;
+ left: 20px;
 }
 
 .signup-logo {
@@ -60,7 +60,7 @@
   background-color: #6BA6A6;
   color: white;
   padding: 10px;
-  margin-left: 75px;
+  
   border: none;
   border-radius: 8px;
   cursor: pointer;
