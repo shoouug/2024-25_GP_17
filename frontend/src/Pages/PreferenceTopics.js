@@ -48,11 +48,12 @@ const PreferenceTopics = () => {
         const userDocRef = doc(db, 'Journalists', user.uid);
         await updateDoc(userDocRef, {
           selectedTopics: selectedTopics,
-          ...(article && { previousArticle: arrayUnion(article) }) {/* so it would store as an array*/}
+          ...(article && { previousArticles: arrayUnion(article) }) // so it would store as an array
         });
+        
 
-        {/*Lina code is "selectedTopics: selectedTopics,
-           previousArticle: article || 'No article provided'". */}
+        /*Lina code is "selectedTopics: selectedTopics,
+          previousArticles: article || 'No article provided'". */
 
         console.log('Preferences saved successfully.');
         navigate('/HomePage');

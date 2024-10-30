@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { auth, db } from '../firebase';
+import { updateEmail, sendEmailVerification } from 'firebase/auth';
 import './EditProfile.css';
 
 const EditProfile = ({ userData, onClose }) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
-    email: '',
+    email: "",
     affiliation: '',
     country: '',
   });
+
+  const [emailError, setEmailError] = useState('');
+  const [isEmailValid, setIsEmailValid] = useState(true);
+
   const [selectedTopics, setSelectedTopics] = useState([]);
   const [allTopics, setAllTopics] = useState([]);
   const [article, setArticle] = useState('');
+
   const [error, setError] = useState('');
   const [countryError, setCountryError] = useState('');
 
@@ -45,6 +51,7 @@ const EditProfile = ({ userData, onClose }) => {
       affiliation: userData.affiliation,
       country: userData.country || '',
     });
+
     setSelectedTopics(userData.selectedTopics || []);
     fetchAllTopics();
   }, [userData]);
@@ -60,9 +67,21 @@ const EditProfile = ({ userData, onClose }) => {
     ]);
   };
 
+   // Email validation function
+   const validateEmail = (email) => {
+    const isValid = email.includes('@') && email.includes('.');
+    setIsEmailValid(isValid);
+    setEmailError(isValid ? '' : 'Please enter a valid email address.');
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    
+    if (name === 'email') {
+      validateEmail(value);
+    }
+
     if (name === 'country' && !value) {
       setCountryError('Please select your country.');
     } else {
@@ -84,8 +103,16 @@ const EditProfile = ({ userData, onClose }) => {
 
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
+  
+    // Check if the country is selected
     if (!formData.country) {
       setCountryError('Please select your country.');
+      return;
+    }
+  
+    // Check for email validity before submitting
+    if (!isEmailValid) {
+      setError('Please enter a valid email address.');
       return;
     }
   
@@ -114,7 +141,13 @@ const EditProfile = ({ userData, onClose }) => {
           });
           profileUpdated = true;
         }
-  
+
+        if (formData.email !== userData.email) {
+          await updateEmail(user, formData.email);
+         // await sendEmailVerification(user);
+         // alert('Verification email sent to the updated email address.');
+        }
+
         // Add article if there's content
         if (article.trim()) {
           await updateDoc(docRef, {
@@ -136,10 +169,15 @@ const EditProfile = ({ userData, onClose }) => {
         // Close the edit profile modal
         onClose();
       }
-    } catch (error) {
+    } 
+    catch (error) {
+      if (error.code === 'auth/email-already-in-use') {
+        setError('This email is already associated with an account. Please use another email.');
+      } else {
+        setError('Failed to update profile. Please try again.');
+      }
       console.error('Error updating profile:', error);
-      setError('Failed to update profile. Please try again.');
-    }
+    }    
   };  
 
   return (
@@ -147,6 +185,7 @@ const EditProfile = ({ userData, onClose }) => {
       <button className="close-btnW" onClick={onClose}>X</button>
       <form className='formW' onSubmit={handleProfileUpdate}>
         <h2>Edit Profile</h2>
+
         <input
           type="text"
           name="firstName"
@@ -154,6 +193,7 @@ const EditProfile = ({ userData, onClose }) => {
           onChange={handleInputChange}
           placeholder="First Name"
         />
+
         <input
           type="text"
           name="lastName"
@@ -161,6 +201,7 @@ const EditProfile = ({ userData, onClose }) => {
           onChange={handleInputChange}
           placeholder="Last Name"
         />
+
         <input
           type="email"
           name="email"
@@ -168,6 +209,8 @@ const EditProfile = ({ userData, onClose }) => {
           onChange={handleInputChange}
           placeholder="Email"
         />
+        {emailError && <p className="error-messageW">{emailError}</p>}
+
         <input
           type="text"
           name="affiliation"
@@ -191,33 +234,34 @@ const EditProfile = ({ userData, onClose }) => {
         </select>
         {countryError && <p className="error-messageW">{countryError}</p>}
 
-        {/* Preference Topics Section */}
-        <section className="preference-topicsW">
-          <h2>Choose Your Preference Topics</h2>
-          {error && <p className="error-messageW">{error}</p>}
-          <div className="topics-gridW">
-            {allTopics.map((topic) => (
-              <div
-                key={topic}
-                className={`topic-itemW ${selectedTopics.includes(topic) ? 'selectedW' : ''}`}
-                onClick={() => handleTopicChange(topic)}
-              >
-                {topic}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Article Writing Section */}
-        <section className="article-sectionW">
-          <h3>Write Your Article</h3>
-          <textarea
-            placeholder="Paste or write your article here..."
-            value={article}
-            onChange={handleArticleChange}
-            rows="6"
-          />
-        </section>
+                 {/* Preference Topics Section */}
+          <section className="preference-topicsW">
+            <h2>Choose Your Preference Topics</h2>
+            {error && <p className="error-messageW">{error}</p>}
+          
+            <div className="topics-gridW">
+              {allTopics.map((topic) => (
+                <div
+                  key={topic}
+                  className={`topic-itemW ${selectedTopics.includes(topic) ? 'selectedW' : ''}`}
+                  onClick={() => handleTopicChange(topic)}
+                >
+                  {topic}
+                </div>
+              ))}
+            </div>
+          </section>
+          
+          {/* Article Writing Section */}
+          <section className="article-sectionW">
+            <h3>Write Your Article</h3>
+            <textarea
+              placeholder="Paste or write your article here..."
+              value={article}
+              onChange={handleArticleChange}
+              rows="4" /* Adjusted rows for a smaller initial height */
+            />
+          </section>
         <button className="submit-btnW" type="submit">Update Profile</button>
       </form>
     </div>

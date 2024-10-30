@@ -44,7 +44,7 @@
 
 /* Preference Topics Section Styling */
 .preference-topicsW {
-  margin-bottom: 30px;
+  margin-bottom: 20px; /* Reduced from 30px to 20px */
 }
 
 .preference-topicsW h2 {
@@ -89,7 +89,7 @@
 
 /* Article Section Styling */
 .article-sectionW {
-  margin-top: 20px;
+  margin-top: 10px; /* Reduced from 20px to 10px */
 }
 
 .article-sectionW h3 {
@@ -101,7 +101,7 @@
 
 textarea {
   width: 100%;
-  padding: 15px;
+  padding: 10px; /* Reduced padding for a tighter look */
   border-radius: 5px;
   border: 1px solid #ccc;
   font-size: 14px;
@@ -113,7 +113,7 @@ textarea {
 .close-btnW {
   position: absolute;
   top: 10px;
-  left:  15px;
+  left: 15px;
   background: transparent;
   border: none;
   font-size: 30px; /* Increased size for larger "X" */
@@ -123,10 +123,10 @@ textarea {
 }
 
 .close-btnW:hover {
-  color: #ff0000; /* Change color on hover */
+  color:  #6ba6a6; /* Change color on hover */
 }
 
-  /* Submit Button Styling */
+/* Submit Button Styling */
 .submit-btnW {
   background-color: #6ba6a6;
   color: white;
