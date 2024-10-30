@@ -24,18 +24,29 @@
   align-items: center;
   margin-top: 80px; /* Add margin to avoid overlap with the logo */
 }
-
 /* Uniform styling for inputs and dropdown */
-.signup-input {
-  width: 250px;
+.signup-input,
+.country-input {
+  width: 300px;
   padding: 10px 12px; /* Adjusted padding for balance */
-  padding-left: 40px; /* This ensures the space for the icon */
+  padding-left: 40px; /* Space for the icon if needed */
   margin-bottom: 13px;
   font-size: 16px;
   border-radius: 5px;
   border: 1px solid #6BA6A6;
   background-color: #fffcfc;
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
 }
+
+/* Dropdown specific styling */
+.country-input {
+  appearance: none; /* Remove default dropdown arrow */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="%236BA6A6" d="M4.293 7.293l3.293 3.293 3.293-3.293 1.414 1.414-4.707 4.707-4.707-4.707z"/></svg>'); /* Custom arrow */
+  background-repeat: no-repeat;
+  background-position: right 12px center; /* Position of the arrow */
+  background-size: 1.5em; /* Size of the arrow */
+}
+
 
 /* Styling for the password container and input field */
 .password-input-container {

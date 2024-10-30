@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { auth, db } from '../firebase';
-import './EditProfile.css'; // Add custom styling
+import './EditProfile.css';
 
 const EditProfile = ({ userData, onClose }) => {
   const [formData, setFormData] = useState({
@@ -15,6 +15,27 @@ const EditProfile = ({ userData, onClose }) => {
   const [allTopics, setAllTopics] = useState([]);
   const [article, setArticle] = useState('');
   const [error, setError] = useState('');
+  const [countryError, setCountryError] = useState('');
+
+
+  const countries = [
+    "Saudi Arabia", "United States", "Canada", "United Kingdom", "Australia", 
+    "Germany", "France", "United Arab Emirates", "India", "China", 
+    "Japan", "South Korea", "Brazil", "Mexico", "Italy", "Spain", 
+    "Russia", "Turkey", "South Africa", "Argentina", "Nigeria", 
+    "Egypt", "Netherlands", "Sweden", "Switzerland", "Belgium", 
+    "Denmark", "Norway", "Finland", "Greece", "Portugal", 
+    "Poland", "Indonesia", "Malaysia", "Thailand", "Vietnam", 
+    "Philippines", "New Zealand", "Pakistan", "Bangladesh", "Chile", 
+    "Colombia", "Venezuela", "Peru", "Austria", "Israel", 
+    "Singapore", "Ireland", "Czech Republic", "Hungary", "Romania", 
+    "Ukraine", "Kenya", "Ethiopia", "Iceland", "Norway", 
+    "Cuba", "Ghana", "Qatar", "Kuwait", "Oman", 
+    "Lebanon", "Jordan", "Morocco", "Algeria", "Tunisia", 
+    "Luxembourg", "Malta", "Sri Lanka", "Nepal", "Cambodia", 
+    "Laos", "Bolivia", "Paraguay", "Uruguay", "Trinidad and Tobago", 
+    "Barbados"
+  ];
 
   useEffect(() => {
     setFormData({
@@ -22,7 +43,7 @@ const EditProfile = ({ userData, onClose }) => {
       lastName: userData.lastName,
       email: userData.email,
       affiliation: userData.affiliation,
-      country: userData.country,
+      country: userData.country || '',
     });
     setSelectedTopics(userData.selectedTopics || []);
     fetchAllTopics();
@@ -31,15 +52,22 @@ const EditProfile = ({ userData, onClose }) => {
   const fetchAllTopics = () => {
     // Define or fetch topics
     setAllTopics([
-      'Technology', 'Finance', 'Health', 'Art', 'Science', 'Entertainment', 'Economy', 'Crime', 'Sport', 'Beauty',
-      'Politics', 'Education', 'Environment', 'Travel', 'Food', 'Lifestyle', 'History', 'Culture', 'Business', 'Fashion',
-      'Automobile', 'Gaming', 'Movies', 'Music', 'Real Estate', 'Personal Finance', 'Pets', 'Parenting', 'Space', 'Weather'
+      'Technology', 'Finance', 'Health', 'Art', 'Science', 'Entertainment', 'Economy', 
+      'Crime', 'Sport', 'Beauty', 'Politics', 'Education', 'Environment', 
+      'Travel', 'Food', 'Lifestyle', 'History', 'Culture', 'Business', 'Fashion', 
+      'Automobile', 'Gaming', 'Movies', 'Music', 'Real Estate', 
+      'Personal Finance', 'Pets', 'Parenting', 'Space', 'Weather'
     ]);
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    if (name === 'country' && !value) {
+      setCountryError('Please select your country.');
+    } else {
+      setCountryError('');
+    }
   };
 
   const handleTopicChange = (topic) => {
@@ -56,18 +84,55 @@ const EditProfile = ({ userData, onClose }) => {
 
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
+    if (!formData.country) {
+      setCountryError('Please select your country.');
+      return;
+    }
+  
     try {
       const user = auth.currentUser;
       if (user) {
         const docRef = doc(db, 'Journalists', user.uid);
-        await updateDoc(docRef, {
-          ...formData,
-          selectedTopics: selectedTopics,
-        });
-        
-        // Show a confirmation popup
-        alert('Profile updated successfully!');
-
+        let profileUpdated = false;
+        let articleAdded = false;
+  
+        // Check if profile data has changed
+        const isProfileUpdated = (
+          formData.firstName !== userData.firstName ||
+          formData.lastName !== userData.lastName ||
+          formData.email !== userData.email ||
+          formData.affiliation !== userData.affiliation ||
+          formData.country !== userData.country ||
+          JSON.stringify(selectedTopics) !== JSON.stringify(userData.selectedTopics)
+        );
+  
+        // Update profile data if changed
+        if (isProfileUpdated) {
+          await updateDoc(docRef, {
+            ...formData,
+            selectedTopics: selectedTopics,
+          });
+          profileUpdated = true;
+        }
+  
+        // Add article if there's content
+        if (article.trim()) {
+          await updateDoc(docRef, {
+            previousArticles: arrayUnion(article),
+          });
+          articleAdded = true;
+          setArticle(''); // Clear the article input after submission
+        }
+  
+        // Determine the message to show based on updates
+        if (profileUpdated && articleAdded) {
+          alert("Profile and article updated successfully!");
+        } else if (profileUpdated) {
+          alert("Profile updated successfully!");
+        } else if (articleAdded) {
+          alert("Article added successfully!");
+        }
+  
         // Close the edit profile modal
         onClose();
       }
@@ -75,17 +140,11 @@ const EditProfile = ({ userData, onClose }) => {
       console.error('Error updating profile:', error);
       setError('Failed to update profile. Please try again.');
     }
-  };
-
-  const handleArticleSubmit = async (e) => {
-    e.preventDefault();
-    // Logic to handle article submission
-    console.log('Article submitted:', article);
-    setArticle('');
-  };
+  };  
 
   return (
     <div className="edit-profile-containerW">
+      <button className="close-btnW" onClick={onClose}>X</button>
       <form className='formW' onSubmit={handleProfileUpdate}>
         <h2>Edit Profile</h2>
         <input
@@ -116,13 +175,21 @@ const EditProfile = ({ userData, onClose }) => {
           onChange={handleInputChange}
           placeholder="Affiliation"
         />
-        <input
-          type="text"
-          name="country"
-          value={formData.country}
-          onChange={handleInputChange}
-          placeholder="Country"
-        />
+
+        {/* Country Selection Dropdown */}
+        <select 
+          className="country-inputW" 
+          name="country" 
+          value={formData.country} 
+          onChange={handleInputChange} 
+          required
+        >
+          <option value="" disabled>Select your country</option>
+          {countries.map((country) => (
+            <option key={country} value={country}>{country}</option>
+          ))}
+        </select>
+        {countryError && <p className="error-messageW">{countryError}</p>}
 
         {/* Preference Topics Section */}
         <section className="preference-topicsW">
@@ -150,12 +217,8 @@ const EditProfile = ({ userData, onClose }) => {
             onChange={handleArticleChange}
             rows="6"
           />
-          <div className="buttonsW">
-            <button className="submit-btnW" type="submit">Update Profile</button>
-            <button className="submit-btnW" onClick={handleArticleSubmit}>Add Article</button>
-            <button type="button" className="cancel-btnW" onClick={onClose}>Cancel</button>
-          </div>
         </section>
+        <button className="submit-btnW" type="submit">Update Profile</button>
       </form>
     </div>
   );

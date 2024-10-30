@@ -20,14 +20,26 @@
   flex-direction: column;
 }
 
-/* Input fields styling */
-.formW input {
+/* General Input Fields Styling */
+.formW input,
+.country-inputW {
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 4px;
-  border: 1px solid #ccc;
+  border: 1px solid #6BA6A6;
   width: 100%;
   font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* Country Dropdown Specific Styling */
+.country-inputW {
+  appearance: none; /* Remove default arrow */
+  background-color: #ffffff; /* Same background as form */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="%23ccc" d="M4.293 7.293l3.293 3.293 3.293-3.293 1.414 1.414-4.707 4.707-4.707-4.707z"/></svg>'); /* Custom arrow */
+  background-repeat: no-repeat;
+  background-position: right 10px center; /* Position of the arrow */
+  background-size: 1.5em; /* Size of the arrow */
 }
 
 /* Preference Topics Section Styling */
@@ -97,22 +109,32 @@ textarea {
   resize: vertical;
 }
 
-/* Buttons Styling */
-.buttonsW {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin-top: 15px;
+/* Close Button Styling */
+.close-btnW {
+  position: absolute;
+  top: 10px;
+  left:  15px;
+  background: transparent;
+  border: none;
+  font-size: 30px; /* Increased size for larger "X" */
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
 }
 
+.close-btnW:hover {
+  color: #ff0000; /* Change color on hover */
+}
+
+  /* Submit Button Styling */
 .submit-btnW {
   background-color: #6ba6a6;
   color: white;
-  padding: 12px 20px;
+  padding: 15px 25px; /* Increased padding for a larger button */
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px; /* Increased font size for better visibility */
   transition: background-color 0.3s ease;
 }
 
