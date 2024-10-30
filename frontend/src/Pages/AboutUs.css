@@ -12,13 +12,13 @@
 
 /* Lottie Animation on the Right Side */
 .background-animation1 {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 40%;  /* Take up 40% of the width */
-  height: 100%;
-  z-index: -1;  /* Behind the cards */
-  opacity: 0.5;  /* Semi-transparent */
+  position: absolute;
+  top: 1%;  /* Move the animation higher above the welcome text */
+  left: 50%;  /* Center horizontally */
+  width: 60%;  /* Adjust width */
+  height: auto;  /* Ensure aspect ratio is preserved */
+  transform: translateX(-50%);  /* Center horizontally */ 
+  opacity: 0.08;  /* Adjust transparency */
 }
 
 /* Logo and Profile Styles */

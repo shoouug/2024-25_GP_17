@@ -11,9 +11,7 @@ import Login from './Pages/login';
 import ResetPassword1 from './Pages/reset-password1';
 import ResetPassword3 from './Pages/reset-password3';
 
-import Profile from './Pages/Profile';
 import AboutUs from './Pages/AboutUs';
-import AboutUs2 from './Pages/AboutUs2';
 import EditProfile from './Pages/EditProfile';
 
 
@@ -31,10 +29,10 @@ function App() {
           <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/preference-topics" element={<PreferenceTopics />} />
           
-          <Route path="/profile" element={<Profile />} />
+          
           <Route path="/editProfile" element={<EditProfile />} />
           <Route path="/aboutus" element={<AboutUs />} /> {/* About Us Page after signing in*/}
-          <Route path="/aboutus2" element={<AboutUs2 />} /> {/* About Us Page before signing in*/}
+          
           
           {/* Route for Home Page after successful sign up */}
           <Route path="/homepage" element={<HomePage />} /> {/* Home Page after preferences */}
