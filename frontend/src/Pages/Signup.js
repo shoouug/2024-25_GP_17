@@ -153,7 +153,7 @@ const SignUp = () => {
 
         <input type="text" name="affiliation" placeholder="Affiliation" className="signup-input" value={formData.affiliation} onChange={handleChange} required />
 
-        <select className="signup-input" name="country" value={formData.country} onChange={handleChange} required>
+        <select className="country-input" name="country" value={formData.country} onChange={handleChange} required>
           <option value="" disabled>Select your country</option>
           {countries.map((country) => (
             <option key={country} value={country}>{country}</option>
