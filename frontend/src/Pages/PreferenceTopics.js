@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc, arrayUnion } from 'firebase/firestore'; // i add zthe array 
 import { auth, db } from '../firebase';
 import Logo from '../images/logo.png'; // Import the logo image
 import './PreferenceTopics.css';
@@ -48,8 +48,11 @@ const PreferenceTopics = () => {
         const userDocRef = doc(db, 'Journalists', user.uid);
         await updateDoc(userDocRef, {
           selectedTopics: selectedTopics,
-          previousArticle: article || 'No article provided'
+          ...(article && { previousArticle: arrayUnion(article) }) {/* so it would store as an array*/}
         });
+
+        {/*Lina code is "selectedTopics: selectedTopics,
+           previousArticle: article || 'No article provided'". */}
 
         console.log('Preferences saved successfully.');
         navigate('/HomePage');
