@@ -128,7 +128,7 @@ const SignUp = () => {
 
   return (
     <div className="signup-form">
-      <div className="logo-sectionWH">
+      <div className="Lgo-section">
               <img src={Logo} alt="Logo" className="logoWI" />
                 </div>
       <form onSubmit={handleSubmitSignUp}>

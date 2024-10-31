@@ -1,17 +1,10 @@
 
-
-/* Logo styling */
-.logo-container {
- 
-  top: 20px;
- left: 20px;
+.Lgo-section{
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  
 }
-
-.signup-logo {
-  width: 100px; /* Adjust the width as needed for your layout */
-  height: auto; /* Maintain the aspect ratio */
-}
-
 /* Form styling for responsiveness and centering */
 .signup-form {
   width: 250px;
