@@ -128,9 +128,9 @@ const SignUp = () => {
 
   return (
     <div className="signup-form">
-      <div className="logo-container">
-        <img src={Logo} alt="Website Logo" className="signup-logo" />
-      </div>
+      <div className="logo-sectionWH">
+              <img src={Logo} alt="Logo" className="logoWI" />
+                </div>
       <form onSubmit={handleSubmitSignUp}>
         <h2 className="signup-header">Sign Up</h2>
         <p className="signup-subtitle">Create your account</p>
