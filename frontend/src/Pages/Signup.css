@@ -1,9 +1,13 @@
 
-.Lgo-section{
+.Logo-section{
   position: absolute;
   top: 10px;
   left: 20px;
+}
+.logoSign{
   
+  top: 10px;
+  left: 20px;
 }
 /* Form styling for responsiveness and centering */
 .signup-form {

@@ -1,12 +1,12 @@
 /* Logo styling at the top */
 .logo-container {
   position: absolute;
-  top: 20px;
+  top: 10px;
   left: 20px;
 }
 
 .website-logo {
-  width: 120px; /* Adjust the size as needed */
+  width: 120px; 
   height: auto;
   margin-bottom: 70px
 }
