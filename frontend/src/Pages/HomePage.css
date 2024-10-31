@@ -111,7 +111,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 0px;
-    margin-top: 20px;
+    margin-top: -25px;
 }
 
 .logoH {
@@ -121,8 +121,8 @@
     max-height: 100px;
     margin-right: 30px;
     object-fit: contain;
-    margin-bottom: 160px;
-    margin-top: 0px;
+    margin-bottom: 16px;
+    margin-top: -150px;
     margin-left: 25px;
 }
 
@@ -225,7 +225,7 @@
 /* Welcome Section Styling */
 .welcome-sectionH {
     text-align: left;
-    margin-top: -130px;
+    margin-top: -100px;
     margin-left: -20px;
     padding-left: 20px;
 }
@@ -240,7 +240,7 @@
     font-size: 28px;
     color: #5B95A1;
     font-weight: 400;
-    margin-top: 190px;
+    margin-top: 140px;
     margin-left: -115px;
     max-width: 100%;
     white-space: nowrap; /* Keeps text on one line */
@@ -249,7 +249,7 @@
 .welcome-subtextH {
     font-size: 18px;
     color: #5B95A1;
-    margin-bottom: 40px;
+    margin-bottom: 4px;
     max-width: 100%;
     margin-left: -115px;
 }
