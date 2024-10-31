@@ -34,12 +34,12 @@
 }
 
 .new-chat-btnH {
-    background-color: #5B95A1;
-    color: white;
+    background-color: transparent; /* Remove background */
+    color: #5B95A1; /* Text color */
     padding: 10px;
     font-size: 16px;
     cursor: pointer;
-    border: none;
+    border: 1px solid #5B95A1; /* Add border with the same color */
     border-radius: 4px;
     margin-bottom: 20px;
 }
@@ -65,6 +65,7 @@
     text-align: left;
     cursor: pointer;
     border-radius: 4px;
+    color: #768183;
 }
 
 .sidebar-footerH {
@@ -110,6 +111,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 0px;
+    margin-top: 20px;
 }
 
 .logoH {
@@ -117,10 +119,11 @@
     height: auto;
     max-width: 100px;
     max-height: 100px;
-    margin-right: 20px;
+    margin-right: 30px;
     object-fit: contain;
     margin-bottom: 160px;
-    margin-top: -80px;
+    margin-top: 0px;
+    margin-left: 25px;
 }
 
 .ProfileIconH{
@@ -237,8 +240,10 @@
     font-size: 28px;
     color: #5B95A1;
     font-weight: 400;
-    margin-bottom: 10px;
+    margin-top: 190px;
+    margin-left: -115px;
     max-width: 100%;
+    white-space: nowrap; /* Keeps text on one line */
 }
 
 .welcome-subtextH {
@@ -246,6 +251,7 @@
     color: #5B95A1;
     margin-bottom: 40px;
     max-width: 100%;
+    margin-left: -115px;
 }
 
 @media (max-width: 768px) {
@@ -264,19 +270,22 @@
 }
 
 .topics-sectionH h2 {
-    font-size: 18px;
+    font-size: 16px;
     color: #5B95A1;
     font-weight: 400;
     margin-bottom: 20px;
+    margin-top: 140px;
 }
 
+/* Topics Grid */
 /* Topics Grid */
 .topics-gridH {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 columns by default */
-    grid-template-rows: repeat(2, auto);
-    gap: 12px; 
+    gap: 30px; /* Increase gap to add more space between items */
     justify-items: center;
+    align-items: center;
+    padding: 2px; /* Optional: adds padding around the entire grid */
 }
 
 @media (max-width: 768px) {
@@ -301,12 +310,14 @@
     border-radius: 6px;
     font-size: 16px;
     color: #5B95A1;
-    width: 100%; /* Ensure card fills the grid cell */
+    width: 60%; /* Ensure card fills the grid cell */
+    font-size: 13px;
+    
 }
 
 @media (max-width: 768px) {
     .topic-cardH {
-        font-size: 14px; /* Adjust font size on smaller screens */
+        font-size: 12px; /* Adjust font size on smaller screens */
     }
 }
 
@@ -327,7 +338,7 @@
 
 .custom-topic-sectionH input {
     padding: 10px;
-    border: 2px solid #5B95A1;
+    border: 1px solid #5B95A1;
     border-radius: 4px;
     width: 100%; /* Full width on larger screens */
 }
@@ -349,7 +360,7 @@
     color: #5B95A1;
     margin-bottom: -00px;
     text-align: center;
-    margin-top: 230px;
+    margin-top: 200px;
 }
 
 .custom-topic-inputsH {
@@ -357,6 +368,7 @@
     justify-content: center;
     gap: 20px;
     flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    margin-top: -60px;
 }
 
 @media (max-width: 768px) {
@@ -389,8 +401,8 @@
     border: none;
     padding: 10px 20px;
     cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
+    border-radius: 3px;
+    font-size: 14px;
 }
 
 .generate-btnH:hover {
@@ -400,11 +412,11 @@
 .custom-topic-sectionH button {
     background-color: #5B95A1;
     color: white;
-    padding: 10px;
+    padding: 9px;
     border: none;
-    border-radius: 4px;
+    border-radius: 3px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .generated-articleH {
@@ -412,20 +424,23 @@
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 20px;
-    margin-top: 20px;
+    margin-top: 200px;
   }
   
   .article-titleH {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
+    font-size: 14px;
+    color: #5B95A1;
     margin-bottom: 5px;
+    margin-top: -50px;
+    margin-left: -1050px;
   }
   
   .article-timestampH {
-    font-size: 12px;
+    font-size: 10px;
     color: #888;
     margin-bottom: 10px;
+    margin-top: -18px;
+    margin-left: -900px;
   }
   
   .article-contentH {
@@ -446,18 +461,15 @@
   }
   
   .edit-btnH, .export-btnH, .save-btnH {
-    background-color: #5B95A1;
-    color: white;
-    padding: 6px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    color: #5B95A1; /* Set text color */
     font-size: 14px;
-  }
+    cursor: pointer; /* Pointer cursor for clickable feel */
+    text-decoration: none; /* Ensure no underline if links are defaulted */
+    border: none; /* Remove any border */
+    background: none; /* Remove any background */
+    padding: 0; /* Remove padding */
+}
   
-  .edit-btnH:hover, .export-btnH:hover, .save-btnH:hover {
-    background-color: #4A7C87;
-  }
 
   .generated-articleH input {
     width: 250px;
@@ -471,12 +483,28 @@
 }
 
 .field-topic-change-container {
-    margin-top: 20px; /* Adjust the space as needed */
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    gap: 10px; /* Add space between input and icon */
+    height: 100vh; /* Full viewport height for vertical centering */
 }
 
 .field-topic-change {
-    width: 770px;
+    width: 750px; /* Adjusted width to fit alongside the icon */
+    color: #5B95A1;
+    border: 1px solid #5B95A1;
+    padding: 8px 12px; /* Add padding for better spacing */
+    border-radius: 4px;
+    outline: none;
 }
+
+.send-iconH {
+    width: 20px; /* Size of the send icon */
+    height: 20px;
+    cursor: pointer;
+}
+
 
 @media (max-width: 480px) {
     .field-topic-change {

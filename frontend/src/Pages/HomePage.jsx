@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import './HomePage.css';
 import sunIcon from '../images/sun.png';
 import exitIcon from '../images/exit.png';
 import logo from '../images/AIPress.png';
 import ProfileIcon from '../images/ProfileIcon.png';
-import EditProfile from './EditProfile'; // Importing the EditProfile component
+import sendIcon from '../images/sendbutton.png'; // Import send icon
+import EditProfile from './EditProfile';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -22,8 +23,8 @@ const HomePage = () => {
   const [isArticleGenerated, setIsArticleGenerated] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [userData, setUserData] = useState(null);
-  const [showTooltip, setShowTooltip] = useState(false); // Tooltip state
-  const [isProfileEditing, setIsProfileEditing] = useState(false); // State for editing profile
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [isProfileEditing, setIsProfileEditing] = useState(false);
   const navigate = useNavigate();
 
   const fetchUserData = async () => {
@@ -36,9 +37,9 @@ const HomePage = () => {
         setJournalistName(`${data.firstName} ${data.lastName}`);
         setSelectedTopics(data.selectedTopics || []);
         setUserData(data);
+        setChats(data.savedArticles || []); // Retrieve stored articles
       }
     } else {
-      // Redirect to login if no user is found
       navigate('/');
     }
   };
@@ -46,12 +47,12 @@ const HomePage = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        fetchUserData(); // Fetch user data if logged in
+        fetchUserData();
       } else {
-        navigate('/'); // Redirect to login if not authenticated
+        navigate('/');
       }
     });
-    return () => unsubscribe(); // Cleanup subscription
+    return () => unsubscribe();
   }, [navigate]);
 
   const handleNewChat = () => {
@@ -62,19 +63,67 @@ const HomePage = () => {
     setKeyword('');
   };
 
-  const handleGenerateArticle = () => {
+  const handleGenerateArticle = async () => {
     if (!topic) return;
-
+  
+    // Explicitly clear old article content
+    setArticleContent('');
+  
+    // Define the new article
     const newChat = {
       title: topic,
-      content: `This is an article about ${topic}. Focus keyword: ${keyword}`,
+      content: `This is an article about ${topic}.`,
       timestamp: new Date().toLocaleTimeString(),
     };
-
-    setChats([...chats, newChat]);
+  
+    const updatedChats = [...chats, newChat];
+    
+    // Set the new chat content after clearing
     setSelectedChat(newChat);
-    setArticleContent(newChat.content);
+    setChats(updatedChats);
+    setArticleContent(newChat.content);  // Setting new content after clearing
     setIsArticleGenerated(true);
+  
+    // Save to Firestore
+    const user = auth.currentUser;
+    if (user) {
+      const userRef = doc(db, 'Journalists', user.uid);
+      await updateDoc(userRef, {
+        savedArticles: updatedChats,
+      });
+    }
+  };
+
+  const handleTopicCardClick = (selectedTopic) => {
+    // Explicitly clear old article content
+    setArticleContent('');
+  
+    // Define the new article
+    const newChat = {
+      title: selectedTopic,
+      content: `This is an article about ${selectedTopic}.`,
+      timestamp: new Date().toLocaleTimeString(),
+    };
+  
+    const updatedChats = [...chats, newChat];
+    
+    // Set the new chat content after clearing
+    setSelectedChat(newChat);
+    setChats(updatedChats);
+    setArticleContent(newChat.content);  // Setting new content after clearing
+    setIsArticleGenerated(true);
+  
+    // Save to Firestore
+    const saveArticleToFirestore = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const userRef = doc(db, 'Journalists', user.uid);
+        await updateDoc(userRef, {
+          savedArticles: updatedChats,
+        });
+      }
+    };
+    saveArticleToFirestore();
   };
 
   const handleChatClick = (chat) => {
@@ -92,16 +141,27 @@ const HomePage = () => {
   };
 
   const handleEdit = () => {
+    // Clear article content on edit initiation
+    setArticleContent('');
     setIsEditing(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (selectedChat) {
       const updatedChats = chats.map(chat =>
         chat === selectedChat ? { ...chat, content: articleContent } : chat
       );
       setChats(updatedChats);
       setIsEditing(false);
+  
+      // Update Firestore with the edited content
+      const user = auth.currentUser;
+      if (user) {
+        const userRef = doc(db, 'Journalists', user.uid);
+        await updateDoc(userRef, {
+          savedArticles: updatedChats,
+        });
+      }
     }
   };
 
@@ -113,22 +173,23 @@ const HomePage = () => {
   };
 
   const handleMouseEnter = () => {
-    setShowTooltip(true); // Show tooltip on hover
+    setShowTooltip(true);
   };
 
   const handleMouseLeave = () => {
-    setShowTooltip(false); // Hide tooltip when not hovering
+    setShowTooltip(false);
   };
 
   const handleEditProfile = () => {
-    setIsProfileEditing(true); // Open the EditProfile component
-    setShowTooltip(false); // Hide the tooltip when editing
+    setIsProfileEditing(true);
+    setShowTooltip(false);
   };
 
-  // Function to refresh the page
-const refreshPage = () => {
-  window.location.reload(); // Reloads the current page
-};
+  const handleKeywordUpdate = () => {
+    if (selectedChat) {
+      setArticleContent(`This is an article about ${selectedChat.title}. ${keyword}`);
+    }
+  };
 
   return (
     <div className="homepage-containerH">
@@ -174,7 +235,7 @@ const refreshPage = () => {
               <p><strong>Country:</strong> {userData.country}</p>
               <button 
                 className="edit-profile-btnH" 
-                onClick={handleEditProfile} // Open EditProfile on click
+                onClick={handleEditProfile}
               >
                 Edit Profile
               </button>
@@ -196,14 +257,18 @@ const refreshPage = () => {
               <h2>Start writing what’s happening now</h2>
               <div className="topics-gridH">
                 {selectedTopics.map((topic, index) => (
-                  <div key={index} className="topic-cardH">
+                  <div 
+                    key={index} 
+                    className="topic-cardH" 
+                    onClick={() => handleTopicCardClick(topic)}
+                  >
                     {topic}
                   </div>
                 ))}
               </div>
             </div>
 
-            <p className="topic-promptH">If you have a topic in your mind, start here!</p>
+            <p className="topic-promptH">Or, start with a custom topic</p>
             <div className="custom-topic-sectionH">
               <div className="custom-topic-inputsH">
                 <input
@@ -250,27 +315,29 @@ const refreshPage = () => {
             </div>
 
             <div className="field-topic-change-container">
-              <input
-                type="text"
-                className="field-topic-change"
-                placeholder="Focus Keyword"
-                value={keyword}
-                onChange={(e) => setKeyword(e.target.value)}
-              />
-            </div>
+  <input
+    type="text"
+    className="field-topic-change"
+    placeholder=""
+    value={keyword}
+    onChange={(e) => setKeyword(e.target.value)}
+  />
+  <img 
+    src={sendIcon} 
+    alt="Send Icon" 
+    className="send-iconH" 
+    onClick={handleKeywordUpdate} // Update content when send icon is clicked
+  />
+</div>
           </>
         )}
 
-        {/* Edit Profile Modal */}
         {isProfileEditing && (
-           <EditProfile 
-           userData={userData} 
-           onClose={() => {
-             setIsProfileEditing(false); // Close the modal
-             refreshPage(); // Reload the page to show updated data
-           }} 
-         />
-       )}
+          <EditProfile 
+            userData={userData} 
+            onClose={() => setIsProfileEditing(false)}
+          />
+        )}
       </div>
     </div>
   );
