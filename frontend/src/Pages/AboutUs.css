@@ -20,11 +20,20 @@
   opacity: 0.08;  /* Adjust transparency */
 }
 
+/* Logo Section Styles */
+.logo-sectionWH {
+  position: fixed; /* Fixed positioning */
+  top: 10px; /* Adjust this value as needed */
+  left: 18.5%; /* Adjust this value as needed */
+  z-index: 1000; /* Ensure it stays above other content */
+}
+
 /* Logo Styles */
 .logoWI {
   height: 90px; /* Adjust the logo size as needed */
   /* You can add other styles here if needed */
 }
+
 
 /* Content Styles */
 .about-us-content {
@@ -42,7 +51,7 @@
   margin: 20px auto; /* Centered with margin */
 }
 
-/* Cards Styles */
+
 /* Cards Styles */
 .cards-container {
   width: 100%; /* Full width */

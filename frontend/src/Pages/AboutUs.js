@@ -17,8 +17,8 @@ const AboutUs = () => {
             <div className="background-animation1">
                 <Lottie animationData={animationData} loop={true} />
                 </div>
-                <div className="logo-sectionH">
-              <img src={Logo} alt="Logo" className="logoIn" />
+                <div className="logo-sectionWH">
+              <img src={Logo} alt="Logo" className="logoWI" />
                 </div>
 
                 <div className="cards-container">
