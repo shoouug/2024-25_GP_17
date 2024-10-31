@@ -50,7 +50,9 @@ body {
 
 /* Logo Styles */
 .logoW {
-  height: 90px; /* Make the logo slightly larger */
+  height: 90px; 
+
+  left: 10px;
 }
 
 /* Navbar Links */
