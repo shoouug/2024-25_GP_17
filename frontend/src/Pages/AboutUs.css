@@ -3,17 +3,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 20px; /* Adjust as needed */
+  height: auto; /* Allow height to grow with content */
   max-width: 1200px; /* Optional: Set a maximum width */
   margin: 0 auto; /* Center the container */
-}
-
-/* Footer Styles */
-.about-us-footer {
-  margin-top: auto; /* Keep footer at the bottom */
-  text-align: center;
-  color: #777;
-  font-size: 0.8em;
-  padding: 20px; /* Add some padding for spacing */
 }
 
 /* Lottie Animation on the Right Side */
@@ -25,14 +18,6 @@
   height: auto;  /* Ensure aspect ratio is preserved */
   transform: translateX(-50%);  /* Center horizontally */ 
   opacity: 0.08;  /* Adjust transparency */
-}
-
-/* Logo Section Styles */
-.logo-sectionH {
-  position: fixed; /* Fixed positioning */
-  top: 10px; /* Adjust this value as needed */
-  left: 18.5%; /* Adjust this value as needed */
-  z-index: 1000; /* Ensure it stays above other content */
 }
 
 /* Logo Styles */
@@ -58,13 +43,15 @@
 }
 
 /* Cards Styles */
+/* Cards Styles */
 .cards-container {
   width: 100%; /* Full width */
-  max-width: 900px; /* Limit maximum width for cards */
-  padding: 70px; /* Space inside container */
+  max-width: 800px; /* Limit maximum width for cards */
+  padding: 10px; /* Space inside container */
   overflow-y: auto; /* Enable vertical scrolling */
-  height: 300px; /* Set a fixed height for imitation scrolling */
-  border-radius: 10px; /* Rounded corners */
+  height: 400px; /* Set a fixed height for imitation scrolling */
+  border: 1px solid #ccc; /* Optional: add a border */
+  border-radius: 8px; /* Rounded corners */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
 }
 
@@ -73,6 +60,7 @@
 .cards h2 {
     color: #5b95a1; /* Set the color for h1 and h2 inside cards */
 }
+
 
 /* Card Styles */
 .card {
@@ -88,6 +76,12 @@
   transform: translateY(-5px); /* Slight lift effect */
 }
 
+/* Fade-out effect for cards */
+.card.fade-out {
+  opacity: 0.6; /* Slightly faded */
+  transform: translateY(5px); /* Slightly lower position */
+}
+
 .cards-container a {
   color: #518893; /* Change this to your desired color */
   text-decoration: none; /* Remove underline if desired */
@@ -97,11 +91,6 @@
   text-decoration: underline; /* Underline on hover for better visibility */
 }
 
-/* Fade-out effect for cards */
-.card.fade-out {
-  opacity: 0.6; /* Slightly faded */
-  transform: translateY(5px); /* Slightly lower position */
-}
 
 .about-us-content h2 {
   color: #5b95a1;
@@ -123,47 +112,38 @@
 }
 
 /* Responsive Styles */
-@media (max-width: 768px) {
-  .cards-container {
-    padding: 20px; /* Increased padding for smaller screens */
-    height: auto; /* Allow height to adjust based on content */
-    overflow-y: hidden; /* Remove scrolling */
+/* Responsive Styles for larger screens */
+@media (min-width: 768px) {
+
+
+  .about-us-container {
+      max-width: 700px;
+      padding: 30px;
   }
 
-  .about-us-footer {
-    font-size: 0.7em; /* Smaller footer text for smaller screens */
-  }
+.about-us-content h2 {
+    font-size: 1.8em;
 }
 
-@media (min-width: 768px) and (max-width: 1024px) {
-  .about-us-container {
-    max-width: 700px;
-    padding: 30px;
-  }
-
-  .about-us-content h2 {
-    font-size: 1.8em;
-  }
-
-  .about-us-content p {
+.about-us-content p {
     font-size: 1em;
-  }
+}
 
-  .about-us-footer {
+.about-us-footer {
     font-size: 0.9em;
-  }
+}
 }
 
 @media (min-width: 1024px) {
-  .about-us-container {
+.about-us-container {
     max-width: 900px;
-  }
+}
 
-  .about-us-content h2 {
+.about-us-content h2 {
     font-size: 2em;
-  }
+}
 
-  .about-us-content p {
+.about-us-content p {
     font-size: 1.1em;
-  }
+}
 }
