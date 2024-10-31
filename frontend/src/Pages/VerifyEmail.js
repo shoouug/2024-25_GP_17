@@ -34,7 +34,7 @@ const VerifyEmail = () => {
 
   return (
     <div className="verify-email-container">
-      <div className="logo-container">
+      <div className="logo-containe">
         <img src={Logo} alt="Website Logo" className="website-logo" />
       </div>
       <div className="message-box">
