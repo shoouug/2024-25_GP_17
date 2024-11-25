@@ -14,24 +14,45 @@
 }
 
 /* Sidebar Styles */
+/* Sidebar Styles */
 .sidebarH {
-    width: 250px;
+    width: 250px; /* Fixed width for the sidebar */
     background-color: #f1f1f1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 20px;
+    padding: 10px;
     border-right: 1px solid #ccc;
-}
-
-@media (max-width: 768px) {
+    height: 100vh; /* Full height of the viewport */
+    overflow-y: auto; /* Enable vertical scrolling */
+    position: fixed; /* Keep the sidebar fixed on the left side */
+    left: 0; /* Align to the left of the page */
+    top: 0; /* Align to the top of the page */
+    z-index: 1000; /* Ensure the sidebar stays above other elements */
+  }
+  
+  /* Main Content Styles */
+  .main-contentH {
+    margin-left: 250px; /* Add left margin to avoid overlap with sidebar */
+    padding: 20px;
+    overflow-y: auto; /* Enable scrolling within the main content */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  @media (max-width: 768px) {
     .sidebarH {
-        width: 100%; /* Make sidebar full width on smaller screens */
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 10px; /* Reduce padding */
+      width: 100%; /* Sidebar takes full width on smaller screens */
+      height: auto; /* Adjust height for smaller screens */
+      position: relative; /* Sidebar becomes part of the normal flow */
+      border-right: none; /* Remove border for smaller screens */
     }
-}
+  
+    .main-contentH {
+      margin-left: 0; /* Remove margin for main content */
+      padding: 10px; /* Adjust padding for smaller screens */
+    }
+  }
 
 .new-chat-btnH {
     background-color: transparent; /* Remove background */
@@ -55,7 +76,9 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-}
+    overflow-y: auto; /* Allow scrolling within the chats list */
+    max-height: calc(100vh - 200px); /* Prevent overflow with header/footer */
+  }
 
 .chat-btnH {
     background-color: #e0e0e0;
@@ -69,20 +92,22 @@
 }
 
 .sidebar-footerH {
+    margin-top: 4px; /* Push footer to the bottom */
     display: flex;
     flex-direction: column;
     gap: 10px;
-}
+  }
 
 .mode-btnH, .logout-btnH {
     background-color: transparent;
     border: none;
     color: #5B95A1;
     cursor: pointer;
-    padding: 10px;
+    padding: 2px;
     font-size: 14px;
     display: flex;
     align-items: center;
+    padding-bottom: 20px;
 }
 
 .iconH {
@@ -106,43 +131,53 @@
     }
 }
 
-/* Logo and Welcome Section */
-.logo-sectionH {
+
+/* Navbar Styling */
+.navbarH {
     display: flex;
     align-items: center;
-    margin-bottom: 0px;
-    margin-top: -25px;
+    justify-content: space-between;
+    padding: 10px 20px; /* Adjust padding for spacing */
+    background-color: #ffffff;
+    border-bottom: 1px solid #ccc;
+    height: 60px;
+    position: fixed;
+    width: calc(100% - 250px); /* Subtract sidebar width from the navbar width */
+    left: 250px; /* Align next to the sidebar */
+    top: 0;
+    z-index: 10; /* Lower z-index to allow profile tooltip above */
 }
+  
+  /* Logo Section Styling */
+  .logo-sectionH {
+    display: flex;
+    align-items: center;
+  }
 
-.logoH {
+  .logoH {
     width: 100px;
     height: auto;
-    max-width: 100px;
-    max-height: 100px;
-    margin-right: 30px;
-    object-fit: contain;
-    margin-bottom: 16px;
-    margin-top: -150px;
-    margin-left: 25px;
-}
+    margin-right: 10px;
+  }
 
 .ProfileIconH{
     width: 50px;
     height: auto;
-    margin-left: 1050px;
     object-fit: contain;
+    padding-right: 50px;
 }
 
 /* Tooltip styling */
 .profile-tooltipH {
-    position: fixed;
+    position: absolute; /* Position relative to the profile icon */
+    top: 60px; /* Adjust to show tooltip below the icon */
     right: 0;
     background-color: #ffffff;
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 17px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 100;
+    z-index: 200; /* Ensure the tooltip is above all elements */
     width: 260px;
     text-align: left;
     display: flex;
@@ -225,10 +260,7 @@
 /* Welcome Section Styling */
 .welcome-sectionH {
     text-align: left;
-    margin-top: -100px;
-    margin-left: -20px;
-    padding-left: 20px;
-}
+  }
 
 @media (max-width: 768px) {
     .welcome-sectionH {
@@ -237,31 +269,44 @@
 }
 
 .welcome-headingH {
-    font-size: 28px;
+    font-size: 15px;
     color: #5B95A1;
-    font-weight: 400;
-    margin-top: 140px;
-    margin-left: -115px;
-    max-width: 100%;
-    white-space: nowrap; /* Keeps text on one line */
-}
+    margin: 0;
+    white-space: nowrap;
+    font-weight: normal;
+  }
 
-.welcome-subtextH {
-    font-size: 18px;
+  .welcome-subtextH {
+    font-size: 12px;
     color: #5B95A1;
-    margin-bottom: 4px;
-    max-width: 100%;
-    margin-left: -115px;
-}
+    margin: 0;
+  }
 
 @media (max-width: 768px) {
     .welcome-headingH {
-        font-size: 24px;
+        font-size: 20px;
     }
 
     .welcome-subtextH {
-        font-size: 16px;
+        font-size: 10px;
     }
+}
+
+
+/* Profile Section Styling */
+.profile-linkH {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 100; /* Ensure profile icon and tooltip are above navbar */
+}
+
+  
+.ProfileIconH {
+    width: 40px;
+    height: auto;
+    cursor: pointer;
+    z-index: 100; /* Ensure it appears above the navbar */
 }
 
 /* Topics Section */

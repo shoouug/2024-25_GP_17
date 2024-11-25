@@ -66,22 +66,19 @@ const HomePage = () => {
   const handleGenerateArticle = async () => {
     if (!topic) return;
   
-    // Explicitly clear old article content
-    setArticleContent('');
-  
     // Define the new article
     const newChat = {
       title: topic,
-      content: `This is an article about ${topic}.`,
+      content: ` ${topic}.`,
       timestamp: new Date().toLocaleTimeString(),
     };
   
     const updatedChats = [...chats, newChat];
     
-    // Set the new chat content after clearing
+    // Replace the old article content
     setSelectedChat(newChat);
     setChats(updatedChats);
-    setArticleContent(newChat.content);  // Setting new content after clearing
+    setArticleContent(newChat.content); // Show the new article content
     setIsArticleGenerated(true);
   
     // Save to Firestore
@@ -95,22 +92,20 @@ const HomePage = () => {
   };
 
   const handleTopicCardClick = (selectedTopic) => {
-    // Explicitly clear old article content
-    setArticleContent('');
-  
     // Define the new article
     const newChat = {
       title: selectedTopic,
-      content: `This is an article about ${selectedTopic}.`,
+      content: `This is an article about ${selectedTopic}.`, // Initialize with content
       timestamp: new Date().toLocaleTimeString(),
     };
   
-    const updatedChats = [...chats, newChat];
-    
-    // Set the new chat content after clearing
+    // Update the chats list with the new chat at the top
+    const updatedChats = [newChat, ...chats];
+  
+    // Set the selected chat and content
     setSelectedChat(newChat);
     setChats(updatedChats);
-    setArticleContent(newChat.content);  // Setting new content after clearing
+    setArticleContent(newChat.content); // Ensure the article content is set correctly
     setIsArticleGenerated(true);
   
     // Save to Firestore
@@ -119,10 +114,11 @@ const HomePage = () => {
       if (user) {
         const userRef = doc(db, 'Journalists', user.uid);
         await updateDoc(userRef, {
-          savedArticles: updatedChats,
+          savedArticles: updatedChats, // Save the updated chats
         });
       }
     };
+  
     saveArticleToFirestore();
   };
 
@@ -141,18 +137,16 @@ const HomePage = () => {
   };
 
   const handleEdit = () => {
-    // Clear article content on edit initiation
-    setArticleContent('');
-    setIsEditing(true);
+    setIsEditing(true); // Enable editing mode
   };
-
+  
   const handleSave = async () => {
     if (selectedChat) {
       const updatedChats = chats.map(chat =>
         chat === selectedChat ? { ...chat, content: articleContent } : chat
       );
       setChats(updatedChats);
-      setIsEditing(false);
+      setIsEditing(false); // Exit editing mode
   
       // Update Firestore with the edited content
       const user = auth.currentUser;
@@ -187,69 +181,95 @@ const HomePage = () => {
 
   const handleKeywordUpdate = () => {
     if (selectedChat) {
-      setArticleContent(`This is an article about ${selectedChat.title}. ${keyword}`);
+      // Replace the entire article content with the new input
+      const updatedContent = `${keyword}`;
+      setArticleContent(updatedContent); // Set the content to the new input only
+      setKeyword(''); // Clear the text field after updating
+  
+      // Update the chats list with the new content
+      const updatedChats = chats.map((chat) =>
+        chat === selectedChat ? { ...chat, content: updatedContent } : chat
+      );
+      setChats(updatedChats);
+  
+      // Save to Firestore
+      const saveUpdatedArticleToFirestore = async () => {
+        const user = auth.currentUser;
+        if (user) {
+          const userRef = doc(db, 'Journalists', user.uid);
+          await updateDoc(userRef, {
+            savedArticles: updatedChats,
+          });
+        }
+      };
+      saveUpdatedArticleToFirestore();
     }
   };
 
   return (
     <div className="homepage-containerH">
       <div className="sidebarH">
-        <button className="new-chat-btnH" onClick={handleNewChat}>+ New chat</button>
-        <div className="chatsH">
-          {chats.map((chat, index) => (
-            <button
-              key={index}
-              className="chat-btnH"
-              onClick={() => handleChatClick(chat)}
-            >
-              {chat.title}
-            </button>
-          ))}
-        </div>
-        <div className="sidebar-footerH">
-          <button className="mode-btnH">
-            <img src={sunIcon} alt="Sun Icon" className="iconH" /> Dark mode
-          </button>
-          <button className="logout-btnH" onClick={handleLogout}>
-            <img src={exitIcon} alt="Exit Icon" className="iconH" /> Log out
-          </button>
-        </div>
-      </div>
+  <button className="new-chat-btnH" onClick={handleNewChat}>+ New chat</button>
+  <div className="chatsH">
+    {[...chats] // Spread to create a new array
+      .reverse() // Reverse the array to show the newest chats first
+      .map((chat, index) => (
+        <button
+          key={index}
+          className="chat-btnH"
+          onClick={() => handleChatClick(chat)}
+        >
+          {chat.title}
+        </button>
+      ))}
+  </div>
+  <div className="sidebar-footerH">
+    <button className="mode-btnH">
+      <img src={sunIcon} alt="Sun Icon" className="iconH" /> Dark mode
+    </button>
+    <button className="logout-btnH" onClick={handleLogout}>
+      <img src={exitIcon} alt="Exit Icon" className="iconH" /> Log out
+    </button>
+  </div>
+</div>
 
       <div className="main-contentH">
-        <div 
-          className="profile-linkH" 
-          onMouseEnter={handleMouseEnter} 
-          onMouseLeave={handleMouseLeave}
+      <div className="navbarH">
+  <div className="logo-sectionH">
+    <img src={logo} alt="Logo" className="logoH" />
+    <div className="welcome-sectionH">
+      <h1 className="welcome-headingH">Good morningg, {journalistName}</h1>
+      <p className="welcome-subtextH">Let’s dive into the latest!</p>
+    </div>
+  </div>
+  <div 
+    className="profile-linkH" 
+    onMouseEnter={handleMouseEnter} 
+    onMouseLeave={handleMouseLeave}
+  >
+    <img 
+      src={ProfileIcon} 
+      alt="Profile Icon" 
+      className="ProfileIconH" 
+    />
+    {showTooltip && userData && (
+      <div className="profile-tooltipH">
+        <h2>{`${userData.firstName} ${userData.lastName}`}</h2>
+        <p><strong>Email:</strong> {userData.email}</p>
+        <p><strong>Affiliation:</strong> {userData.affiliation}</p>
+        <p><strong>Country:</strong> {userData.country}</p>
+        <button 
+          className="edit-profile-btnH" 
+          onClick={handleEditProfile}
         >
-          <img 
-            src={ProfileIcon} 
-            alt="Profile Icon" 
-            className="ProfileIconH" 
-          />
-          {showTooltip && userData && (
-            <div className="profile-tooltipH">
-              <h2>{`${userData.firstName} ${userData.lastName}`}</h2>
-              <p><strong>Email:</strong> {userData.email}</p>
-              <p><strong>Affiliation:</strong> {userData.affiliation}</p>
-              <p><strong>Country:</strong> {userData.country}</p>
-              <button 
-                className="edit-profile-btnH" 
-                onClick={handleEditProfile}
-              >
-                Edit Profile
-              </button>
-            </div>
-          )}
-        </div>
+          Edit Profile
+        </button>
+      </div>
+    )}
+  </div>
+</div>
 
-        <div className="logo-sectionH">
-          <img src={logo} alt="Logo" className="logoH" />
-          <div className="welcome-sectionH">
-            <h1 className="welcome-headingH">Good morning, {journalistName}</h1>
-            <p className="welcome-subtextH">Let’s dive into the latest!</p>
-          </div>
-        </div>
+       
 
         {!isArticleGenerated && (
           <>
