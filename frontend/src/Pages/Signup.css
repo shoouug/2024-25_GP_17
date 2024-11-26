@@ -1,19 +1,7 @@
-
-.Logo-section{
-  position: absolute;
-  top: 10px;
-  left: 20px;
-}
-.logoSign{
-  
-  top: 10px;
-  left: 20px;
-}
-/* Form styling for responsiveness and centering */
+/* General Form Styling */
 .signup-form {
-  width: 250px;
-  max-width: 400%;
-  background-color: #fff;
+  width: 280px;
+  max-width: 480%;
   border-radius: 10px;
   padding: 28px;
   display: flex;
@@ -21,12 +9,33 @@
   align-items: center;
   margin-top: 80px; /* Add margin to avoid overlap with the logo */
 }
+
+/* Dark Mode for Sign-Up Page */
+body.dark-mode .signup-form {
+  color: #e0e0e0; /* Light text for better contrast */
+}
+
+body.dark-mode .signup-input,
+body.dark-mode .country-input {
+  background-color: #2b2b2b; /* Dark input background */
+  color: #e0e0e0; /* Light input text */
+  border: 1px solid #5B95A1; /* Accent border for inputs */
+}
+
+body.dark-mode .signup-btn {
+  background-color: #5B95A1; /* Button background for dark mode */
+  color: #e0e0e0; /* Light text on buttons */
+}
+
+body.dark-mode .signup-header {
+  color: #5B95A1; /* Accent color for header text */
+}
+
 /* Uniform styling for inputs and dropdown */
 .signup-input,
 .country-input {
   width: 300px;
   padding: 10px 12px; /* Adjusted padding for balance */
-  padding-left: 40px; /* Space for the icon if needed */
   margin-bottom: 13px;
   font-size: 16px;
   border-radius: 5px;
@@ -35,32 +44,24 @@
   box-sizing: border-box; /* Ensures padding doesn't affect width */
 }
 
-/* Dropdown specific styling */
-.country-input {
-  appearance: none; /* Remove default dropdown arrow */
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="%236BA6A6" d="M4.293 7.293l3.293 3.293 3.293-3.293 1.414 1.414-4.707 4.707-4.707-4.707z"/></svg>'); /* Custom arrow */
-  background-repeat: no-repeat;
-  background-position: right 12px center; /* Position of the arrow */
-  background-size: 1.5em; /* Size of the arrow */
-}
-
-
-/* Styling for the password container and input field */
+/* Password Container */
 .password-input-container {
-  position: relative; /* Ensure the icon is positioned relative to this container */
+  position: relative;
   width: 100%;
 }
 
-.toggle-password, .toggle2-password {
+.password-field {
+  padding-right: 40px; /* Adjusted padding for the eye icon */
+}
+
+.toggle-password {
   position: absolute;
-  right: 40px; /* Adjusted to place the icon inside the input */
-  top: 39%;
+  right: 10px; /* Place the icon inside the input */
+  top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #6BA6A6;
   font-size: 18px;
-  background: none;
-  border: none;
 }
 
 /* Button styling */
@@ -68,7 +69,6 @@
   background-color: #6BA6A6;
   color: white;
   padding: 10px;
-  
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -80,11 +80,11 @@
   background-color: #5a9393;
 }
 
+/* Header and Subtitle Styling */
 .signup-header {
   font-size: 30px;
   margin-bottom: 10px;
   color: #000000;
-  
 }
 
 .signup-subtitle {
@@ -113,6 +113,7 @@
   color: red;
 }
 
+/* Error Message */
 .error-message {
   color: red;
   font-size: 12px;

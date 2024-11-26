@@ -6,7 +6,7 @@ import { auth, db } from '../firebase';
 import './Signup.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import Logo from '../images/logo.png';  // Import the logo image
+import Logo from '../images/logo.png';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -36,7 +36,7 @@ const SignUp = () => {
 
   const navigate = useNavigate();
 
-  const countries = ["Saudi Arabia", "United States", "Canada", "United Kingdom", "Australia", "Germany", "France", "United Arab Emirates", "India", "China", "Japan", "South Korea", "Brazil", "Mexico", "Italy", "Spain", "Russia", "Turkey", "South Africa", "Argentina", "Nigeria", "Egypt", "Netherlands", "Sweden", "Switzerland", "Belgium", "Denmark", "Norway", "Finland", "Greece", "Portugal", "Poland", "Indonesia", "Malaysia", "Thailand", "Vietnam", "Philippines", "New Zealand", "Pakistan", "Bangladesh", "Chile", "Colombia", "Venezuela", "Peru", "Austria", "Israel", "Singapore", "Ireland", "Czech Republic", "Hungary", "Romania", "Ukraine", "Kenya", "Ethiopia", "Iceland", "Norway", "Cuba", "Ghana", "Qatar", "Kuwait", "Oman", "Lebanon", "Jordan", "Morocco", "Algeria", "Tunisia", "Luxembourg", "Malta", "Sri Lanka", "Nepal", "Cambodia", "Laos", "Bolivia", "Paraguay", "Uruguay", "Trinidad and Tobago", "Barbados"];
+  const countries = ["Saudi Arabia", "United States", "Canada", "United Kingdom", "Australia", "Germany", "France", "United Arab Emirates", "India", "China"];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -99,7 +99,6 @@ const SignUp = () => {
       const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
       const user = userCredential.user;
 
-      // Send verification email with a custom URL for the verification page.
       await sendEmailVerification(user, {
         url: 'http://localhost:3000/verify-email',
         handleCodeInApp: true,
@@ -116,19 +115,20 @@ const SignUp = () => {
       });
 
       alert('Verification email sent!');
+      
 
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
         setError('This email is already associated with an account. Please use another email.');
       } else {
-        setError('This email is taken');
+        setError('An error occurred. Please try again.');
       }
     }
   };
 
   return (
     <div className="signup-form">
-     <div className="logo-container">
+      <div className="logo-container">
         <img src={Logo} alt="Website Logo" className="website-logo" />
       </div>
       <form onSubmit={handleSubmitSignUp}>
@@ -165,7 +165,7 @@ const SignUp = () => {
             type={passwordVisible ? 'text' : 'password'}
             name="password"
             placeholder="Password"
-            className="signup-input"
+            className="signup-input password-field"
             value={formData.password}
             onChange={handleChange}
             onFocus={() => setShowPasswordRules(true)}
@@ -194,7 +194,7 @@ const SignUp = () => {
             type={confirmPasswordVisible ? 'text' : 'password'}
             name="confirmPassword"
             placeholder="Confirm Password"
-            className="signup-input"
+            className="signup-input password-field"
             value={formData.confirmPassword}
             onChange={handleChange}
             required
@@ -202,7 +202,7 @@ const SignUp = () => {
           <FontAwesomeIcon
             icon={confirmPasswordVisible ? faEyeSlash : faEye}
             onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
-            className="toggle2-password"
+            className="toggle-password"
           />
         </div>
 

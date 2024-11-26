@@ -1,4 +1,17 @@
-/* Logo styling at the top */
+/* General Page Styles */
+.preference-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Logo styling */
 .logo-container {
   position: absolute;
   top: 10px;
@@ -6,25 +19,12 @@
 }
 
 .website-logo {
-  width: 120px; 
+  width: 120px;
   height: auto;
-  margin-bottom: 70px;
-  
+  margin-bottom: 50px;
 }
 
-/* Page styling */
-.preference-page {
-  font-weight: normal;
-  flex-direction: column;
-  align-items: center;
-  max-width: 800px;
-  margin: 8;
-  padding: 2px;
-  background-color: #ffffff;
-  
- 
-  text-align: center;
-}
+/* Page Heading */
 .preference-page h2 {
   color: #4a4a4a;
   margin-bottom: 20px;
@@ -32,14 +32,14 @@
   font-weight: normal;
 }
 
-/* Error message styling */
+/* Error Message Styling */
 .error-message {
   color: red;
   margin-bottom: 15px;
   font-size: 14px;
 }
 
-/* Styling for the topics grid */
+/* Topics Grid */
 .topics-grid {
   display: flex;
   flex-wrap: wrap;
@@ -48,7 +48,7 @@
   justify-content: center;
 }
 
-/* Individual topic item styling */
+/* Individual Topic Item Styling */
 .topic-item {
   background-color: #83cdcd;
   color: white;
@@ -66,7 +66,7 @@
   background-color: #5a9393;
 }
 
-/* Article input section */
+/* Article Input Section */
 .article-section {
   margin-top: 10px;
 }
@@ -79,17 +79,17 @@
 }
 
 textarea {
-  width: 70%;
+  width: 500px;
   padding: 20px;
   border-radius: 5px;
   border: 1px solid #ccc;
   font-size: 14px;
   box-sizing: border-box;
   resize: vertical;
-  margin-bottom: 8px;
+  margin-bottom: 20px;
 }
 
-/* Buttons styling */
+/* Buttons Styling */
 .buttons {
   display: flex;
   justify-content: center;
@@ -103,10 +103,81 @@ textarea {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  width: 20%;
   cursor: pointer;
+ 
+  width: 130px;
 }
 
 .submit-btn:hover {
   background-color: #5a9393;
+  
+}
+
+/* Dark Mode Styles */
+body.dark-mode .preference-page {
+  
+  background-color: #121212; /* Dark background for the page */
+  color: #e0e0e0; /* Light text for readability */
+  
+}
+
+body.dark-mode .preference-page h2 {
+  color: #e0e0e0; /* Light text for headings */
+}
+
+body.dark-mode .topics-grid {
+  gap: 20px; /* Adjusted gap for dark mode visibility */
+}
+
+body.dark-mode .topic-item {
+  background-color: #2b2b2b; /* Dark background for topic items */
+  color: #e0e0e0; /* Light text */
+  border: 1px solid #5B95A1; /* Border for better contrast */
+}
+
+body.dark-mode .topic-item:hover {
+  background-color: #4A7C87; /* Hover color in dark mode */
+}
+
+body.dark-mode .topic-item.selected {
+  background-color: #5B95A1; /* Selected color for dark mode */
+}
+
+body.dark-mode .article-section h3 {
+  color: #e0e0e0; /* Light text for better readability */
+}
+
+body.dark-mode textarea {
+  background-color: #2b2b2b; /* Dark background for textarea */
+  color: #e0e0e0; /* Light text */
+  border: 1px solid #5B95A1; /* Accent color border */
+}
+
+body.dark-mode .submit-btn {
+  background-color: #5B95A1; /* Button background for dark mode */
+  color: #e0e0e0; /* Light text on buttons */
+}
+
+body.dark-mode .submit-btn:hover {
+  background-color: #4A7C87; /* Button hover state in dark mode */
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 480px) {
+  .preference-page {
+    padding: 10px;
+  }
+
+  .topics-grid {
+    gap: 10px;
+  }
+
+  .article-section textarea {
+    width: 90%; /* Expand textarea width for smaller screens */
+  }
+
+  .submit-btn {
+    width: 90%; /* Increase button width for mobile devices */
+    padding: 12px 16px; /* Adjust padding for smaller screens */
+  }
 }

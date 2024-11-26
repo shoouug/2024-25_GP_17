@@ -1,47 +1,110 @@
+/* General Styles for the Verify Email Container */
+.verify-email-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Full height of the viewport */
+  font-family: 'Inter', sans-serif;
+}
 
+/* Logo Container */
 .logo-containe {
-    position: absolute;
-    top: 10px;
-    left: 20px;
+  position: absolute;
+  top: 10px;
+  left: 20px;
+}
+
+/* Message Box */
+.message-box {
+  background-color: #ffffff; /* Light background for message box */
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  
+  width: 100%;
+  /* Remove fixed height to allow for flexible content */
+ 
+}
+
+/* Message Box Header */
+.message-box h3 {
+  font-size: 22px;
+  color: #5a9393;
+  margin-bottom: 10px;
+}
+
+/* Message Box Paragraph */
+.message-box p {
+  font-size: 18px;
+  color: #292727;
+  margin: 15px 0;
+  font-weight: normal;
+}
+
+/* Next Button Styling */
+.next-button {
+  background-color: #6ba6a6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px; /* Increased padding for better visibility */
+  font-size: 17px;
+  cursor: pointer;
+  
+  width: 30%; /* Increased width for better appearance */
+  margin-top: 20px; /* Add margin to separate button from text */
+}
+
+.next-button:hover {
+  background-color: #5a9393;
+  /* Slightly enlarge the button on hover */
+}
+
+/* Dark Mode Styles */
+body.dark-mode .verify-email-container {
+  background-color: #121212; /* Dark background for the entire page */
+  color: #e0e0e0; /* Light text for better readability */
+}
+
+body.dark-mode .message-box {
+  background-color: #2b2b2b; /* Dark background for message box */
+  color: #e0e0e0; /* Light text color for better contrast */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6); /* Adjust shadow for better dark mode effect */
+}
+
+body.dark-mode .message-box h3 {
+  color: #5B95A1; /* Accent color for header text */
+}
+
+body.dark-mode .message-box p {
+  color: #e0e0e0; /* Light text for message */
+}
+
+body.dark-mode .next-button {
+  background-color: #5B95A1; /* Button background color for dark mode */
+  color: #e0e0e0; /* Light text on buttons */
+}
+
+body.dark-mode .next-button:hover {
+  background-color: #4A7C87; /* Hover state for button in dark mode */
+  /* Slightly enlarge the button on hover */
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 480px) {
+  .verify-email-container {
+    padding: 15px;
   }
 
-  
   .message-box {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    max-width: 500px;
-    width: 100%;
+    width: 90%;
+    padding: 15px; /* Adjusted padding for smaller screens */
   }
-  
-  .message-box h3 {
-    
-    font-size: 22px;
-    color: #5a9393;
-    margin-bottom: 10px;
-  }
-  
-  .message-box p {
-    font-size: 18px;
-    color: #292727;
-    margin: 15px 0;
-    font-weight: normal;
-  }
-  
+
   .next-button {
-    background-color: #6ba6a6;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 17px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 30%;
+    width: 80%; /* Increase button width for smaller screens */
+    padding: 12px 16px; /* Adjust padding for better button visibility */
   }
-  
-  .next-button:hover {
-    background-color: #5a9393;
-  }
+}
