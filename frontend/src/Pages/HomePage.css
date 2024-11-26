@@ -139,7 +139,6 @@
     justify-content: space-between;
     padding: 10px 20px; /* Adjust padding for spacing */
     background-color: #ffffff;
-    border-bottom: 1px solid #ccc;
     height: 60px;
     position: fixed;
     width: calc(100% - 250px); /* Subtract sidebar width from the navbar width */
@@ -155,9 +154,10 @@
   }
 
   .logoH {
-    width: 100px;
+    width: 55px;
     height: auto;
     margin-right: 10px;
+    margin-left: 10px;
   }
 
 .ProfileIconH{
@@ -555,4 +555,74 @@
     .field-topic-change {
         width: 100%;
     }
+}
+
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #121212; /* Dark background for the entire app */
+    color: #e0e0e0; /* Light text for readability */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Sidebar - Dark Mode */
+body.dark-mode .sidebarH {
+    background-color: #1e1e1e; /* Dark sidebar background */
+    border-right: 1px solid #3e3e3e; /* Dark border */
+}
+
+body.dark-mode .chat-btnH {
+    background-color: #2b2b2b; /* Dark background for chat buttons */
+    color: #a0a0a0; /* Light text for chat buttons */
+}
+
+body.dark-mode .chat-btnH:hover {
+    background-color: #4d4d4d; /* Hover effect for chat buttons in dark mode */
+}
+
+/* Sidebar Footer - Dark Mode */
+body.dark-mode .mode-btnH,
+body.dark-mode .logout-btnH {
+    color: #5B95A1; /* Accent color for buttons in dark mode */
+}
+
+/* Main Content - Dark Mode */
+body.dark-mode .main-contentH {
+    background-color: #121212; /* Dark background for main content */
+}
+
+/* Navbar - Dark Mode */
+body.dark-mode .navbarH {
+    background-color: #121212; /* Dark background for navbar */
+}
+
+/* Inputs - Dark Mode */
+body.dark-mode .custom-topic-sectionH input {
+    background-color: #2b2b2b; /* Dark background for input fields */
+    color: #e0e0e0; /* Light text for input fields */
+    border: 1px solid #5B95A1; /* Accent border */
+}
+
+/* Buttons - Dark Mode */
+body.dark-mode .generate-btnH {
+    background-color: #5B95A1; /* Dark mode button background */
+}
+
+/* Generated Article - Dark Mode */
+body.dark-mode .generated-articleH {
+    background-color: #2b2b2b; /* Dark background for generated articles */
+    border: 1px solid #3e3e3e; /* Dark border */
+}
+
+body.dark-mode .topic-cardH{
+    background-color: #2b2b2b;
+    border: 1px solid #a0a0a0;
+}
+
+body.dark-mode .field-topic-change {
+    background-color: #2b2b2b;
+}
+
+body.dark-mode .article-contentH{
+    color:#a0a0a0;;
 }

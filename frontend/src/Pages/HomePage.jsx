@@ -4,8 +4,9 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import './HomePage.css';
 import sunIcon from '../images/sun.png';
+import moonIcon from '../images/moon.png';
 import exitIcon from '../images/exit.png';
-import logo from '../images/AIPress.png';
+import logo from '../images/GenNews.png';
 import ProfileIcon from '../images/ProfileIcon.png';
 import sendIcon from '../images/sendbutton.png'; // Import send icon
 import EditProfile from './EditProfile';
@@ -13,6 +14,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 const HomePage = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false); // Track dark mode state
   const [chats, setChats] = useState([]);
   const [journalistName, setJournalistName] = useState('Journalist Name');
   const [selectedTopics, setSelectedTopics] = useState([]);
@@ -27,33 +29,60 @@ const HomePage = () => {
   const [isProfileEditing, setIsProfileEditing] = useState(false);
   const navigate = useNavigate();
 
-  const fetchUserData = async () => {
-    const user = auth.currentUser;
-    if (user) {
+// Toggle Dark/Light Mode
+const toggleDarkMode = () => {
+  setIsDarkMode((prevMode) => {
+    const newMode = !prevMode; // Determine the new mode
+    if (newMode) {
+      document.body.classList.add("dark-mode"); // Add dark-mode class
+    } else {
+      document.body.classList.remove("dark-mode"); // Remove dark-mode class
+    }
+    return newMode; // Update state
+  });
+};
+
+// Function to fetch user data and sort articles by timestamp
+const fetchUserData = async () => {
+  const user = auth.currentUser;
+  if (user) {
+    try {
       const docRef = doc(db, 'Journalists', user.uid);
       const docSnap = await getDoc(docRef);
+
       if (docSnap.exists()) {
         const data = docSnap.data();
         setJournalistName(`${data.firstName} ${data.lastName}`);
         setSelectedTopics(data.selectedTopics || []);
         setUserData(data);
-        setChats(data.savedArticles || []); // Retrieve stored articles
+
+        // Sort the articles by timestamp (newest first)
+        const sortedChats = (data.savedArticles || []).sort((a, b) => {
+          return new Date(b.timestamp) - new Date(a.timestamp); // Descending order
+        });
+
+        setChats(sortedChats); // Save sorted chats to state
       }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  } else {
+    navigate('/');
+  }
+};
+
+// UseEffect to fetch data on component mount
+useEffect(() => {
+  const unsubscribe = auth.onAuthStateChanged((user) => {
+    if (user) {
+      fetchUserData();
     } else {
       navigate('/');
     }
-  };
+  });
+  return () => unsubscribe();
+}, [navigate]);
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        fetchUserData();
-      } else {
-        navigate('/');
-      }
-    });
-    return () => unsubscribe();
-  }, [navigate]);
 
   const handleNewChat = () => {
     setSelectedChat(null);
@@ -66,28 +95,33 @@ const HomePage = () => {
   const handleGenerateArticle = async () => {
     if (!topic) return;
   
-    // Define the new article
+    // Create the new article
     const newChat = {
       title: topic,
-      content: ` ${topic}.`,
-      timestamp: new Date().toLocaleTimeString(),
+      content: `${topic}.`,
+      timestamp: new Date().toISOString(), // Use ISO format for sorting consistency
     };
   
-    const updatedChats = [...chats, newChat];
-    
-    // Replace the old article content
+    // Add the new article to the top of the stack
+    const updatedChats = [newChat, ...chats];
+  
+    // Update the state and Firestore
+    setChats(updatedChats); // Update state to reflect the new stack
     setSelectedChat(newChat);
-    setChats(updatedChats);
-    setArticleContent(newChat.content); // Show the new article content
+    setArticleContent(newChat.content);
     setIsArticleGenerated(true);
   
-    // Save to Firestore
+    // Save the new stack to Firestore
     const user = auth.currentUser;
     if (user) {
-      const userRef = doc(db, 'Journalists', user.uid);
-      await updateDoc(userRef, {
-        savedArticles: updatedChats,
-      });
+      try {
+        const userRef = doc(db, 'Journalists', user.uid);
+        await updateDoc(userRef, {
+          savedArticles: updatedChats, // Save updated stack to Firestore
+        });
+      } catch (error) {
+        console.error("Error saving article:", error);
+      }
     }
   };
 
@@ -211,26 +245,32 @@ const HomePage = () => {
       <div className="sidebarH">
   <button className="new-chat-btnH" onClick={handleNewChat}>+ New chat</button>
   <div className="chatsH">
-    {[...chats] // Spread to create a new array
-      .reverse() // Reverse the array to show the newest chats first
-      .map((chat, index) => (
-        <button
-          key={index}
-          className="chat-btnH"
-          onClick={() => handleChatClick(chat)}
-        >
-          {chat.title}
-        </button>
-      ))}
-  </div>
-  <div className="sidebar-footerH">
-    <button className="mode-btnH">
-      <img src={sunIcon} alt="Sun Icon" className="iconH" /> Dark mode
+  {chats.map((chat, index) => (
+    <button
+      key={index}
+      className="chat-btnH"
+      onClick={() => handleChatClick(chat)}
+    >
+      {chat.title}
     </button>
-    <button className="logout-btnH" onClick={handleLogout}>
-      <img src={exitIcon} alt="Exit Icon" className="iconH" /> Log out
-    </button>
-  </div>
+  ))}
+</div>
+<div className="sidebar-footerH">
+  <button className="mode-btnH" onClick={toggleDarkMode}>
+    {isDarkMode ? (
+      <>
+        <img src={sunIcon} alt="Sun Icon" className="iconH" /> Light Mode
+      </>
+    ) : (
+      <>
+        <img src={moonIcon} alt="Moon Icon" className="iconH" /> Dark Mode
+      </>
+    )}
+  </button>
+  <button className="logout-btnH" onClick={handleLogout}>
+    <img src={exitIcon} alt="Exit Icon" className="iconH" /> Log out
+  </button>
+</div>
 </div>
 
       <div className="main-contentH">
