@@ -66,11 +66,11 @@ const Login = () => {
             className="toggle-password-icon"
           />
         </div>
-        {error && <p className="error-message1">{error}</p>}
 
         <div className="forgot-password">
-        <p className="black_p">Forgot your password? <Link to="/reset-password1">Reset Password</Link></p>
+  <p className="black_p">Forgot your password? <Link to="/reset-password1">Reset Password</Link></p>
         </div>
+        {error && <p className="error-message1">{error}</p>}
 
         <button type="submit" className="login-button">Log In</button>
       </form>

@@ -32,6 +32,8 @@ body, html {
 
 .black_p {
   color: black;
+
+
 }
 
 /* Input fields styling */
@@ -102,6 +104,7 @@ font-size: 80%;
   cursor: pointer;
   width: 50%;
   font-size: 16px;
+  margin-top: 1em;
 }
 
 .login-button:hover {
@@ -111,8 +114,11 @@ font-size: 80%;
 /* Error message */
 .error-message1 {
   color:red;
-  font-size: 14px;
-  margin-bottom: -1rem;}
+  font-size: 13px;
+  margin-bottom: 0rem;
+  margin-top: -0.9rem;
+
+}
 
  
   .toggle-password-icon {
