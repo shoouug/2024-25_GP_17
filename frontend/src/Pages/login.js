@@ -6,6 +6,8 @@ import './login.css';
 import Logo from '../images/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
+
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -67,7 +69,7 @@ const Login = () => {
         {error && <p className="error-message1">{error}</p>}
 
         <div className="forgot-password">
-          <p className="black_p">Forgot your password? <a href="/reset-password1">Reset Password</a></p>
+        <p className="black_p">Forgot your password? <Link to="/reset-password1">Reset Password</Link></p>
         </div>
 
         <button type="submit" className="login-button">Log In</button>
