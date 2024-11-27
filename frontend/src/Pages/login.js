@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth'; // Firebase Auth function
 import { auth } from '../firebase'; // Import Firebase auth instance
@@ -15,6 +15,16 @@ const Login = () => {
   const [error, setError] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State for password visibility
   const navigate = useNavigate();
+
+     // Apply dark mode state on component mount
+ useEffect(() => {
+  const isDarkModeEnabled = localStorage.getItem('dark-mode') === 'true'; // Get saved state
+  if (isDarkModeEnabled) {
+    document.body.classList.add('dark-mode'); // Apply dark mode
+  } else {
+    document.body.classList.remove('dark-mode'); // Ensure dark mode is off
+  }
+}, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();

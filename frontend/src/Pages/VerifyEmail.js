@@ -9,6 +9,16 @@ const VerifyEmail = () => {
   const auth = getAuth();
   const [isVerified, setIsVerified] = useState(false);
 
+// Apply dark mode state on component mount
+ useEffect(() => {
+  const isDarkModeEnabled = localStorage.getItem('dark-mode') === 'true'; // Get saved state
+  if (isDarkModeEnabled) {
+    document.body.classList.add('dark-mode'); // Apply dark mode
+  } else {
+    document.body.classList.remove('dark-mode'); // Ensure dark mode is off
+  }
+}, []);
+
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const oobCode = queryParams.get('oobCode');

@@ -33,14 +33,26 @@ const HomePage = () => {
 const toggleDarkMode = () => {
   setIsDarkMode((prevMode) => {
     const newMode = !prevMode; // Determine the new mode
+    localStorage.setItem('dark-mode', newMode); // Save the new state to localStorage
     if (newMode) {
-      document.body.classList.add("dark-mode"); // Add dark-mode class
+      document.body.classList.add('dark-mode'); // Add dark-mode class
     } else {
-      document.body.classList.remove("dark-mode"); // Remove dark-mode class
+      document.body.classList.remove('dark-mode'); // Remove dark-mode class
     }
-    return newMode; // Update state
+    return newMode; // Return the updated state
   });
 };
+
+useEffect(() => {
+  const isDarkModeEnabled = localStorage.getItem('dark-mode') === 'true'; // Get saved state
+  setIsDarkMode(isDarkModeEnabled); // Update the state
+  if (isDarkModeEnabled) {
+    document.body.classList.add('dark-mode'); // Apply dark mode
+  } else {
+    document.body.classList.remove('dark-mode'); // Ensure dark mode is off
+  }
+}, []);
+
 
 // Function to fetch user data and sort articles by timestamp
 const fetchUserData = async () => {

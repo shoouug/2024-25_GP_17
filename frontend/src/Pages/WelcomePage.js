@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Import Link from React Router
 import Lottie from 'lottie-react';
 import animationData from '../images/Animation - 1729347628307.json'; 
 import './WelcomePage.css';
 
 const WelcomePage = () => {
+
+  
+// Apply dark mode state on component mount
+ useEffect(() => {
+  const isDarkModeEnabled = localStorage.getItem('dark-mode') === 'true'; // Get saved state
+  if (isDarkModeEnabled) {
+    document.body.classList.add('dark-mode'); // Apply dark mode
+  } else {
+    document.body.classList.remove('dark-mode'); // Ensure dark mode is off
+  }
+}, []);
+
+
   return (
     <div className="welcome-containerW">
       {/* Lottie animation as background */}

@@ -1,15 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../firebase';
 import './reset-password1.css';
 import Logo from '../images/logo.png';
 
+
 const ResetPassword1 = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
+
+   // Apply dark mode state on component mount
+ useEffect(() => {
+  const isDarkModeEnabled = localStorage.getItem('dark-mode') === 'true'; // Get saved state
+  if (isDarkModeEnabled) {
+    document.body.classList.add('dark-mode'); // Apply dark mode
+  } else {
+    document.body.classList.remove('dark-mode'); // Ensure dark mode is off
+  }
+}, []);
+
 
   const handleContinue = async (e) => {
     e.preventDefault();
