@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { doc, updateDoc, arrayUnion } from 'firebase/firestore'; // i add zthe array 
+import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import Logo from '../images/logo.png'; // Import the logo image
 import './PreferenceTopics.css';
@@ -10,6 +10,16 @@ const PreferenceTopics = () => {
   const [article, setArticle] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  // Apply dark mode state on component mount
+  useEffect(() => {
+    const isDarkModeEnabled = localStorage.getItem('dark-mode') === 'true'; // Get saved state
+    if (isDarkModeEnabled) {
+      document.body.classList.add('dark-mode'); // Apply dark mode
+    } else {
+      document.body.classList.remove('dark-mode'); // Ensure dark mode is off
+    }
+  }, []);
 
   const topics = [
     'Technology', 'Finance', 'Health', 'Art', 'Science', 'Entertainment', 'Economy', 'Crime', 'Sport', 'Beauty',
@@ -23,6 +33,11 @@ const PreferenceTopics = () => {
       if (prev.includes(topic)) {
         return prev.filter(t => t !== topic);
       } else {
+        if (prev.length >= 5) {
+          setError('You can only choose up to 5 topics.');
+          return prev;
+        }
+        setError(''); // Clear error if limit is not reached
         return [...prev, topic];
       }
     });
@@ -48,12 +63,8 @@ const PreferenceTopics = () => {
         const userDocRef = doc(db, 'Journalists', user.uid);
         await updateDoc(userDocRef, {
           selectedTopics: selectedTopics,
-          ...(article && { previousArticles: arrayUnion(article) }) // so it would store as an array
+          ...(article && { previousArticles: arrayUnion(article) }) // Save as an array
         });
-        
-
-        /*Lina code is "selectedTopics: selectedTopics,
-          previousArticles: article || 'No article provided'". */
 
         console.log('Preferences saved successfully.');
         navigate('/HomePage');

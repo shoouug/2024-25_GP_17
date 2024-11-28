@@ -1,17 +1,4 @@
-/* General Page Styles */
-.preference-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
-
-  text-align: center;
-  font-family: 'Inter', sans-serif;
-}
-
-/* Logo styling */
+/* Logo Container */
 .logo-container {
   position: absolute;
   top: 10px;
@@ -21,10 +8,22 @@
 .website-logo {
   width: 120px;
   height: auto;
-  margin-bottom: 50px;
+  margin-bottom: 70px;
 }
 
-/* Page Heading */
+/* Page Styling */
+.preference-page {
+  font-weight: normal;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  background-color: #ffffff;
+  text-align: center;
+}
+
 .preference-page h2 {
   color: #4a4a4a;
   margin-bottom: 20px;
@@ -39,7 +38,7 @@
   font-size: 14px;
 }
 
-/* Topics Grid */
+/* Styling for the Topics Grid */
 .topics-grid {
   display: flex;
   flex-wrap: wrap;
@@ -103,81 +102,43 @@ textarea {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
+  width: 120px;
   cursor: pointer;
- 
-  width: 130px;
 }
 
 .submit-btn:hover {
   background-color: #5a9393;
-  
 }
 
 /* Dark Mode Styles */
 body.dark-mode .preference-page {
-  
-  background-color: #121212; /* Dark background for the page */
+  background-color: #121212; /* Dark background for preference page */
   color: #e0e0e0; /* Light text for readability */
-  
-}
-
-body.dark-mode .preference-page h2 {
-  color: #e0e0e0; /* Light text for headings */
-}
-
-body.dark-mode .topics-grid {
-  gap: 20px; /* Adjusted gap for dark mode visibility */
 }
 
 body.dark-mode .topic-item {
-  background-color: #2b2b2b; /* Dark background for topic items */
-  color: #e0e0e0; /* Light text */
-  border: 1px solid #5B95A1; /* Border for better contrast */
-}
-
-body.dark-mode .topic-item:hover {
-  background-color: #4A7C87; /* Hover color in dark mode */
+  background-color: #333333; /* Dark background for topic items */
+  color: #e0e0e0; /* Light text for topic items */
 }
 
 body.dark-mode .topic-item.selected {
-  background-color: #5B95A1; /* Selected color for dark mode */
+  background-color: #5B95A1; /* Highlight color for selected items */
 }
 
 body.dark-mode .article-section h3 {
-  color: #e0e0e0; /* Light text for better readability */
+  color: #e0e0e0; /* Light text for heading */
 }
 
 body.dark-mode textarea {
   background-color: #2b2b2b; /* Dark background for textarea */
-  color: #e0e0e0; /* Light text */
+  color: #e0e0e0; /* Light text for textarea */
   border: 1px solid #5B95A1; /* Accent color border */
 }
 
 body.dark-mode .submit-btn {
   background-color: #5B95A1; /* Button background for dark mode */
-  color: #e0e0e0; /* Light text on buttons */
 }
 
 body.dark-mode .submit-btn:hover {
-  background-color: #4A7C87; /* Button hover state in dark mode */
-}
-
-/* Responsive Design for Smaller Screens */
-@media (max-width: 480px) {
-  .preference-page {
-    padding: 10px;
-  }
-
-  .topics-grid {
-    gap: 10px;
-  }
-
-  .article-section textarea {
-    width: 90%; /* Expand textarea width for smaller screens */
-  }
-
-  .submit-btn {
-    width: 90%; /* Increase button width for mobile devices */
-    padding: 12px 16px; /* Adjust padding for smaller screens */
-  }
+  background-color: #4A7C87; /* Hover state for button in dark mode */
 }
