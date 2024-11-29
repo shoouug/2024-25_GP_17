@@ -14,7 +14,6 @@ import ResetPassword3 from './Pages/reset-password3';
 import AboutUs from './Pages/AboutUs';
 import EditProfile from './Pages/EditProfile';
 
-
 function App() {
   return (
     <Router>

@@ -215,16 +215,22 @@ useEffect(() => {
   const handleMouseEnter = () => {
     setShowTooltip(true);
   };
-
-  const handleMouseLeave = () => {
-    setShowTooltip(false);
+  
+  const handleMouseLeave = (e) => {
+    // Check if the mouse is outside both the icon and tooltip
+    if (!e.relatedTarget?.closest(".profile-tooltipH") && !e.relatedTarget?.closest(".profile-linkH")) {
+      setShowTooltip(false);
+    }
+  };
+  
+  const handleProfileClick = () => {
+    setShowTooltip((prev) => !prev); // Toggle tooltip on click
   };
 
   const handleEditProfile = () => {
-    setIsProfileEditing(true);
-    setShowTooltip(false);
+    navigate('/editprofile', { state: { userData } }); // Pass userData via state
   };
-
+  
   const handleKeywordUpdate = () => {
     if (selectedChat) {
       // Replace the entire article content with the new input
@@ -295,33 +301,25 @@ useEffect(() => {
     </div>
   </div>
   <div 
-    className="profile-linkH" 
-    onMouseEnter={handleMouseEnter} 
-    onMouseLeave={handleMouseLeave}
-  >
-    <img 
-      src={ProfileIcon} 
-      alt="Profile Icon" 
-      className="ProfileIconH" 
-    />
-    {showTooltip && userData && (
-      <div className="profile-tooltipH">
-        <h2>{`${userData.firstName} ${userData.lastName}`}</h2>
-        <p><strong>Email:</strong> {userData.email}</p>
-        <p><strong>Affiliation:</strong> {userData.affiliation}</p>
-        <p><strong>Country:</strong> {userData.country}</p>
-        <button 
-          className="edit-profile-btnH" 
-          onClick={handleEditProfile}
-        >
-          Edit Profile
-        </button>
-      </div>
-    )}
-  </div>
+  className="profile-linkH" 
+  onClick={handleProfileClick} // Toggle on click
+>
+  <img 
+    src={ProfileIcon} 
+    alt="Profile Icon" 
+    className="ProfileIconH" 
+  />
+  {showTooltip && userData && (
+    <div className="profile-tooltipH">
+      <h2>{`${userData.firstName} ${userData.lastName}`}</h2>
+      <p><strong>Email:</strong> {userData.email}</p>
+      <p><strong>Affiliation:</strong> {userData.affiliation}</p>
+      <p><strong>Country:</strong> {userData.country}</p>
+      <button className="view-profile-btnH"  onClick={handleEditProfile}>Edit Profile</button>
+    </div>
+  )}
 </div>
-
-       
+</div>
 
         {!isArticleGenerated && (
           <>

@@ -1,4 +1,3 @@
-/* General Layout */
 .homepage-containerH {
     display: flex;
     height: 100vh;
@@ -13,7 +12,6 @@
     }
 }
 
-/* Sidebar Styles */
 /* Sidebar Styles */
 .sidebarH {
     width: 250px; /* Fixed width for the sidebar */
@@ -131,7 +129,6 @@
     }
 }
 
-
 /* Navbar Styling */
 .navbarH {
     display: flex;
@@ -169,21 +166,30 @@
 
 /* Tooltip styling */
 .profile-tooltipH {
-    position: absolute; /* Position relative to the profile icon */
-    top: 60px; /* Adjust to show tooltip below the icon */
-    right: 0;
+    position: absolute; /* Ensure it's positioned relative to the parent */
+    top: 40px; /* Adjust to show tooltip below the icon */
+    right: 10px; /* Add space from the edge */
     background-color: #ffffff;
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 17px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 200; /* Ensure the tooltip is above all elements */
+    z-index: 10000; /* High value to ensure it stays above other elements */
     width: 260px;
     text-align: left;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    visibility: hidden; /* Hidden by default */
+    opacity: 0; /* Transparent by default */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
+
+/* Show tooltip on hover */
+.profile-linkH:hover .profile-tooltipH {
+    visibility: visible; /* Make tooltip visible */
+    opacity: 1; /* Fully opaque */
+}
+
   
 .profile-tooltipH h2 {
     font-size: 18px;
@@ -198,7 +204,7 @@
     margin: 5px 0;
 }
   
-.edit-profile-btnH {
+.view-profile-btnH {
     background-color: #5B95A1;
     color: white;
     border: none;

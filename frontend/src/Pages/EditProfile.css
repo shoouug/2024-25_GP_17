@@ -1,177 +1,213 @@
-/* EditProfile styling */
+/* Center the form fields */
+.form-centered {
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: left; /* Center horizontally */
+  width: 100%; /* Full width */
+  height: 100%; /* Full height if used */
+}
+
+/* Input label styling (centered with consistent size) */
+.input-labelWijdan {
+  width: 100%; /* Ensure consistent width */
+  max-width: 400px; /* Limit the label width for uniformity */
+  text-align: left; /* Keep text aligned left */
+  margin-bottom: 15px;
+  font-size: 19px;
+  color: #5B95A1;
+}
+
+.input-containerWijdan {
+    display: flex;
+    align-items: center; /* Vertically center the input and the "Edit" text */
+    width: 107%; /* Ensure it takes up the full width */
+   }
+  
+  /* Input field styles */
+  .inputWijdan {
+    width: 100%; /* Ensure inputs are the same size */
+    max-width: 400px; /* Limit width on larger screens */
+    padding: 8px;
+    margin-right: 8px;
+    border-radius: 4px;
+    font-size: 19px;
+    outline: none;
+    box-sizing: border-box;
+    border: 1px solid #6BA6A6;
+    background-color: #f7f7f7;
+  }
+
+.inputWijdan:disabled {
+  background-color: #f8f7f7; /* Light background when disabled */
+  color: #333;
+  border-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Dropdown input styling */
+.input-countryWijdan {
+  font-size: 16px;
+  padding: 8px;
+  border: 1px solid #6BA6A6;
+  background-color: #fffcfc;
+  border-radius: 4px;
+  color: #333;
+  width: 100%;
+}
+
+.input-countryWijdan:disabled {
+  background-color: #f0f0f0;
+  color: #333;
+  border-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Editable text  */
+.edit-textWijdan {
+  font-size: 16px;
+  margin-left: 8px;
+  color: #5B95A1;
+  cursor: pointer;
+  text-decoration: underline;
+  white-space: nowrap; /* Prevent wrapping */
+}
+
+.edit-textWijdan:hover {
+  color: #51848f;
+}
+
+.back-arrow-container {
+    position: fixed; 
+    top: 16px; 
+    left: 16px; 
+    z-index: 1000; /* Ensure it appears above other elements */
+  }
+  
+  .back-arrow-icon {
+    width: 40px; 
+    height: 40px; 
+    cursor: pointer; 
+  }
+  
+/* Main container for the Edit Profile page */
 .edit-profile-containerW {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #f9f9f9;
+  width: 100%;
+  height: 100vh; /* Full viewport height */
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 90%;
-  max-width: 500px;
-  overflow-y: auto;
-  max-height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto; /* Handle long content with scroll */
 }
 
 /* Form styling */
 .formW {
+  width: 100%;
+  max-width: 800px; /* Limit form width */
+  padding: 20px;
   display: flex;
   flex-direction: column;
-}
-
-/* General Input Fields Styling */
-.formW input,
-.country-inputW {
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 4px;
-  border: 1px solid #6BA6A6;
-  width: 100%;
-  font-size: 16px;
-  box-sizing: border-box;
-}
-
-/* Country Dropdown Specific Styling */
-.country-inputW {
-  appearance: none; /* Remove default arrow */
-  background-color: #ffffff; /* Same background as form */
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="%23ccc" d="M4.293 7.293l3.293 3.293 3.293-3.293 1.414 1.414-4.707 4.707-4.707-4.707z"/></svg>'); /* Custom arrow */
-  background-repeat: no-repeat;
-  background-position: right 10px center; /* Position of the arrow */
-  background-size: 1.5em; /* Size of the arrow */
-}
-
-/* Preference Topics Section Styling */
-.preference-topicsW {
-  margin-bottom: 20px; /* Reduced from 30px to 20px */
-}
-
-.preference-topicsW h2 {
-  font-size: 20px;
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-/* Error message styling */
-.error-messageW {
-  color: red;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-/* Topics Grid */
-.topics-gridW {
-  display: flex;
-  flex-wrap: wrap;
   gap: 15px;
-  justify-content: center;
+  margin-top: 20px; /* Added spacing from top */
+  overflow-y: auto; /* Allow the form to scroll if needed */
+}
+
+/* Section header */
+.edW {
+  color: #5B95A1;
+}
+
+/* Scrollable form container */
+.form-contentW {
+  flex: 1; /* Allow form to take up remaining space */
+  padding: 16px;
+  box-sizing: border-box; /* Include padding in width/height */
+}
+
+@media (max-width: 768px) {
+  .about-us-footer p {
+    font-size: 12px; /* Smaller font on mobile */
+  }
+}
+
+/* Grid styling for topics */
+.topics-gridW {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
+  gap: 16px;
+  max-height: 200px; /* Limit height */
+  overflow-y: auto; /* Enable scrolling */
+  padding: 10px 0;
 }
 
 /* Topic Item Styling */
 .topic-itemW {
-  background-color: #83cdcd;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-/* Darker background for selected topics */
-.topic-itemW.selectedW {
-  background-color: #3a6b6b;
-}
-
-.topic-itemW:hover {
-  background-color: #5a9393;
-}
-
-/* Article Section Styling */
-.article-sectionW {
-  margin-top: 10px; /* Reduced from 20px to 10px */
-}
-
-.article-sectionW h3 {
-  font-size: 18px;
-  color: #4a4a4a;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-textarea {
-  width: 100%;
-  padding: 10px; /* Reduced padding for a tighter look */
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-  box-sizing: border-box;
-  resize: vertical;
-}
-
-/* Close Button Styling */
-.close-btnW {
-  position: absolute;
-  top: 10px;
-  left: 15px;
-  background: transparent;
-  border: none;
-  font-size: 30px; /* Increased size for larger "X" */
-  font-weight: bold;
-  color: #333;
-  cursor: pointer;
-}
-
-.close-btnW:hover {
-  color:  #6ba6a6; /* Change color on hover */
-}
-
-/* Submit Button Styling */
-.submit-btnW {
-  background-color: #6ba6a6;
-  color: white;
-  padding: 15px 25px; /* Increased padding for a larger button */
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 18px; /* Increased font size for better visibility */
-  transition: background-color 0.3s ease;
-}
-
-.submit-btnW:hover {
-  background-color: #5a9393;
-}
-
-/* Cancel Button Styling */
-.cancel-btnW {
-  background-color: #a6a5a5;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-.cancel-btnW:hover {
-  background-color: #919090;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .edit-profile-containerW {
-    padding: 10px;
-  }
-
-  .preference-topicsW h2,
-  .article-sectionW h3 {
-    font-size: 16px;
-  }
-
-  .submit-btnW,
-  .cancel-btnW {
-    font-size: 14px;
+    background-color: #83cdcd;
+    color: white;
     padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
   }
-}
+  
+  .topic-itemW.selectedW {
+    background-color: #3a6b6b;
+  }
+  
+  .topic-itemW:hover {
+    background-color: #5a9393;
+  }
+  /* Article Section Styling */
+.article-sectionW {
+    margin-top: 10px; 
+  }
+  
+  .article-sectionW h3 {
+    font-size: 18px;
+    color: #4a4a4a;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  textarea {
+    width: 100%;
+    padding: 10px; /* Reduced padding for a tighter look */
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+    resize: vertical;
+  }
+  
+  /* Submit Button Styling */
+.submit-btnW {
+    background-color: #6ba6a6;
+    color: white;
+    padding: 15px 20px; /* Increased padding for a larger button */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px; /* Increased font size for better visibility */
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-btnW:hover {
+    background-color: #5a9393;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .edit-profile-containerW {
+      padding: 10px;
+    }
+  
+    .preference-topicsW h2,
+    .article-sectionW h3 {
+      font-size: 16px;
+    }
+  
+    .submit-btnW{
+      font-size: 14px;
+      padding: 10px 15px;
+    }
+  }
