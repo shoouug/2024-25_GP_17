@@ -47,7 +47,7 @@ body.dark-mode .signup-header {
 /* Password Container */
 .password-input-container {
   position: relative;
-  width: 100%;
+  width: 100px;
 }
 
 .password-field {
@@ -56,7 +56,7 @@ body.dark-mode .signup-header {
 
 .toggle-password {
   position: absolute;
-  right: 10px; /* Place the icon inside the input */
+  right: 6px; /* Place the icon inside the input */
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
@@ -130,6 +130,6 @@ body.dark-mode .signup-header {
     width: 100%;
   }
   .password-input-container input {
-    width: calc(100% - 50px);
+    width: 100%;
   }
 }
