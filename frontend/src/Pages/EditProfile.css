@@ -1,3 +1,26 @@
+/* Dark mode styles for Tooltip */
+body.dark-mode .profile-tooltipH {
+  background-color: #333; /* Dark background for dark mode */
+  color: #e0e0e0; /* Light text for dark mode */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7); /* Stronger shadow for visibility in dark mode */
+}
+
+body.dark-mode .profile-tooltipH h2 {
+  color: #a0c0c0; /* Lighter text for dark mode */
+}
+
+body.dark-mode .profile-tooltipH button {
+  background-color: #5B95A1; /* Maintain button color */
+  color: #e0e0e0; /* Light text on button in dark mode */
+}
+
+body.dark-mode .profile-tooltipH button:hover {
+  background-color: #4a7f89; /* Keep hover effect for dark mode */
+}
+body.dark-mode .profile-tooltipH p {
+  color: #e0e0e0; /* Light text for dark mode */
+}
+
 /* Center the form fields */
 .form-centered {
   display: flex;
@@ -20,13 +43,13 @@
 .input-containerWijdan {
     display: flex;
     align-items: center; /* Vertically center the input and the "Edit" text */
-    width: 107%; /* Ensure it takes up the full width */
+    width: 150%; /* Ensure it takes up the full width */
    }
   
   /* Input field styles */
   .inputWijdan {
     width: 100%; /* Ensure inputs are the same size */
-    max-width: 400px; /* Limit width on larger screens */
+    max-width: 500px; /* Limit width on larger screens */
     padding: 8px;
     margin-right: 8px;
     border-radius: 4px;
@@ -64,7 +87,7 @@
 
 /* Editable text  */
 .edit-textWijdan {
-  font-size: 16px;
+  font-size: 17px;
   margin-left: 8px;
   color: #5B95A1;
   cursor: pointer;
@@ -83,12 +106,28 @@
     z-index: 1000; /* Ensure it appears above other elements */
   }
   
-  .back-arrow-icon {
-    width: 40px; 
-    height: 40px; 
-    cursor: pointer; 
-  }
-  
+.back-arrow-icon {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: filter 0.3s ease; /* Smooth transition on hover */
+}
+
+/* Darker effect on hover */
+.back-arrow-icon:hover {
+  filter: brightness(0.7); /* Darken the icon on hover */
+}
+
+/* Adjust icon for lightening in dark mode */
+body.dark-mode .back-arrow-icon {
+  filter: brightness(1.3); /* Lighten the icon in dark mode */
+}
+
+/* Darker effect on hover in dark mode */
+body.dark-mode .back-arrow-icon:hover {
+  filter: brightness(1); /* Keep it normal on hover in dark mode */
+}
+
 /* Main container for the Edit Profile page */
 .edit-profile-containerW {
   width: 100%;
@@ -108,6 +147,7 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+
   margin-top: 20px; /* Added spacing from top */
   overflow-y: auto; /* Allow the form to scroll if needed */
 }
@@ -180,20 +220,22 @@
   }
   
   /* Submit Button Styling */
-.submit-btnW {
+  .submit-btnW {
     background-color: #6ba6a6;
     color: white;
-    padding: 15px 20px; /* Increased padding for a larger button */
+    padding: 10px 15px; /* Reduce padding for a smaller button */
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 18px; /* Increased font size for better visibility */
+    font-size: 18px; /* Smaller font size */
     transition: background-color 0.3s ease;
+   
   }
   
   .submit-btnW:hover {
     background-color: #5a9393;
   }
+  
 
   /* Responsive Design */
   @media (max-width: 768px) {
@@ -211,3 +253,84 @@
       padding: 10px 15px;
     }
   }
+  /* Dark Mode Styles */
+
+/* Dark mode body */
+body.dark-mode .edit-profile-containerW {
+  background-color: #1c1c1c; /* Dark background for the container */
+  color: #e0e0e0; /* Light text for the entire container */
+}
+
+body.dark-mode .input-labelWijdan {
+  color: #e0e0e0; /* Light text for the labels */
+}
+
+body.dark-mode .inputWijdan {
+  background-color: #3a3a3a; /* Dark input background */
+  color: #e0e0e0; /* Light input text */
+  border: 1px solid #5B95A1; /* Accent border */
+}
+
+body.dark-mode .inputWijdan:disabled {
+  background-color: #333; /* Disabled input background */
+  color: #777; /* Disabled text color */
+  border-color: #444; /* Disabled border color */
+}
+
+body.dark-mode .input-countryWijdan {
+  background-color: #3a3a3a; /* Dark background for country input */
+  color: #e0e0e0; /* Light text for the country input */
+  border: 1px solid #5B95A1; /* Accent border */
+}
+
+body.dark-mode .input-countryWijdan:disabled {
+  background-color: #333; /* Disabled input background */
+  color: #777; /* Disabled text color */
+  border-color: #444; /* Disabled border color */
+}
+
+/* Editable text */
+body.dark-mode .edit-textWijdan {
+  color: #5B95A1; /* Light color for editable text */
+}
+
+body.dark-mode .edit-textWijdan:hover {
+  color: #83cdcd; /* Change hover color to light */
+}
+
+/* Button Styling */
+body.dark-mode .submit-btnW {
+  background-color: #5B95A1; /* Dark mode button background */
+  color: #e0e0e0; /* Light text on buttons */
+  border: none;
+}
+
+body.dark-mode .submit-btnW:hover {
+  background-color: #51848f; /* Button hover effect */
+}
+
+/* Topic items */
+body.dark-mode .topic-itemW {
+  background-color: #5a9393; /* Dark background for topic items */
+  color: #fff; /* Light text for topics */
+}
+
+body.dark-mode .topic-itemW.selectedW {
+  background-color: #3a6b6b; /* Darker background when selected */
+}
+
+body.dark-mode .topic-itemW:hover {
+  background-color: #83cdcd; /* Light color when hovered */
+}
+
+/* Responsive Design for Dark Mode */
+@media (max-width: 768px) {
+  body.dark-mode .edit-profile-containerW {
+    padding: 10px;
+  }
+
+  body.dark-mode .submit-btnW {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+}

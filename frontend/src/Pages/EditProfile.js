@@ -42,7 +42,16 @@ const EditPro = ({ userData }) => {
         "Laos", "Bolivia", "Paraguay", "Uruguay", "Trinidad and Tobago", 
         "Barbados"
       ];
-    
+      // Apply dark mode state on component mount
+      useEffect(() => {
+       const isDarkModeEnabled = localStorage.getItem('dark-mode') === 'true'; // Get saved state
+       if (isDarkModeEnabled) {
+         document.body.classList.add('dark-mode'); // Apply dark mode
+       } else {
+         document.body.classList.remove('dark-mode'); // Ensure dark mode is off
+       }
+     }, []);
+
       useEffect(() => {
         const fetchUserData = async () => {
           const user = auth.currentUser;

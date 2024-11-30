@@ -315,7 +315,7 @@ useEffect(() => {
       <p><strong>Email:</strong> {userData.email}</p>
       <p><strong>Affiliation:</strong> {userData.affiliation}</p>
       <p><strong>Country:</strong> {userData.country}</p>
-      <button className="view-profile-btnH"  onClick={handleEditProfile}>Edit Profile</button>
+      <button className="view-profile-btnH"  onClick={handleEditProfile}>View Profile</button>
     </div>
   )}
 </div>
