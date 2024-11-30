@@ -248,7 +248,7 @@ const handleEditCountry = () => {
               
              />
               {!isAffiliationEditable && (
-               <span className="edit-textWijdan" onClick={handleEditAffiliation} required>
+               <span className="edit-textWijdan" onClick={handleEditAffiliation}>
                  Edit
                </span>
                
