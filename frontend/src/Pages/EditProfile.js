@@ -23,6 +23,7 @@ const EditPro = ({ userData }) => {
 
     const [error, setError] = useState('');
      const navigate = useNavigate();
+
      const countries = [
       "Saudi Arabia", "United States", "Canada", "United Kingdom", "Australia", 
       "Germany", "France", "United Arab Emirates", "India", "China", 
@@ -41,6 +42,7 @@ const EditPro = ({ userData }) => {
       "Laos", "Bolivia", "Paraguay", "Uruguay", "Trinidad and Tobago", 
       "Barbados"
     ];
+    
   // Apply dark mode on component mount
   useEffect(() => {
     const isDarkModeEnabled = localStorage.getItem('dark-mode') === 'true';
@@ -127,16 +129,21 @@ const EditPro = ({ userData }) => {
     const user = auth.currentUser;
     if (user) {
       try {
+        // Ensure affiliation is not empty
+        if (isAffiliationEditable && formData.affiliation.trim().length === 0) {
+          setError('Affiliation cannot be empty.');
+          return;
+        }
+  
         const docRef = doc(db, 'Journalists', user.uid);
         let profileUpdated = false;
         let articleAdded = false;
   
         // Check if profile data has changed
-        const isProfileUpdated = (
-            formData.affiliation !== userData?.affiliation || 
-            formData.country !== userData?.country || 
-            JSON.stringify(selectedTopics) !== JSON.stringify(userData?.selectedTopics)
-          );
+        const isProfileUpdated =
+          formData.affiliation !== userData?.affiliation ||
+          formData.country !== userData?.country ||
+          JSON.stringify(selectedTopics) !== JSON.stringify(userData?.selectedTopics);
   
         if (isProfileUpdated) {
           await updateDoc(docRef, {
@@ -145,7 +152,7 @@ const EditPro = ({ userData }) => {
           });
           profileUpdated = true;
         }
-
+  
         if (article.trim()) {
           await updateDoc(docRef, {
             previousArticles: arrayUnion(article),
@@ -153,15 +160,16 @@ const EditPro = ({ userData }) => {
           articleAdded = true;
           setArticle('');
         }
-  // Show success messages
+  
+        // Show success messages
         if (profileUpdated && articleAdded) {
-          alert("Profile and article updated successfully!");
+          alert('Profile and article updated successfully!');
         } else if (profileUpdated) {
-          alert("Profile updated successfully!");
+          alert('Profile updated successfully!');
         } else if (articleAdded) {
-          alert("Article added successfully!");
+          alert('Article added successfully!');
         }
-
+  
         navigate('/homepage');
       } catch (error) {
         setError('Failed to update profile. Please try again.');
@@ -254,7 +262,8 @@ const handleEditCountry = () => {
                
              )}
            </div>
-           
+           {error && <p className="error-message">{error}</p>}
+
          </label>
        
          <label className="input-labelWijdan">
