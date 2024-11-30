@@ -9,7 +9,6 @@ import SignUp from './Pages/Signup';
 import WelcomePage from './Pages/WelcomePage';
 import Login from './Pages/login';
 import ResetPassword1 from './Pages/reset-password1';
-import ResetPassword3 from './Pages/reset-password3';
 
 import AboutUs from './Pages/AboutUs';
 import EditProfile from './Pages/EditProfile';
@@ -23,8 +22,7 @@ function App() {
 
           <Route path="/signup" element={<SignUp />} /> {/* Sign-Up Page */}
           <Route path="/login" element={<Login />} /> {/* Login Page */}
-          <Route path="/reset-password1" element={<ResetPassword1 />} /> {/* Reset Password Step 1 */}
-          <Route path="/reset-password3" element={<ResetPassword3 />} /> {/* Reset Password Step 3 */}
+          <Route path="/reset-password1" element={<ResetPassword1 />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/preference-topics" element={<PreferenceTopics />} />
           

@@ -12,13 +12,13 @@ const ResetPassword1 = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
 
-   // Apply dark mode state on component mount
+ // dark mode 
  useEffect(() => {
-  const isDarkModeEnabled = localStorage.getItem('dark-mode') === 'true'; // Get saved state
+  const isDarkModeEnabled = localStorage.getItem('dark-mode') === 'true'; 
   if (isDarkModeEnabled) {
-    document.body.classList.add('dark-mode'); // Apply dark mode
+    document.body.classList.add('dark-mode'); 
   } else {
-    document.body.classList.remove('dark-mode'); // Ensure dark mode is off
+    document.body.classList.remove('dark-mode'); 
   }
 }, []);
 
@@ -28,21 +28,16 @@ const ResetPassword1 = () => {
 
     if (email) {
       try {
-        // Send the reset password email with a custom action URL
         await sendPasswordResetEmail(auth, email, {
-          url: 'http://localhost:3000/login', // Link to your reset-password3.js page
+          url: 'http://localhost:3000/login', 
           handleCodeInApp: true,
         });
         setSuccessMessage("Sent successfully");
-        setError(''); // Clear any existing error message
+        setError(''); 
       } catch (error) {
-        if (error.code === 'auth/user-not-found') {
-          setError("This email does not exist in our records.");
-          setSuccessMessage(''); // Clear any existing success message
-        } else {
+
           setError("Failed to send reset link. Please try again.");
-          setSuccessMessage('');
-        }
+          setSuccessMessage('');    
       }
     } else {
       setError("Please enter your email address.");
@@ -68,7 +63,7 @@ const ResetPassword1 = () => {
 
         <p className="hint">A password reset link will be sent to your email.<br />If the email exists in our records.</p>
 
-        {error && <p className="error-message1">{error}</p>}
+       {error && <p className="error-message-reset">{error}</p>}
         {successMessage && <p className="success-message1">{successMessage}</p>}
 
         <button type="submit" className="sendLink-button">Send Reset Link</button>

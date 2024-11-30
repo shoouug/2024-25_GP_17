@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signInWithEmailAndPassword } from 'firebase/auth'; // Firebase Auth function
-import { auth } from '../firebase'; // Import Firebase auth instance
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase'; 
 import './login.css';
 import Logo from '../images/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,27 +13,26 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State for password visibility
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false); 
   const navigate = useNavigate();
 
-     // Apply dark mode state on component mount
+ // dark mode  
  useEffect(() => {
-  const isDarkModeEnabled = localStorage.getItem('dark-mode') === 'true'; // Get saved state
+  const isDarkModeEnabled = localStorage.getItem('dark-mode') === 'true'; 
   if (isDarkModeEnabled) {
-    document.body.classList.add('dark-mode'); // Apply dark mode
+    document.body.classList.add('dark-mode'); 
   } else {
-    document.body.classList.remove('dark-mode'); // Ensure dark mode is off
+    document.body.classList.remove('dark-mode'); 
   }
-}, []);
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError(''); // Reset error message
+    setError(''); 
 
     try {
-      // Use Firebase to sign in the user with email and password
       await signInWithEmailAndPassword(auth, email, password);
-      navigate('/homepage'); // Navigate to the home page after successful login
+      navigate('/homepage'); 
     } catch (error) {
       if (error.code === 'auth/user-not-found') {
         setError('Email does not exist.');
@@ -78,11 +77,12 @@ const Login = () => {
         </div>
 
         <div className="forgot-password">
-  <p className="black_p">Forgot your password? <Link to="/reset-password1">Reset Password</Link></p>
+          <p className="black_p">Forgot your password? <Link to="/reset-password1">Reset Password</Link></p>
         </div>
         {error && <p className="error-message1">{error}</p>}
 
         <button type="submit" className="login-button">Log In</button>
+
       </form>
     </div>
   );
