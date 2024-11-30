@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './AboutUs.css';
 import Lottie from 'lottie-react';
 import animationData from '../images/Animation - 1729347628307.json'; 
@@ -10,7 +10,14 @@ const AboutUs = () => {
     React.useEffect(() => {
         AOS.init({ duration: 1000 });
     }, []);
-
+    useEffect(() => {
+        const isDarkModeEnabled = localStorage.getItem('dark-mode') === 'true'; // Get saved state
+        if (isDarkModeEnabled) {
+          document.body.classList.add('dark-mode'); // Apply dark mode
+        } else {
+          document.body.classList.remove('dark-mode'); // Ensure dark mode is off
+        }
+      }, []);
     return (
         <div className="about-us-container">
              

@@ -32,7 +32,8 @@ body.dark-mode .profile-tooltipH p {
 
 /* Input label styling (centered with consistent size) */
 .input-labelWijdan {
-  width: 100%; /* Ensure consistent width */
+  display: center;
+  width: 100%; 
   max-width: 400px; /* Limit the label width for uniformity */
   text-align: left; /* Keep text aligned left */
   margin-bottom: 15px;
@@ -175,8 +176,8 @@ body.dark-mode .back-arrow-icon:hover {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
   gap: 16px;
-  max-height: 200px; /* Limit height */
-  overflow-y: auto; /* Enable scrolling */
+  max-height: 200px; 
+  overflow-y: auto; 
   padding: 10px 0;
 }
 
@@ -184,10 +185,11 @@ body.dark-mode .back-arrow-icon:hover {
 .topic-itemW {
     background-color: #83cdcd;
     color: white;
-    padding: 10px 15px;
+    padding: 10px 10px;
     border-radius: 20px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+   
+   
   }
   
   .topic-itemW.selectedW {
@@ -211,7 +213,7 @@ body.dark-mode .back-arrow-icon:hover {
   
   textarea {
     width: 100%;
-    padding: 10px; /* Reduced padding for a tighter look */
+    padding: 10px; 
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 14px;
@@ -222,13 +224,16 @@ body.dark-mode .back-arrow-icon:hover {
   /* Submit Button Styling */
   .submit-btnW {
     background-color: #6ba6a6;
+    font-weight: normal;
+    font-size: 17px;
+    background-color: #6ba6a6;
     color: white;
-    padding: 10px 15px; /* Reduce padding for a smaller button */
+    padding: 10px 20px;
+    margin: 5px 240px;
     border: none;
     border-radius: 5px;
+    width: 160px;
     cursor: pointer;
-    font-size: 18px; /* Smaller font size */
-    transition: background-color 0.3s ease;
    
   }
   
@@ -333,4 +338,9 @@ body.dark-mode .topic-itemW:hover {
     font-size: 14px;
     padding: 10px 15px;
   }
+}
+.error-message {
+  color: red;
+  margin-bottom: 15px;
+  font-size: 14px;
 }
