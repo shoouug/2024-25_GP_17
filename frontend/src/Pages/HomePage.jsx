@@ -28,21 +28,6 @@ const HomePage = () => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [isProfileEditing, setIsProfileEditing] = useState(false);
   const navigate = useNavigate();
-  const [hamburgerMenuOpen, setHamburgerMenuOpen] = useState(false); // Track sidebar visibility
-
-  //Humberger
-  const toggleHamburgerMenu = () => {
-    setHamburgerMenuOpen((prev) => !prev); // Toggle the sidebar visibility
-  };
-{/* Hamburger Menu */}
-<div
-  className={`hamburger-menu ${hamburgerMenuOpen ? 'open' : ''}`}
-  onClick={toggleHamburgerMenu}
->
-  <span></span>
-  <span></span>
-  <span></span>
-</div>
 
 // Toggle Dark/Light Mode
 const toggleDarkMode = () => {
@@ -287,31 +272,35 @@ useEffect(() => {
 
   return (
     <div className="homepage-containerH">
-<div className={`sidebarH ${hamburgerMenuOpen ? 'show' : ''}`}>
-  <button className="new-chat-btnH">+ New chat</button>
+      <div className="sidebarH">
+  <button className="new-chat-btnH" onClick={handleNewChat}>+ New chat</button>
   <div className="chatsH">
-    {chats.map((chat, index) => (
-      <button key={index} className="chat-btnH">
-        {chat.title}
-      </button>
-    ))}
-  </div>
-  <div className="sidebar-footerH">
-    <button className="mode-btnH" onClick={toggleDarkMode}>
-      {isDarkMode ? (
-        <>
-          <img src={sunIcon} alt="Sun Icon" className="iconH" /> Light Mode
-        </>
-      ) : (
-        <>
-          <img src={moonIcon} alt="Moon Icon" className="iconH" /> Dark Mode
-        </>
-      )}
+  {chats.map((chat, index) => (
+    <button
+      key={index}
+      className="chat-btnH"
+      onClick={() => handleChatClick(chat)}
+    >
+      {chat.title}
     </button>
-    <button className="logout-btnH" onClick={handleLogout}>
-      <img src={exitIcon} alt="Exit Icon" className="iconH" /> Log out
-    </button>
-  </div>
+  ))}
+</div>
+<div className="sidebar-footerH">
+  <button className="mode-btnH" onClick={toggleDarkMode}>
+    {isDarkMode ? (
+      <>
+        <img src={sunIcon} alt="Sun Icon" className="iconH" /> Light Mode
+      </>
+    ) : (
+      <>
+        <img src={moonIcon} alt="Moon Icon" className="iconH" /> Dark Mode
+      </>
+    )}
+  </button>
+  <button className="logout-btnH" onClick={handleLogout}>
+    <img src={exitIcon} alt="Exit Icon" className="iconH" /> Log out
+  </button>
+</div>
 </div>
 
       <div className="main-contentH">
@@ -319,27 +308,29 @@ useEffect(() => {
   <div className="logo-sectionH">
     <img src={logo} alt="Logo" className="logoH" />
     <div className="welcome-sectionH">
-      <h1 className="welcome-headingH">Good morning, {journalistName}</h1>
+      <h1 className="welcome-headingH">Good morningg, {journalistName}</h1>
       <p className="welcome-subtextH">Let’s dive into the latest!</p>
     </div>
   </div>
   <div 
-    className="profile-linkH"
-    onClick={handleProfileClick}
-  >
-    <img src={ProfileIcon} alt="Profile Icon" className="ProfileIconH" />
-    {showTooltip && userData && (
-      <div className="profile-tooltipH">
-        <h2>{`${userData.firstName} ${userData.lastName}`}</h2>
-        <p><strong>Email:</strong> {userData.email}</p>
-        <p><strong>Affiliation:</strong> {userData.affiliation}</p>
-        <p><strong>Country:</strong> {userData.country}</p>
-        <button className="view-profile-btnH" onClick={handleEditProfile}>
-          View Profile
-        </button>
-      </div>
-    )}
-  </div>
+  className="profile-linkH" 
+  onClick={handleProfileClick} // Toggle on click
+>
+  <img 
+    src={ProfileIcon} 
+    alt="Profile Icon" 
+    className="ProfileIconH" 
+  />
+  {showTooltip && userData && (
+    <div className="profile-tooltipH">
+      <h2>{`${userData.firstName} ${userData.lastName}`}</h2>
+      <p><strong>Email:</strong> {userData.email}</p>
+      <p><strong>Affiliation:</strong> {userData.affiliation}</p>
+      <p><strong>Country:</strong> {userData.country}</p>
+      <button className="view-profile-btnH"  onClick={handleEditProfile}>View Profile</button>
+    </div>
+  )}
+</div>
 </div>
 
         {!isArticleGenerated && (
