@@ -28,6 +28,21 @@ const HomePage = () => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [isProfileEditing, setIsProfileEditing] = useState(false);
   const navigate = useNavigate();
+  const [hamburgerMenuOpen, setHamburgerMenuOpen] = useState(false); // Track sidebar visibility
+
+  //Humberger
+  const toggleHamburgerMenu = () => {
+    setHamburgerMenuOpen((prev) => !prev); // Toggle the sidebar visibility
+  };
+{/* Hamburger Menu */}
+<div
+  className={`hamburger-menu ${hamburgerMenuOpen ? 'open' : ''}`}
+  onClick={toggleHamburgerMenu}
+>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
 
 // Toggle Dark/Light Mode
 const toggleDarkMode = () => {
@@ -111,14 +126,22 @@ useEffect(() => {
     const newChat = {
       title: topic,
       content: `${topic}.`,
-      timestamp: new Date().toISOString(), // Use ISO format for sorting consistency
+      timestamp: new Date().toLocaleString('en-US', { 
+        year: 'numeric', 
+        month: '2-digit', 
+        day: '2-digit', 
+        hour: 'numeric', 
+        minute: 'numeric', 
+        second: 'numeric', 
+        hour12: true 
+      }), // Format the timestamp
     };
   
     // Add the new article to the top of the stack
     const updatedChats = [newChat, ...chats];
   
     // Update the state and Firestore
-    setChats(updatedChats); // Update state to reflect the new stack
+    setChats(updatedChats);
     setSelectedChat(newChat);
     setArticleContent(newChat.content);
     setIsArticleGenerated(true);
@@ -138,20 +161,24 @@ useEffect(() => {
   };
 
   const handleTopicCardClick = (selectedTopic) => {
-    // Define the new article
     const newChat = {
       title: selectedTopic,
-      content: `This is an article about ${selectedTopic}.`, // Initialize with content
-      timestamp: new Date().toLocaleTimeString(),
+      content: `This is an article about ${selectedTopic}.`,
+      timestamp: new Date().toLocaleString('en-US', { 
+        year: 'numeric', 
+        month: '2-digit', 
+        day: '2-digit', 
+        hour: 'numeric', 
+        minute: 'numeric', 
+        second: 'numeric', 
+        hour12: true 
+      }), // Format the timestamp
     };
   
-    // Update the chats list with the new chat at the top
     const updatedChats = [newChat, ...chats];
-  
-    // Set the selected chat and content
     setSelectedChat(newChat);
     setChats(updatedChats);
-    setArticleContent(newChat.content); // Ensure the article content is set correctly
+    setArticleContent(newChat.content);
     setIsArticleGenerated(true);
   
     // Save to Firestore
@@ -160,7 +187,7 @@ useEffect(() => {
       if (user) {
         const userRef = doc(db, 'Journalists', user.uid);
         await updateDoc(userRef, {
-          savedArticles: updatedChats, // Save the updated chats
+          savedArticles: updatedChats,
         });
       }
     };
@@ -260,35 +287,31 @@ useEffect(() => {
 
   return (
     <div className="homepage-containerH">
-      <div className="sidebarH">
-  <button className="new-chat-btnH" onClick={handleNewChat}>+ New chat</button>
+<div className={`sidebarH ${hamburgerMenuOpen ? 'show' : ''}`}>
+  <button className="new-chat-btnH">+ New chat</button>
   <div className="chatsH">
-  {chats.map((chat, index) => (
-    <button
-      key={index}
-      className="chat-btnH"
-      onClick={() => handleChatClick(chat)}
-    >
-      {chat.title}
+    {chats.map((chat, index) => (
+      <button key={index} className="chat-btnH">
+        {chat.title}
+      </button>
+    ))}
+  </div>
+  <div className="sidebar-footerH">
+    <button className="mode-btnH" onClick={toggleDarkMode}>
+      {isDarkMode ? (
+        <>
+          <img src={sunIcon} alt="Sun Icon" className="iconH" /> Light Mode
+        </>
+      ) : (
+        <>
+          <img src={moonIcon} alt="Moon Icon" className="iconH" /> Dark Mode
+        </>
+      )}
     </button>
-  ))}
-</div>
-<div className="sidebar-footerH">
-  <button className="mode-btnH" onClick={toggleDarkMode}>
-    {isDarkMode ? (
-      <>
-        <img src={sunIcon} alt="Sun Icon" className="iconH" /> Light Mode
-      </>
-    ) : (
-      <>
-        <img src={moonIcon} alt="Moon Icon" className="iconH" /> Dark Mode
-      </>
-    )}
-  </button>
-  <button className="logout-btnH" onClick={handleLogout}>
-    <img src={exitIcon} alt="Exit Icon" className="iconH" /> Log out
-  </button>
-</div>
+    <button className="logout-btnH" onClick={handleLogout}>
+      <img src={exitIcon} alt="Exit Icon" className="iconH" /> Log out
+    </button>
+  </div>
 </div>
 
       <div className="main-contentH">
@@ -296,29 +319,27 @@ useEffect(() => {
   <div className="logo-sectionH">
     <img src={logo} alt="Logo" className="logoH" />
     <div className="welcome-sectionH">
-      <h1 className="welcome-headingH">Good morningg, {journalistName}</h1>
+      <h1 className="welcome-headingH">Good morning, {journalistName}</h1>
       <p className="welcome-subtextH">Let’s dive into the latest!</p>
     </div>
   </div>
   <div 
-  className="profile-linkH" 
-  onClick={handleProfileClick} // Toggle on click
->
-  <img 
-    src={ProfileIcon} 
-    alt="Profile Icon" 
-    className="ProfileIconH" 
-  />
-  {showTooltip && userData && (
-    <div className="profile-tooltipH">
-      <h2>{`${userData.firstName} ${userData.lastName}`}</h2>
-      <p><strong>Email:</strong> {userData.email}</p>
-      <p><strong>Affiliation:</strong> {userData.affiliation}</p>
-      <p><strong>Country:</strong> {userData.country}</p>
-      <button className="view-profile-btnH"  onClick={handleEditProfile}>View Profile</button>
-    </div>
-  )}
-</div>
+    className="profile-linkH"
+    onClick={handleProfileClick}
+  >
+    <img src={ProfileIcon} alt="Profile Icon" className="ProfileIconH" />
+    {showTooltip && userData && (
+      <div className="profile-tooltipH">
+        <h2>{`${userData.firstName} ${userData.lastName}`}</h2>
+        <p><strong>Email:</strong> {userData.email}</p>
+        <p><strong>Affiliation:</strong> {userData.affiliation}</p>
+        <p><strong>Country:</strong> {userData.country}</p>
+        <button className="view-profile-btnH" onClick={handleEditProfile}>
+          View Profile
+        </button>
+      </div>
+    )}
+  </div>
 </div>
 
         {!isArticleGenerated && (

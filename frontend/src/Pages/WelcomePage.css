@@ -3,20 +3,20 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Inter', sans-serif;
-  background-color: #FFFFFF;  /* Keep body background white */
-  overflow: hidden;  /* Ensure no unwanted scroll or overflow */
+  background-color: #FFFFFF; /* Keep body background white */
+  overflow: hidden; /* Ensure no unwanted scroll or overflow */
 }
 
 /* Lottie Animation as Background */
 .background-animationW {
   position: absolute;
-  top: 1%;  /* Move the animation higher above the welcome text */
-  left: 50%;  /* Center horizontally */
-  width: 60%;  /* Adjust width */
-  height: auto;  /* Ensure aspect ratio is preserved */
-  transform: translateX(-50%);  /* Center horizontally */
-  z-index: 1;  /* Ensure animation stays above the content */
-  opacity: 0.3;  /* Adjust transparency */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  width: 60%; /* Default width for larger screens */
+  height: auto; /* Ensure aspect ratio is preserved */
+  transform: translate(-50%, -50%); /* Perfect centering */
+  z-index: 0; /* Animation behind the content */
+  opacity: 0.3; /* Adjust transparency */
 }
 
 /* Welcome Page Styles */
@@ -29,6 +29,7 @@ body {
   height: 100vh;
   overflow: hidden;
   position: relative;
+  text-align: center;
 }
 
 /* Navbar and Logo Styles */
@@ -50,20 +51,17 @@ body {
 
 /* Logo Styles */
 .logoW {
-  height: 90px; 
-
-  left: 10px;
+  height: 90px;
 }
 
 /* Navbar Links */
 .navbar-linksW {
-  display: flex;
+  display: flex; /* Ensure links stay in a row */
   gap: 20px; /* Adjust spacing between links */
 }
 
-/* Individual Link Styles */
 .nav-linkW {
-  color: #333333;
+  color: darkgray;
   text-decoration: none;
   font-weight: 400;
   font-size: 18px;
@@ -71,80 +69,84 @@ body {
   transition: color 0.3s ease;
 }
 
-/* Hover Effect for Links */
 .nav-linkW:hover {
-  color: #5B95A1;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .navbarW {
-    flex-direction: column; /* Stack the navbar items vertically on small screens */
-    align-items: flex-start; /* Align items to the start */
-    padding-top: 15px; /* Add some top padding */
-  }
-
-  .navbar-linksW {
-    flex-direction: column; /* Stack links vertically */
-    gap: 15px; /* Adjust gap between links for small screens */
-  }
-
-  .logoW {
-    height: 70px; /* Slightly reduce logo size on small screens */
-  }
-}
-
-
-.nav-linkW:hover {
-  color: #5B95A1;
+  color: #5B95A1; /* Hover color */
 }
 
 /* Welcome Content */
 .welcome-contentW {
-  text-align: center;
-  z-index: 2;  /* Ensure the text stays above the animation */
+  z-index: 1; /* Ensure content is above the animation */
   max-width: 800px;
+  margin: 0 auto;
   padding: 20px;
-  margin-top: 30px;  /* Increase space for the animation above */
-  background-color: transparent;  /* No background for the content */
+  background-color: transparent;
 }
 
 .welcome-titleW {
   font-size: 36px;
   font-weight: 400;
-  color: #333;
-  background-color: transparent;  /* No background for the title */
+  color: darkgray;
 }
 
 .welcome-descriptionW {
   font-size: 20px;
   font-weight: 400;
-  color: #666;
-  background-color: transparent;  /* No background for the description */
+  color: darkgray;
 }
 
-/* Responsive Styling */
-@media (max-width: 768px) {
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .background-animationW {
+    width: 50%; /* Adjust animation size for medium screens */
+  }
+
   .welcome-titleW {
-    font-size: 28px;
+    font-size: 32px; /* Slightly smaller title */
   }
 
   .welcome-descriptionW {
-    font-size: 16px;
+    font-size: 18px; /* Slightly smaller description */
   }
+}
 
-  .navbarW {
-    padding: 10px 20px;
-  }
-
+@media (max-width: 768px) {
   .navbar-linksW {
+    flex-direction: row; /* Keep links in a row */
     gap: 15px;
   }
 
-  .logoW {
-    height: 40px;
+  .background-animationW {
+    width: 40%; /* Reduce animation size */
   }
 
+  .welcome-titleW {
+    font-size: 28px; /* Smaller title */
+  }
 
-  
+  .welcome-descriptionW {
+    font-size: 16px; /* Smaller description */
+  }
+}
+
+@media (max-width: 480px) {
+  .background-animationW {
+    width: 30%; /* Further reduce animation size for smaller screens */
+  }
+
+  .navbar-linksW {
+    flex-direction: row; /* Ensure links remain in a row */
+    gap: 10px;
+  }
+
+  .welcome-titleW {
+    font-size: 24px; /* Smaller title */
+  }
+
+  .welcome-descriptionW {
+    font-size: 14px; /* Smaller description */
+  }
+
+  .logoW {
+    height: 50px; /* Reduce logo size */
+  }
 }
