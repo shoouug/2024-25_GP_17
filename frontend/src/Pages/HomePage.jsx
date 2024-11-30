@@ -293,7 +293,7 @@ useEffect(() => {
       </>
     ) : (
       <>
-        <img src={moonIcon} alt="Moon Icon" className="iconH" /> Dark Mode
+        <img src={moonIcon} alt="Moon Icon" className="iconH" /> Dark Modee
       </>
     )}
   </button>
