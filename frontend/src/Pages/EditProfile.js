@@ -21,6 +21,7 @@ const EditPro = ({ userData }) => {
     const [allTopics, setAllTopics] = useState([]);
     const [article, setArticle] = useState('');
 
+    const [affiliationError, setAffiliationError] = useState('');
     const [error, setError] = useState('');
      const navigate = useNavigate();
 
@@ -96,9 +97,17 @@ const EditPro = ({ userData }) => {
   }, [navigate]);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+      const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-  };
+
+      if (name === "affiliation") {
+        if (value.trim().length === 0) {
+          setAffiliationError("Affiliation cannot be empty.");
+        } else {
+          setAffiliationError(""); 
+        }
+      } 
+    };
 
   const handleTopicChange = (topic) => {
     setSelectedTopics((prevTopics) => {
@@ -129,12 +138,6 @@ const EditPro = ({ userData }) => {
     const user = auth.currentUser;
     if (user) {
       try {
-        // Ensure affiliation is not empty
-        if (isAffiliationEditable && formData.affiliation.trim().length === 0) {
-          setError('Affiliation cannot be empty.');
-          return;
-        }
-  
         const docRef = doc(db, 'Journalists', user.uid);
         let profileUpdated = false;
         let articleAdded = false;
@@ -243,28 +246,26 @@ const handleEditCountry = () => {
            </div>
          </label>
        
-         <label className="input-labelWijdan">
+          <label className="input-labelWijdan">
            Affiliation:
            <div className="input-containerWijdan">
              <input
                type="text"
                className="inputWijdan"
                value={formData.affiliation}
-               onChange={handleInputChange} 
+               onChange={handleInputChange}
                name="affiliation"
                disabled={!isAffiliationEditable}
-              
              />
-              {!isAffiliationEditable && (
+             {!isAffiliationEditable && (
                <span className="edit-textWijdan" onClick={handleEditAffiliation}>
                  Edit
                </span>
-               
              )}
            </div>
-           {error && <p className="error-message">{error}</p>}
-
+            {affiliationError && <p className="error-messageW">{affiliationError}</p>}
          </label>
+             
        
          <label className="input-labelWijdan">
            Country:
