@@ -133,12 +133,24 @@ body.dark-mode .back-arrow-icon:hover {
 .edit-profile-containerW {
   width: 100%;
   height: 100vh; /* Full viewport height */
-  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: auto; /* Handle long content with scroll */
+  overflow-y: auto; /* Allow vertical scrolling */
+  overflow-x: hidden;
+  position: relative; /* Ensure proper positioning */
+  padding-right: 17px; /* Compensate for scrollbar width */
 }
+
+/*
+.edit-profile-containerW::-webkit-scrollbar {
+  display: none;  For Chrome, Safari, and Opera 
+}
+
+.edit-profile-containerW {
+  -ms-overflow-style: none;  For Internet Explorer and Edge 
+  scrollbar-width: none;     For Firefox 
+}*/
 
 /* Form styling */
 .formW {
@@ -148,9 +160,7 @@ body.dark-mode .back-arrow-icon:hover {
   display: flex;
   flex-direction: column;
   gap: 15px;
-
   margin-top: 20px; /* Added spacing from top */
-  overflow-y: auto; /* Allow the form to scroll if needed */
 }
 
 /* Section header */
@@ -339,8 +349,9 @@ body.dark-mode .topic-itemW:hover {
     padding: 10px 15px;
   }
 }
-.error-message {
+.error-messageW {
   color: red;
-  margin-bottom: 15px;
+  margin-bottom: 1px;
+  margin-top: 1px;
   font-size: 14px;
 }
