@@ -142,3 +142,46 @@ body.dark-mode .submit-btn {
 body.dark-mode .submit-btn:hover {
   background-color: #4A7C87; /* Hover state for button in dark mode */
 }
+@media (max-width: 480px) {
+  .website-logo {
+    width: 100px;
+    margin-bottom: 40px;
+  }
+
+  .preference-page {
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  .preference-page h2 {
+    font-size: 20px;
+  }
+
+  .topics-grid {
+    gap: 10px;
+  }
+
+  .topic-item {
+    padding: 7px 8px;
+    font-size: 12px;
+  }
+
+  .article-section h3 {
+    font-size: 16px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 12px;
+  }
+
+  .submit-btn {
+    width: 140px;
+    font-size: 16px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+}
