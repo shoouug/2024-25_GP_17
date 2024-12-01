@@ -17,27 +17,27 @@
 
 /* Message Box */
 .message-box {
-  background-color: #ffffff; /* Light background for message box */
-  padding: 20px;
+  background-color: #ffffff; 
+  padding: 15px;
   border-radius: 10px;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   
   width: 100%;
-  /* Remove fixed height to allow for flexible content */
+  
  
 }
 
 /* Message Box Header */
 .message-box h3 {
-  font-size: 22px;
+  font-size: 20px;
   color: #5a9393;
   margin-bottom: 10px;
 }
 
 /* Message Box Paragraph */
 .message-box p {
-  font-size: 18px;
+  font-size: 15px;
   color: #292727;
   margin: 15px 0;
   font-weight: normal;
@@ -95,16 +95,23 @@ body.dark-mode .next-button:hover {
 /* Responsive Design for Smaller Screens */
 @media (max-width: 480px) {
   .verify-email-container {
-    padding: 15px;
+    padding: 2%;
+    fornt-size: 2px;
   }
 
   .message-box {
-    width: 90%;
-    padding: 15px; /* Adjusted padding for smaller screens */
+    background-color: #ffffff; 
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    
+    width: 100%;
+     /* Adjusted padding for smaller screens */
   }
 
   .next-button {
-    width: 80%; /* Increase button width for smaller screens */
-    padding: 12px 16px; /* Adjust padding for better button visibility */
+    width: 40%; 
+    padding: 12px 16px; 
   }
 }

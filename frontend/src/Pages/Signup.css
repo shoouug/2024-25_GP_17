@@ -56,7 +56,7 @@ body.dark-mode .signup-header {
 
 .toggle-password {
   position: absolute;
-  right: 10%; /* Place the icon inside the input */
+  right: 1%; 
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
