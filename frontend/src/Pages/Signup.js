@@ -167,7 +167,7 @@ const SignUp = () => {
       console.log('User creation successful:', user);
   
       await sendEmailVerification(user, {
-        url: 'http://localhost:3000/verify-email',
+        url: 'https://gennews-2e5b4.web.app/verify-email',
         handleCodeInApp: true,
       });
       console.log('Verification email sent.');
@@ -190,7 +190,7 @@ const SignUp = () => {
       }
   
       alert('Verification email sent!');
-      setError(''); // تنظيف الخطأ بعد النجاح
+      setError(''); 
   
     } catch (error) {
       console.error('Error during signup:', error);
@@ -199,7 +199,7 @@ const SignUp = () => {
       } else if (error.code === 'auth/invalid-email') {
         setError('The email address is invalid. Please check and try again.');
       } else {
-        setError('xxxxxxx.');
+        setError('An error occurred. Please try again.');
       }
     }
   };
