@@ -385,7 +385,7 @@ const HomePage = () => {
                 />
               </div>
               <button className="generate-btnH" onClick={handleGenerateArticle}>
-                Generate Article
+                Generate Articlee
               </button>
             </div>
           </>
