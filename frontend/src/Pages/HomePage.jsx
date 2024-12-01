@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { auth, db } from "../firebase";
-import "./HomePage.css";
-import sunIcon from "../images/sun.png";
-import moonIcon from "../images/moon.png";
-import exitIcon from "../images/exit.png";
-import logo from "../images/GenNews.png";
-import ProfileIcon from "../images/ProfileIcon.png";
-import sendIcon from "../images/sendbutton.png";
-import EditProfile from "./EditProfile";
-import jsPDF from "jspdf";
-import "jspdf-autotable";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase';
+import './HomePage.css';
+import sunIcon from '../images/sun.png';
+import moonIcon from '../images/moon.png';
+import exitIcon from '../images/exit.png';
+import logo from '../images/GenNews.png';
+import ProfileIcon from '../images/ProfileIcon.png';
+import sendIcon from '../images/sendbutton.png'; // Import send icon
+import EditProfile from './EditProfile';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 const HomePage = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -316,9 +316,8 @@ const HomePage = () => {
             </button>
             <img src={logo} alt="Logo" className="logoH" />
             <div className="welcome-sectionH">
-              <h1 className="welcome-headingH">
-                Good morning
-              </h1>
+            <h1 className="welcome-headingH">Good morning, {journalistName}</h1>
+
               <p className="welcome-subtextH">Let’s dive into the latest!</p>
             </div>
           </div>
@@ -385,7 +384,7 @@ const HomePage = () => {
                 />
               </div>
               <button className="generate-btnH" onClick={handleGenerateArticle}>
-                Generate Articlee
+                Generate Article
               </button>
             </div>
           </>
