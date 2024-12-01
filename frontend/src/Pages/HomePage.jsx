@@ -293,7 +293,7 @@ useEffect(() => {
       </>
     ) : (
       <>
-        <img src={moonIcon} alt="Moon Icon" className="iconH" /> Dark Modee
+        <img src={moonIcon} alt="Moon Icon" className="iconH" /> Dark Mode
       </>
     )}
   </button>
@@ -308,7 +308,7 @@ useEffect(() => {
   <div className="logo-sectionH">
     <img src={logo} alt="Logo" className="logoH" />
     <div className="welcome-sectionH">
-      <h1 className="welcome-headingH">Good morningg, {journalistName}</h1>
+      <h1 className="welcome-headingH">Good morning, {journalistName}</h1>
       <p className="welcome-subtextH">Let’s dive into the latest!</p>
     </div>
   </div>
