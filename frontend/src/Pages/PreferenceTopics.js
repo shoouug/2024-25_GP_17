@@ -49,32 +49,33 @@ const PreferenceTopics = () => {
   };
 
   // Handle form submission
-  const handleSubmit = async () => {
-    if (selectedTopics.length === 0) {
-      setError('Please select at least one topic.');
-      return;
+// Handle form submission
+const handleSubmit = async () => {
+  if (selectedTopics.length === 0) {
+    setError('Please select at least one topic.');
+    return;
+  }
+
+  setError('');
+
+  try {
+    const user = auth.currentUser;
+    if (user) {
+      const userDocRef = doc(db, 'Journalists', user.uid);
+      await updateDoc(userDocRef, {
+        selectedTopics: selectedTopics,
+        ...(article && { previousArticles: arrayUnion(article) }) // Save as an array
+      });
+
+      console.log('Preferences saved successfully.');
+      navigate('/homepage');
+    } else {
+      console.error('No user is logged in.');
     }
-
-    setError('');
-
-    try {
-      const user = auth.currentUser;
-      if (user) {
-        const userDocRef = doc(db, 'Journalists', user.uid);
-        await updateDoc(userDocRef, {
-          selectedTopics: selectedTopics,
-          ...(article && { previousArticles: arrayUnion(article) }) // Save as an array
-        });
-
-        console.log('Preferences saved successfully.');
-        navigate('/HomePage');
-      } else {
-        console.error('No user is logged in.');
-      }
-    } catch (error) {
-      console.error('Error saving preferences:', error);
-    }
-  };
+  } catch (error) {
+    console.error('Error saving preferences:', error);
+  }
+};
 
   return (
     <div className="preference-page">
