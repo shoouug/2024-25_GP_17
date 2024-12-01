@@ -199,7 +199,7 @@ const SignUp = () => {
       } else if (error.code === 'auth/invalid-email') {
         setError('The email address is invalid. Please check and try again.');
       } else {
-        setError('An error occurred. Please try again.');
+        setError('xxxxxxx.');
       }
     }
   };
