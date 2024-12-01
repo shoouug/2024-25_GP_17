@@ -80,56 +80,124 @@ const SignUp = () => {
     setEmailError(isValid ? '' : 'Please enter a valid email address.');
   };
 
+  // const handleSubmitSignUp = async (e) => {
+  //   e.preventDefault();
+  //   setError('');
+  //   setCountryError('');
+
+  //   if (!isEmailValid) {
+  //     setError('Please enter a valid email address.');
+  //     return;
+  //   }
+
+  //   if (formData.password !== formData.confirmPassword) {
+  //     setError("Passwords don't match!");
+  //     return;
+  //   }
+
+  //   if (!Object.values(passwordValidations).every(Boolean)) {
+  //     setError('Please meet all password requirements.');
+  //     return;
+  //   }
+
+  //   if (!formData.country) {
+  //     setCountryError('Please select your country.');
+  //     return;
+  //   }
+
+  //   try {
+  //     const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+  //     const user = userCredential.user;
+
+  //     await sendEmailVerification(user, {
+  //       url: 'http://localhost:3000/verify-email',
+  //       handleCodeInApp: true,
+  //     });
+
+  //     await setDoc(doc(db, 'Journalists', user.uid), {
+  //       firstName: formData.firstName,
+  //       lastName: formData.lastName,
+  //       email: formData.email,
+  //       affiliation: formData.affiliation,
+  //       country: formData.country,
+  //       selectedTopics: [],
+  //       previousArticles: [],
+  //     });
+
+  //     alert('Verification email sent!');
+      
+
+  //   } catch (error) {
+  //     if (error.code === 'auth/email-already-in-use') {
+  //       setError('This email is already associated with an account. Please use another email.');
+  //     } else {
+  //       setError('An error occurred. Please try again.');
+  //     }
+  //   }
+  // };
+
   const handleSubmitSignUp = async (e) => {
     e.preventDefault();
     setError('');
     setCountryError('');
-
+  
     if (!isEmailValid) {
       setError('Please enter a valid email address.');
       return;
     }
-
+  
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords don't match!");
       return;
     }
-
+  
     if (!Object.values(passwordValidations).every(Boolean)) {
       setError('Please meet all password requirements.');
       return;
     }
-
+  
     if (!formData.country) {
       setCountryError('Please select your country.');
       return;
     }
-
+  
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
       const user = userCredential.user;
-
+      console.log('User creation successful:', user);
+  
       await sendEmailVerification(user, {
         url: 'http://localhost:3000/verify-email',
         handleCodeInApp: true,
       });
-
-      await setDoc(doc(db, 'Journalists', user.uid), {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        affiliation: formData.affiliation,
-        country: formData.country,
-        selectedTopics: [],
-        previousArticles: [],
-      });
-
+      console.log('Verification email sent.');
+  
+      try {
+        await setDoc(doc(db, 'Journalists', user.uid), {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          affiliation: formData.affiliation,
+          country: formData.country,
+          selectedTopics: [],
+          previousArticles: [],
+        });
+        console.log('User data written to Firestore.');
+      } catch (firestoreError) {
+        console.error('Firestore error:', firestoreError);
+        setError('Failed to save user data. Please try again.');
+        return;
+      }
+  
       alert('Verification email sent!');
-      
-
+      setError(''); // تنظيف الخطأ بعد النجاح
+  
     } catch (error) {
+      console.error('Error during signup:', error);
       if (error.code === 'auth/email-already-in-use') {
         setError('This email is already associated with an account. Please use another email.');
+      } else if (error.code === 'auth/invalid-email') {
+        setError('The email address is invalid. Please check and try again.');
       } else {
         setError('An error occurred. Please try again.');
       }
