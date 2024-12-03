@@ -164,16 +164,40 @@
     cursor: pointer;
     margin-right: 10px;
     margin-left: 10px;
+    color: #5B95A1;
+    color: #5B95A1;
+    background-color: transparent;
+  }
+
+  @media (max-width: 768px) {
+    .welcome-sectionH {
+      text-align: center;
+    }
+  
+    .welcome-headingH {
+      font-size: 13px;
+    }
+  
+    .welcome-subtextH {
+      font-size: 11px;
+      text-align: left;
+    }
+    .logoH{
+      width: 20px;
+      height: auto;
+      margin-right: 10px;
+    }
+    
   }
   
   .logoH {
-    width: 55px;
+    width: 30px;
     height: auto;
     margin-right: 10px;
   }
   
   .ProfileIconH {
-    width: 40px;
+    width: 30px;
     height: auto;
     cursor: pointer;
     z-index: 100;
@@ -233,7 +257,7 @@
   }
   
   .welcome-headingH {
-    font-size: 15px;
+    font-size: 12px;
     color: #5B95A1;
     margin: 0;
     white-space: nowrap;
@@ -245,20 +269,7 @@
     color: #5B95A1;
     margin: 0;
   }
-  
-  @media (max-width: 768px) {
-    .welcome-sectionH {
-      text-align: center;
-    }
-  
-    .welcome-headingH {
-      font-size: 20px;
-    }
-  
-    .welcome-subtextH {
-      font-size: 10px;
-    }
-  }
+
   
 
   .topics-sectionH {
@@ -271,6 +282,7 @@
     color: #5B95A1;
     font-weight: 400;
     margin-bottom: 20px;
+    margin-top: 100px;
   }
   
 

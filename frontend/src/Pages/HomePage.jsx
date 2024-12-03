@@ -269,8 +269,9 @@ const HomePage = () => {
   return (
     <div
       className={`homepage-containerH ${isSidebarOpen ? "sidebar-open" : ""}`}
+      onClick={() => setIsSidebarOpen(false)}
     >
-      <div className="sidebarH">
+      <div className="sidebarH" onClick={(e) => e.stopPropagation()}>
         <button className="new-chat-btnH" onClick={handleNewChat}>
           + New chat
         </button>
@@ -310,7 +311,10 @@ const HomePage = () => {
           <div className="logo-sectionH">
             <button
               className="menu-btnH"
-              onClick={toggleSidebar}
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent closing sidebar on button click
+                toggleSidebar();
+              }}
             >
               ☰
             </button>
