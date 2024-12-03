@@ -28,7 +28,7 @@ const HomePage = () => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [isProfileEditing, setIsProfileEditing] = useState(false);
   const navigate = useNavigate();
-
+  const [topicError, setTopicError] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -59,7 +59,6 @@ const HomePage = () => {
     }
   }, []);
 
-  // جلب بيانات المستخدم وترتيب المقالات حسب الوقت
   const fetchUserData = async () => {
     const user = auth.currentUser;
     if (user) {
@@ -107,11 +106,16 @@ const HomePage = () => {
   };
 
   const handleGenerateArticle = async () => {
-    if (!topic) return;
+    if (!topic.trim()) {
+      setTopicError("Topic is required to generate an article."); // Set the error message
+      return;
+    }
+
+    setTopicError("");
 
     const newChat = {
       title: topic,
-      content: `${topic}.`,
+      content: `${topic}${keyword ? ` ${keyword}` : ""}.`,
       timestamp: new Date().toLocaleString("en-US", {
         year: "numeric",
         month: "2-digit",
@@ -373,12 +377,14 @@ const HomePage = () => {
 
             <p className="topic-promptH">Or, start with a custom topic</p>
             <div className="custom-topic-sectionH">
+            {topicError && <p className="error-message">{topicError}</p>}
               <div className="custom-topic-inputsH">
                 <input
                   type="text"
                   placeholder="Topic"
                   value={topic}
                   onChange={(e) => setTopic(e.target.value)}
+                  required // Enforce validation in forms
                 />
                 <input
                   type="text"
@@ -426,7 +432,7 @@ const HomePage = () => {
                 type="text"
                 className="field-topic-change"
                 placeholder=""
-                value={keyword}
+                // value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
               />
               <img
