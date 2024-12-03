@@ -115,7 +115,7 @@ const HomePage = () => {
 
     const newChat = {
       title: topic,
-      content: `${topic}${keyword ? ` ${keyword}` : ""}.`,
+      content: `This is an article about ${topic}${keyword ? ` ${keyword}` : ""}.`,
       timestamp: new Date().toLocaleString("en-US", {
         year: "numeric",
         month: "2-digit",
