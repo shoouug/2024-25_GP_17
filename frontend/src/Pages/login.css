@@ -6,10 +6,6 @@ body, html {
   justify-content: center;
 }
 
-
-
-
-
 .logoIn {
   width: 200px !important;
   height: auto;
@@ -18,21 +14,16 @@ body, html {
   top: -80px; 
 }
 
-
-
 .welcoming {
   font-size: 16px;
   color: #6BA6A6;
   margin-bottom: 40px;
   margin-top: -20px;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); 
-
 }
 
 .black_p {
   color: black;
-
-
 }
 
 .input-container {
@@ -42,8 +33,6 @@ body, html {
   align-items: flex-start;
   margin-bottom: 10px;
 }
-
-
 
 .input-container input {
   width: 250px;
@@ -99,10 +88,8 @@ font-size: 80%;
   font-size: 13px;
   margin-bottom: 0rem;
   margin-top: -0.9rem;
-
 }
 
- 
   .toggle-password-icon {
     position: absolute;
     right: 10px;
@@ -126,5 +113,4 @@ color:darkgrey;
   body.dark-mode .title,
   body.dark-mode .hint {
     color:darkgrey;
-
   }
