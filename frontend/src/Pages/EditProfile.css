@@ -42,11 +42,11 @@ body.dark-mode .submit-btnW {
   background-color: #5B95A1;
 }
 
-/* Section header 
+/* Section header */
 .edW {
-  color: #5B95A1;
+  margin-top: 15%;
 }
-*/
+
 
 /* Edit Profile Container */
 .edit-profile-containerW {
@@ -55,8 +55,8 @@ body.dark-mode .submit-btnW {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: auto; /* Vertical scroll if needed */
-  padding: 20px; /* Adjust for general spacing */
+  overflow-y: auto; 
+  padding: 20px; 
 }
 
 /* Back Arrow Container Styles */
@@ -84,13 +84,13 @@ body.dark-mode .submit-btnW {
 /* Form */
 .formW {
   width: 100%;
-  max-width: 700px; /* Suitable size for laptops and tablets */
-  padding: 20px;
+  max-width: 500px; /* Suitable size for laptops and tablets */
+  padding: 30px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
   background: #fff;
-  border-radius: 10px;
+  align-items: center;
 }
 
 /* Center the form fields */
@@ -102,15 +102,26 @@ body.dark-mode .submit-btnW {
   height: 100%; /* Full height if used */
 }
 
+.input-labelWijdan {
+  font-size: 17px;
+  color: #5B95A1;
+  margin-bottom: 15px; 
+  margin-left: 10%;
+ text-align: left; /*
+   display: center;
+  width: 100%; 
+  max-width: 500px;*/
+}
+
 /* Input Fields */
 .inputWijdan,
 .input-countryWijdan {
   width: 100%;
-  max-width: 600px;
-  padding: 10px; 
+  max-width: 80%;
+  padding: 8px; 
   border: 1px solid #6BA6A6;
   border-radius: 5px; 
-  font-size: 19px; 
+  font-size: 17px; 
   background-color: #fffcfc;; 
   color: #333; 
   box-shadow: none; 
@@ -125,16 +136,6 @@ body.dark-mode .submit-btnW {
   color: #333;
   border-color: #ccc;
   cursor: not-allowed;
-}
-
-.input-labelWijdan {
-  font-size: 20px;
-  color: #5B95A1;
-  margin-bottom: 15px; 
- text-align: left; /*
-   display: center;
-  width: 100%; 
-  max-width: 500px;*/
 }
 
 /* Editable Text */
@@ -153,8 +154,9 @@ body.dark-mode .submit-btnW {
 /* Topics Grid */
 .topics-gridW {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Responsive grid */
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Responsive grid */
   gap: 12px;
+  max-width: 400px;
   max-height: 198px; /* Limit the height to show part of the topics */
   overflow-y: auto; /* Enable vertical scrolling for additional topics */
   padding: 10px;
@@ -162,8 +164,8 @@ body.dark-mode .submit-btnW {
 
 /* Individual Topic Items */
 .topic-itemW {
-  background-color: #83cdcd; /* Default background color */
-  color: #ffffff; /* Text color */
+  background-color: #83cdcd; 
+  color: #ffffff; 
   padding: 10px;
   text-align: center;
   border-radius: 20px;
@@ -173,13 +175,30 @@ body.dark-mode .submit-btnW {
 
 /* Selected Topic */
 .topic-itemW.selectedW {
-  background-color: #3a6b6b; /* Highlight color for selected topics */
+  background-color: #3a6b6b;
 }
 
 /* Hover Effect */
 .topic-itemW:hover {
   background-color: #5a9393;
-  transform: scale(1.05); /* Slight zoom effect */
+  transform: scale(1.05); 
+}
+
+.textW {
+  width: 450px;
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  box-sizing: border-box;
+  resize: vertical;
+  margin-bottom: 20px;
+ }
+
+.textW:focus {
+  outline: none;
+  border-color: #5B95A1; 
+  box-shadow: 0 0 5px rgba(91, 149, 161, 0.5); 
 }
 
 /* Submit Button */
@@ -231,7 +250,7 @@ body.dark-mode .submit-btnW {
 
 @media (max-width: 480px) {
   .formW {
-    width: 95%;
+    width: 85%;
     padding: 10px;
   }
 

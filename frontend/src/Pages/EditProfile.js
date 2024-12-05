@@ -84,11 +84,9 @@ const EditPro = ({ userData }) => {
 
     const fetchAllTopics = () => {
       setAllTopics([
-        'Technology', 'Finance', 'Health', 'Art', 'Science', 'Entertainment', 'Economy',
-        'Crime', 'Sport', 'Beauty', 'Politics', 'Education', 'Environment',
-        'Travel', 'Food', 'Lifestyle', 'History', 'Culture', 'Business', 'Fashion',
-        'Automobile', 'Gaming', 'Movies', 'Music', 'Real Estate',
-        'Personal Finance', 'Pets', 'Parenting', 'Space', 'Weather',
+        'Technology', 'Finance', 'Health', 'Art', 'Science', 'Entertainment', 'Economy', 'Crime', 'Sport', 'Beauty',
+        'Politics', 'Education', 'Environment','Law', 'Travel', 'Food', 'Lifestyle', 'History', 'Culture', 'Business', 'Fashion',
+        'Automobile', 'Gaming', 'Movies', 'Music', 'Real Estate', 'Personal Finance', 'Pets', 'Parenting', 'Space', 'Weather'
       ]);
     };
 
@@ -314,7 +312,7 @@ const handleEditCountry = () => {
           {/* Article Writing Section */}
           <section className="article-sectionW">
             <h2 className="edtW">Write Your Article</h2>
-            <textarea
+            <textarea className="textW"
               placeholder="Paste or write your article here..."
               value={article}
               onChange={handleArticleChange}
