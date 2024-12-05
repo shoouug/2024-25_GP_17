@@ -51,13 +51,13 @@ body.dark-mode .signup-header {
 }
 
 .password-field {
-  padding-right: 40px; /* Adjusted padding for the eye icon */
+  padding-right: 40px; 
 }
 
 .toggle-password {
   position: absolute;
-  right: 9%; /* Place the icon inside the input */
-  top: 50%;
+  right: 3%; 
+  top: 40%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #6BA6A6;
