@@ -56,7 +56,7 @@ body.dark-mode .signup-header {
 
 .toggle-password {
   position: absolute;
-  right: 3%; 
+  right: 2%; 
   top: 40%;
   transform: translateY(-50%);
   cursor: pointer;
