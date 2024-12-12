@@ -9,9 +9,8 @@ body, html {
 .logoIn {
   width: 200px !important;
   height: auto;
-  margin-bottom: 20px;
   position: relative;
-  top: -80px; 
+  top: -30px; 
 }
 
 .welcoming {

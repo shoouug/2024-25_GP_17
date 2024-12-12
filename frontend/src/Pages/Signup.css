@@ -9,7 +9,10 @@
   align-items: center;
   margin-top: 80px; /* Add margin to avoid overlap with the logo */
 }
-
+.website-logo{
+width: 200px ;
+margin-left: 50%;
+}
 /* Dark Mode for Sign-Up Page */
 body.dark-mode .signup-form {
   color: #e0e0e0; /* Light text for better contrast */
