@@ -229,43 +229,99 @@ body.dark-mode .submit-btnW {
 }
 
 @media (max-width: 768px) {
+
+  .edit-profile-containerW {
+    padding: 10px; /* Reduce padding for smaller screens */
+  }
   .formW {
     width: 90%;
     padding: 15px;
   }
 
   .input-labelWijdan {
-    font-size: 16px;
+    font-size: 14px;
   }
 
-  .inputWijdan {
+  .inputWijdan,
+  .input-countryWijdan {
+    max-width: 100%;
     font-size: 14px;
+    padding: 8px;
+  }
+
+  .topics-gridW {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); /* Smaller columns for more items */
+    gap: 8px; /* Reduced gap */
+    max-width: 100%;
+    max-height: 150px; /* Reduced height for mobile */
+  }
+
+  .topic-itemW {
+    font-size: 12px; /* Smaller font for topic items */
+    padding: 8px;
+  }
+
+  .textW {
+    width: 100%; /* Adjust width for small screens */
+    padding: 15px;
+    font-size: 13px;
   }
 
   .submit-btnW {
     padding: 8px 16px;
     font-size: 14px;
+    margin-top: -10px;
   }
 }
 
 @media (max-width: 480px) {
+
+  .edW {
+margin-top: 20%;  
+  }
+
+  .edit-profile-containerW {
+    padding-top: 20px; /* Space at the top */
+    padding-bottom: 40px; /* Space at the bottom */
+    overflow-x: hidden;
+  }
+
   .formW {
     width: 85%;
-    padding: 10px;
+    padding: 12px;
+    max-width: 350px;
   }
 
   .input-labelWijdan {
     font-size: 14px;
   }
 
-  .inputWijdan {
-    font-size: 13px;
-    padding: 8px;
+  .inputWijdan,
+  .input-countryWijdan {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  .topics-gridW {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Further smaller columns */
+    gap: 5px;
+  }
+
+  .topic-itemW {
+    font-size: 11px;
+    padding: 6px;
+  }
+
+  .textW {
+    width: 100%;
+    padding: 12px;
+    font-size: 12px;
   }
 
   .submit-btnW {
     font-size: 13px;
-    padding: 8px 12px;
+    
+    margin-top: -19px;
   }
   .edit-textWijdan{
     font-size: 12px;
@@ -283,12 +339,12 @@ body.dark-mode .submit-btnW {
     width: 30px; /* Smaller size for mobile screens */
     height: 30px;
   }
-
   .inputWijdan,
-  .input-countryWijdan {
-    max-width: 100%; /* Allow inputs to adjust with smaller screens */
-    font-size: 16px;
-    padding: 8px;
+  .input-countryWijdan,
+  .submit-btnW,
+  .textW {
+    max-width: 100%; /* Prevents overflow */
+    box-sizing: border-box; /* Ensures padding doesn't cause overflow */
   }
 }
 
@@ -304,8 +360,46 @@ body.dark-mode .submit-btnW {
   }
 
   .inputWijdan,
-  .input-countryWijdan {
-    font-size: 14px;
-    padding: 6px;
+  .input-countryWijdan,
+  .submit-btnW,
+  .textW {
+    max-width: 100%; /* Prevents overflow */
+    box-sizing: border-box; /* Ensures padding doesn't cause overflow */
   }
+}
+
+/* Additional Styles */
+@media (max-width: 320px) {
+  .topics-gridW {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); /* Narrower columns for very small screens */
+  }
+
+  .topic-itemW {
+    font-size: 10px;
+    padding: 5px;
+  }
+
+  .inputWijdan,
+  .input-countryWijdan {
+    font-size: 11px;
+    padding: 5px;
+  }
+
+  .textW {
+    font-size: 11px;
+  }
+
+  .submit-btnW {
+    font-size: 11px;
+    padding: 5px 10px;
+    margin-top: -10px;
+  }
+
+  .inputWijdan,
+.input-countryWijdan,
+.submit-btnW,
+.textW {
+  max-width: 100%; /* Prevents overflow */
+  box-sizing: border-box; /* Ensures padding doesn't cause overflow */
+}
 }
