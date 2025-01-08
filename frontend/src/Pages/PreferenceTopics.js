@@ -99,14 +99,20 @@ const handleSubmit = async () => {
       </div>
 
       <div className="article-section">
-        <h3>Write Your Article (optional)</h3>
-        <textarea
-          placeholder="Paste or write your article here..."
-          value={article}
-          onChange={handleArticleChange}
-          rows="6"
-        />
-      </div>
+  <h3>Write Your Article (optional)</h3>
+  <textarea
+    placeholder="Paste or write your article here..."
+    value={article}
+    onChange={handleArticleChange}
+    rows="6"
+  />
+  <p className="article-description">
+    Uploading your article allows GenNews to learn your unique writing style, ensuring that future AI-generated articles align with your preferences.
+  </p>
+  <p className="article-example">
+    <strong>Example:</strong> Suppose your uploaded articles often use phrases like "Sincerely" instead of "Best regards," or you frequently write "However" at the start of a sentence. GenNews will detect these patterns and reflect them in future content.
+  </p>
+</div>
 
       <div className="buttons">
         <button className="submit-btn" onClick={handleSubmit}>Submit</button>
