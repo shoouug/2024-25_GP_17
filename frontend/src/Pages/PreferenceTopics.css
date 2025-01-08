@@ -154,7 +154,6 @@ body.dark-mode .submit-btn:hover {
 
   /* Adjust preference page content */
   .preference-page {
-   
     flex-direction: column;
     align-items: center;
     padding-top: 120px; /* Add more space to push content below the logo */
