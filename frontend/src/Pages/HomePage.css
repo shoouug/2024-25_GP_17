@@ -70,6 +70,7 @@
     .main-contentH {
       margin-left: 0;
       width: 100%;
+      margin-bottom: -190px;
     }
   }
   
@@ -163,6 +164,12 @@
     top: 0;
     z-index: 10;
   }
+
+  .profile-sectionH {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Add space between the welcome text and profile icon */
+  }
   
   @media (max-width: 768px) {
     .navbarH {
@@ -227,6 +234,7 @@ margin-left: -90px;
     height: auto;
     cursor: pointer;
     z-index: 100;
+    margin-left: 6px;
   }
   
   /* Tooltip Styling */
@@ -288,7 +296,7 @@ margin-left: -90px;
   
 
   .welcome-sectionH {
-    text-align: left;
+    text-align: right;
   }
   
   .welcome-headingH {
@@ -321,18 +329,21 @@ margin-left: -90px;
   }
   
 
+
   .topics-gridH {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    justify-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(0px, 1fr)); /* Adjust the minimum width */
+    gap: 2px; /* Smaller gap between topics */
+    justify-content: space-between; /* Distribute items evenly */
     align-items: center;
-    padding: 2px;
-  }
+    width: 60%; /* Center and control the grid width */
+    margin: 0 auto; /* Center the grid on the page */
+}
   
   @media (max-width: 768px) {
     .topics-gridH {
       grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
     }
   }
   
@@ -357,6 +368,8 @@ margin-left: -90px;
   @media (max-width: 768px) {
     .topic-cardH {
       font-size: 12px;
+      padding-bottom: -300%;
+      margin-bottom: -10px;
     }
   }
   
@@ -408,7 +421,8 @@ margin-left: -90px;
     font-size: 18px;
     color: #5B95A1;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 360px;
+    padding-bottom: -90px;
   }
   
  
@@ -461,19 +475,209 @@ margin-left: -90px;
 
   .field-topic-change-container {
     display: flex;
-    justify-content: center;
     align-items: center;
-    gap: 10px;
-    margin-top: 20px;
+    justify-content: center;
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background-color: #ffffff;
+    z-index: 1000;
   }
   
   .field-topic-change {
     width: 750px;
     color: #5B95A1;
     border: 1px solid #5B95A1;
-    padding: 8px 12px;
+  }
+  .input-field-container {
+    position: fixed;
+    bottom: 0;
+    left: 16.45%; /* Matches the sidebar width on larger screens */
+    right: 0;
+    background-color: #ffffff; /* Background color of the input container */
+    padding: 30px;
+    z-index: 1000;
+    border-top: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box; /* Include padding in width calculations */
+}
+
+  @media (max-width: 768px) {
+    .input-field-container {
+      left: 40%; /* Matches the sidebar's reduced width in smaller screens */
+      right: 0;
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+
+    .topic-promptH {
+      padding-bottom: -20px;
+      margin-bottom: -20px;
+    }
+  }
+  
+  .input-field-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%; /* Ensure it takes the full width of the container */
+    max-width: 1200px; /* Limit the width on larger screens */
+}
+  
+
+
+.input-field {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #5B95A1;
+  border-radius: 4px;
+  width: 100%; /* Ensure it spans the entire available space */
+  box-sizing: border-box;
+}
+  
+.keyword-button {
+  color: #5B95A1;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+  background: none; /* Remove background color */
+  border: none; /* Remove border */
+  padding-left: 19px; /* Adjust padding */
+  }
+
+  .send-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    padding-right: 20px;
+  }
+  
+  /* Media Query for Smaller Screens */
+  @media (max-width: 768px) {
+    .input-field-container {
+      left: 0; /* Aligns to the left edge for smaller screens */
+      right: 0;
+      padding: 10px; /* Adjust padding for smaller screens */
+  }
+  
+    .input-field-group {
+      gap: 5px; /* Adjust spacing between elements */
+    }
+  
+    .input-field {
+      padding: 8px; /* Adjust padding */
+      font-size: 14px; /* Adjust font size */
+    }
+  
+    .send-icon {
+      width: 18px; /* Smaller icon size */
+      height: 18px;
+    }
+  
+    .keyword-button {
+      font-size: 12px; /* Adjust button font size */
+    }
+  }
+  
+  .keyword-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    width: 400px; /* Adjust width as needed */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .keyword-popup textarea {
+    width: 90%; /* Adjust width relative to the popup */
+    height: 100px; /* Adjust height as needed */
+    margin-bottom: 15px; /* Add spacing below the textarea */
+    padding: 10px;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    outline: none;
+    font-size: 14px;
+    resize: none; /* Prevent resizing if not needed */
+  }
+  
+  .keyword-popup button {
+    padding: 10px 20px;
+    background-color: #5B95A1; /* Button color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .keyword-popup button:hover {
+    background-color: #4A7C87; /* Button hover color */
+  }
+  
+  .popup-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .popup-content h3 {
+    font-size: 16px;
+    margin: 0;
+    color: #5B95A1;
+    text-align: center;
+  }
+  
+  .popup-content textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    width: 100%;
+    height: 80px;
+  }
+  
+  .popup-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .popup-actions button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .popup-actions button:first-child {
+    background-color: #5B95A1;
+    color: white;
+  }
+  
+  .popup-actions button:last-child {
+    background-color: #ccc;
+    color: black;
+  }
+  
+  .popup-actions button:first-child {
+    background-color: #5B95A1;
+    color: white;
+  }
+  
+  .popup-actions button:last-child {
+    background-color: #ccc;
+    color: black;
   }
   
   .send-iconH {
@@ -559,4 +763,71 @@ margin-left: -90px;
   body.dark-mode .field-topic-change {
     background-color: #2b2b2b;
   }
+
+  body.dark-mode .input-field-container{
+    background-color: #2b2b2b;
+    border-top: 1px solid #5B95A1;
+  }
+
+  body.dark-mode .popup-content textarea{
+    background-color: #a0a0a0;
+
+  }
+
+  body.dark-mode .keyword-popup textarea {
+    background-color: #3e3e3e;
+  }
+
+  body.dark-mode .keyword-popup {
+    background-color: #2b2b2b;
+  }
+
+  body.dark-mode .input-field{
+    background-color: #3e3e3e;
+    color: #ffffff;
+  }
+
+  .article-navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  .article-actionsH {
+    display: flex;
+    align-items: center; /* Align buttons vertically */
+    gap: 15px; /* Space between the buttons */
+    margin-top: 10px;
+  }
   
+  .backward-btn,
+  .forward-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .backward-btn img,
+  .forward-btn img {
+    width: 20px; /* Adjust icon size */
+    height: 20px;
+    cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    .article-actionsH {
+      display: flex;
+      align-items: center; /* Align buttons vertically */
+      gap: 2px; /* Space between the buttons */
+      margin-top: 10px;
+    }
+  }
+
+  .title-edit-input {
+    width: 100%;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    padding: 4px;
+    color: #5B95A1;
+    background-color: transparent;
+  }
