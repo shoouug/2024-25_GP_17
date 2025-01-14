@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { auth, db } from '../firebase';
-import Logo from '../images/logo.png'; // Import the logo image
 import './PreferenceTopics.css';
 
 const PreferenceTopics = () => {
@@ -79,10 +78,8 @@ const handleSubmit = async () => {
 
   return (
     <div className="preference-page">
-      <div className="logo-container">
-        <img src={Logo} alt="Website Logo" className="website-logo" />
-      </div>
-      <h2>Choose Your Preference Topics</h2>
+      
+    <h2>Choose Your Preference Topics</h2> 
 
       {error && <p className="error-message">{error}</p>}
 

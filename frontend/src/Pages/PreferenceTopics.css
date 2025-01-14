@@ -1,15 +1,4 @@
-/* Logo Container */
-.logo-container {
-  position: absolute;
-  top: 10px;
-  left: 20px;
-}
 
-.website-logo {
-  width: 120px;
-  height: auto;
-  margin-bottom: 70px;
-}
 
 /* Page Styling */
 .preference-page {
@@ -143,15 +132,7 @@ body.dark-mode .submit-btn:hover {
   background-color: #4A7C87; /* Hover state for button in dark mode */
 }
 @media (max-width: 480px) {
-  /* Fix logo position */
-  .website-logo {
-    position: absolute;
-    top: -47px; /* Adjust the logo's position to the top */
-    left: -49px; /* Adjust the logo's position to the left */
-    width: 1px; /* Resize logo for mobile */
-    z-index: 2; /* Ensure logo is above other elements */
-  }
-
+  
   /* Adjust preference page content */
   .preference-page {
     flex-direction: column;
@@ -164,7 +145,7 @@ body.dark-mode .submit-btn:hover {
   /* Heading styling */
   .preference-page h2 {
     font-size: 18px;
-    margin-bottom: -3px;
+    
     text-align: center;
     color: #afafaf; /* Ensure visibility of text */
   }
@@ -236,6 +217,7 @@ body.dark-mode .submit-btn:hover {
     margin-bottom: 20px;
   }
 }
+
 
 
 .article-description {
