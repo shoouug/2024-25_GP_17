@@ -23,7 +23,7 @@ const PreferenceTopics = () => {
   const topics = [
     'Technology', 'Finance', 'Health', 'Art', 'Science', 'Entertainment', 'Economy', 'Crime', 'Sport', 'Beauty',
     'Politics', 'Education', 'Environment','Law', 'Travel', 'Food', 'Lifestyle', 'History', 'Culture', 'Business', 'Fashion',
-    'Automobile', 'Gaming', 'Movies', 'Music', 'Real Estate', 'Personal Finance', 'Pets', 'Parenting', 'Space', 'Weather'
+    'Automobile', 'Gaming', 'Movies', 'Music', 'Real Estate', 'Personal Finance', 'Pets', 'Parenting', 'Space', 'Weather','Aviation'
   ];
 
   // Handle topic selection

@@ -39,7 +39,7 @@ const VerifyEmail = () => {
   }, [auth]);
 
   const handleNextClick = () => {
-    navigate('/preference-topics');
+    navigate('/tutorialpage');
   };
 
   return (

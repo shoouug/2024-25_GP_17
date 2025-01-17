@@ -12,6 +12,8 @@ import ResetPassword1 from './Pages/reset-password1';
 
 import AboutUs from './Pages/AboutUs';
 import EditProfile from './Pages/EditProfile';
+import TutorialPage from './Pages/TutorialPage.js'; // Import HomePage component
+
 
 function App() {
   return (
@@ -33,7 +35,7 @@ function App() {
           
           {/* Route for Home Page after successful sign up */}
           <Route path="/homepage" element={<HomePage />} /> {/* Home Page after preferences */}
-
+          <Route path="/TutorialPage" element={<TutorialPage />} />
         </Routes>
       </div>
     </Router>
