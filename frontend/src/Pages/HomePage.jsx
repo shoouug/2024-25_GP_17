@@ -232,63 +232,64 @@ const handleKeywordPopupCancel = () => {
   
     setTopicError("");
   
-    const newVersion = `This is an article about ${topic}${keyword ? ` ${keyword}` : ""}`;
-    let updatedChat;
+    const userPreferences = {
+      style: "concise",
+      keywords: keyword.split(","),
+    };
   
-    if (selectedChat) {
-      // If a chat is already selected, add the new version
-      const updatedVersions = [...selectedChat.versions, newVersion];
-      updatedChat = { ...selectedChat, versions: updatedVersions };
-  
-      const updatedChats = chats.map((chat) =>
-        chat === selectedChat ? updatedChat : chat
-      );
-      setChats(updatedChats);
-      setSelectedChat(updatedChat);
-    } else {
-      // Create a new chat and save the first version
-      updatedChat = {
-        title: topic,
-        versions: [newVersion], // Ensure this is a string, not an object
-        timestamp: new Date().toLocaleString("en-US", {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-          hour: "numeric",
-          minute: "numeric",
-          second: "numeric",
-          hour12: true,
+    try {
+      const response = await fetch("http://localhost:8000/generate-article", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          topic: topic,
+          context: "Contextual data or retrieved information here",
+          preferences: userPreferences,
         }),
-      };
+      });
   
-      const updatedChats = [updatedChat, ...chats];
-      setChats(updatedChats);
-      setSelectedChat(updatedChat);
-    }
-  
-    setArticleContent(newVersion);
-    setCurrentVersionIndex((updatedChat.versions || []).length - 1); // Point to the latest version
-    setIsArticleGenerated(true);
-  
-    // Save the updated chats to Firestore
-    const user = auth.currentUser;
-    if (user) {
-      try {
-        const userRef = doc(db, "Journalists", user.uid);
-        await updateDoc(userRef, {
-          savedArticles: chats,
-        });
-      } catch (error) {
-        console.error("Error saving article:", error);
+      if (!response.ok) {
+        throw new Error("Failed to generate article");
       }
+  
+      const data = await response.json();
+      setArticleContent(data.generated_article);
+      setIsArticleGenerated(true);
+  
+      // Save the article content as a new version
+      const newVersion = data.generated_article;
+      if (selectedChat) {
+        const updatedVersions = [...selectedChat.versions, newVersion];
+        const updatedChat = { ...selectedChat, versions: updatedVersions };
+        const updatedChats = chats.map((chat) =>
+          chat === selectedChat ? updatedChat : chat
+        );
+        setChats(updatedChats);
+        setSelectedChat(updatedChat);
+        setCurrentVersionIndex(updatedVersions.length - 1);
+      } else {
+        const newChat = {
+          title: topic,
+          versions: [newVersion],
+          timestamp: new Date().toLocaleString(),
+        };
+        setChats([newChat, ...chats]);
+        setSelectedChat(newChat);
+        setCurrentVersionIndex(0);
+      }
+    } catch (error) {
+      console.error("Error generating article:", error);
+      setTopicError("Failed to generate article. Please try again.");
     }
   };
-
+  
   const handleBackward = () => {
     if (selectedChat && currentVersionIndex > 0) {
       const newIndex = currentVersionIndex - 1;
       setCurrentVersionIndex(newIndex);
-      setArticleContent(selectedChat.versions[newIndex]); // Retrieve the previous version as a string
+      setArticleContent(selectedChat.versions[newIndex]); // Ensure this is a string
     }
   };
   
@@ -299,17 +300,16 @@ const handleKeywordPopupCancel = () => {
     ) {
       const newIndex = currentVersionIndex + 1;
       setCurrentVersionIndex(newIndex);
-      setArticleContent(selectedChat.versions[newIndex]); // Retrieve the next version as a string
+      setArticleContent(selectedChat.versions[newIndex]); // Ensure this is a string
     }
   };
-
+  
   const handleSave = async () => {
     if (!selectedChat) return;
   
     const updatedVersions = [...selectedChat.versions];
-  
-    // Update the current version index with the latest content
-    updatedVersions[currentVersionIndex] = articleContent; // Ensure this is a string
+    // Update the current version with the latest content as a string
+    updatedVersions[currentVersionIndex] = articleContent;
   
     const updatedChat = { ...selectedChat, versions: updatedVersions };
   
