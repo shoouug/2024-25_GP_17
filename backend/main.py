@@ -32,7 +32,7 @@ if not PINECONE_API_KEY or not PINECONE_ENVIRONMENT:
 app = FastAPI()
 
 # Set the path for Google credentials (for Firebase/Firestore)
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./credentials/gennews-2e5b4-f984c5782159.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./credentials/gennews-2e5b4-f984c5782159-1.json"
 if not os.getenv("GOOGLE_APPLICATION_CREDENTIALS"):
     raise EnvironmentError(
         "The GOOGLE_APPLICATION_CREDENTIALS environment variable is not set. "
