@@ -831,3 +831,16 @@ margin-left: -90px;
     color: #5B95A1;
     background-color: transparent;
   }
+  .news-article {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.news-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
