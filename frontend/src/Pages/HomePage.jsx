@@ -225,6 +225,7 @@ const handleKeywordPopupCancel = () => {
   
   //   setIsArticleGenerated(true);
   // };
+  //
 
   const handleGenerateArticle = async () => {
     if (!topic.trim()) {
