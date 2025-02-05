@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 import os
 import requests
 import json
+from pydantic import BaseModel#----------task3Correction
+
 
 # Pinecone - NEW USAGE
 from pinecone import Pinecone, ServerlessSpec
@@ -12,8 +14,18 @@ from pinecone import Pinecone, ServerlessSpec
 # Firestore (Firebase)
 from google.cloud import firestore
 
+import re
+import nltk
+from collections import Counter
+from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.corpus import stopwords
+
+
+
 # Load environment variables
 load_dotenv()
+
+
 
 API_KEY = os.getenv("API_KEY")
 if not API_KEY:
@@ -135,7 +147,12 @@ async def search_pinecone(query: str, top_k: int = 5):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+
 @app.post("/generate-article/")
+
+async def preflight():#--------------------------for task3
+    return {}#-------------------------------------for task3
+
 async def generate_article(prompt: str):
     """
     Example route to call DeepSeek-V3 (or any other LLM) using your API_KEY.
@@ -153,6 +170,41 @@ async def generate_article(prompt: str):
             raise HTTPException(status_code=response.status_code, detail=response.text)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+        #----------------("/generate-article/") when AI start to respone
+        '''
+        @app.post("/generate-article/")
+     async def generate_article(prompt: str, user_id: str):
+    """
+    Calls DeepSeek-V3 to generate an article while incorporating user style.
+    """
+    headers = {"Authorization": f"Bearer {API_KEY}"}
+    
+    # Fetch user linguistic print
+    doc_ref = firestore_client.collection("Journalists").document(user_id)
+    doc = doc_ref.get()
+    linguistic_print = {}
+
+    if doc.exists:
+        articles = doc.to_dict().get("savedArticles", [])
+        linguistic_print = extract_linguistic_print(articles)
+
+    payload = {
+        "prompt": prompt,
+        "context": "User's writing style preferences",
+        "preferences": linguistic_print
+    }
+
+    try:
+        response = requests.post("https://api.deepseek.ai/v1/generate", json=payload, headers=headers)
+        if response.status_code == 200:
+            return response.json()
+        else:
+            raise HTTPException(status_code=response.status_code, detail=response.text)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+'''
 
 
 @app.post("/save-preferences/")
@@ -203,3 +255,219 @@ def generate_vector(text: str):
     """
     # Return a mock vector of zeros for demonstration (1536 dims).
     return [0.0] * 1536
+
+#----------------------------------------------------------------------------task3
+
+import firebase_admin
+from firebase_admin import credentials, firestore
+
+# Initialize Firebase Admin SDK
+if not firebase_admin._apps:  # Prevent initializing multiple times
+    cred = credentials.Certificate("./credentials/gennews-2e5b4-firebase-adminsdk-k3adz-af7308d3ec.json")
+    firebase_admin.initialize_app(cred)
+
+
+from fastapi.middleware.cors import CORSMiddleware
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # Allow frontend React app
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
+
+#--------------------retrave articles
+@app.get("/get-user-articles/{user_id}")
+async def get_user_articles(user_id: str):
+    """
+    Retrieves all saved articles and previous articles from Firestore for a specific journalist.
+    """
+    try:
+        doc_ref = firestore_client.collection("Journalists").document(user_id)
+        doc = doc_ref.get()
+        if doc.exists:
+            data = doc.to_dict()
+            return {
+                "previousArticles": data.get("previousArticles", []),
+                "savedArticles": data.get("savedArticles", [])
+            }
+        else:
+            return {"message": "No articles found for this user."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+#----------------------------extract linguistic print
+# Average sentence length
+# Most common words
+# Most common phrases
+'''
+import collections 
+import re 
+
+def extract_linguistic_print(articles):
+    """
+    Extracts linguistic characteristics from past articles.
+    """
+    total_sentences = 0
+    total_words = 0
+    word_frequency = collections.Counter()
+    sentence_lengths = []
+    phrase_patterns = collections.Counter()
+
+    for article in articles:
+        content = article.get("content", "")
+        sentences = re.split(r"[.!?]", content)  # Split by sentence endings
+        sentences = [s.strip() for s in sentences if s.strip()]
+        total_sentences += len(sentences)
+
+        for sentence in sentences:
+            words = sentence.split()
+            total_words += len(words)
+            sentence_lengths.append(len(words))
+            word_frequency.update(words)
+
+        # Extract common phrases (bigrams & trigrams)
+        words = content.split()
+        bigrams = [" ".join(pair) for pair in zip(words, words[1:])]
+        trigrams = [" ".join(pair) for pair in zip(words, words[1:], words[2:])]
+        phrase_patterns.update(bigrams)
+        phrase_patterns.update(trigrams)
+
+    # Calculate statistics
+    avg_sentence_length = total_words / total_sentences if total_sentences > 0 else 0
+    most_common_words = word_frequency.most_common(10)
+    most_common_phrases = phrase_patterns.most_common(10)
+
+    return {
+        "avg_sentence_length": avg_sentence_length,
+        "most_common_words": most_common_words,
+        "most_common_phrases": most_common_phrases,
+    }
+'''
+
+#----------------------------extract linguistic print UPDATED
+
+
+
+text = "This is a test sentence. Let's see if NLTK works properly!" #working check
+print(sent_tokenize(text))
+
+
+import nltk
+import os
+
+# Tell NLTK where to find the data
+nltk.data.path.append(os.path.join(os.getcwd(), "nltk_data"))
+
+import nltk
+import os
+
+# Set the path where NLTK should look for the data
+NLTK_DATA_PATH = os.path.join(os.getcwd(), "venv", "lib", "python3.12", "site-packages", "nltk_data")
+nltk.data.path.append(NLTK_DATA_PATH)
+
+# Ensure necessary NLTK components are available
+nltk.download("punkt", download_dir=NLTK_DATA_PATH)
+nltk.download("averaged_perceptron_tagger", download_dir=NLTK_DATA_PATH)
+nltk.download("stopwords", download_dir=NLTK_DATA_PATH)
+
+
+def extract_linguistic_print(articles):
+    """
+    Analyzes linguistic patterns from saved articles.
+    Returns:
+    - avg_sentence_length: The average length of sentences.
+    - most_common_words: The most frequent words used.
+    - most_common_phrases: The most frequent 2-word phrases.
+    - tone: Estimated writing tone (formal, casual, storytelling, news-style).
+    - voice_preference: Active vs. passive voice usage.
+    - personal_vs_impersonal: Determines if the user writes with personal pronouns.
+    """
+    
+    all_text = " ".join([article["content"] for article in articles if "content" in article])
+    
+    if not all_text:
+        return {}
+
+    # Tokenize sentences & words
+    sentences = sent_tokenize(all_text)
+    words = word_tokenize(all_text.lower())
+
+    # Calculate sentence length
+    avg_sentence_length = sum(len(word_tokenize(sentence)) for sentence in sentences) / len(sentences)
+
+    # Count most common words (excluding stopwords)
+    stop_words = set(stopwords.words("english"))
+    word_freq = Counter([word for word in words if word.isalpha() and word not in stop_words])
+    most_common_words = word_freq.most_common(10)
+
+    # Find most common phrases (bigrams)
+    bigrams = Counter(zip(words[:-1], words[1:]))
+    most_common_phrases = bigrams.most_common(10)
+
+    # **Tone Detection**
+    formal_words = {"hence", "thus", "therefore", "moreover", "consequently", "furthermore"}
+    casual_words = {"lol", "hey", "gonna", "wanna", "gotta", "idk", "omg"}
+    storytelling_words = {"once", "upon", "suddenly", "moment", "felt", "realized"}
+
+    formal_count = sum(1 for word in words if word in formal_words)
+    casual_count = sum(1 for word in words if word in casual_words)
+    storytelling_count = sum(1 for word in words if word in storytelling_words)
+
+    if max(formal_count, casual_count, storytelling_count) == formal_count:
+        tone = "Formal"
+    elif max(formal_count, casual_count, storytelling_count) == casual_count:
+        tone = "Casual"
+    else:
+        tone = "Storytelling"
+
+    # **Active vs. Passive Voice Detection**
+    active_voice_count = sum(1 for word in words if word in {"is", "was", "were", "been", "being"})
+    passive_voice_count = sum(1 for word in words if word in {"by", "was", "were", "had been"})
+
+    if active_voice_count > passive_voice_count:
+        voice_preference = "Active Voice"
+    else:
+        voice_preference = "Passive Voice"
+
+    # **Personal vs. Impersonal Writing**
+    personal_words = {"i", "we", "me", "my", "mine", "our", "ours"}
+    personal_count = sum(1 for word in words if word in personal_words)
+
+    if personal_count > len(words) * 0.02:  # If more than 2% of words are personal
+        personal_vs_impersonal = "Personal"
+    else:
+        personal_vs_impersonal = "Impersonal"
+
+    return {
+        "avg_sentence_length": avg_sentence_length,
+        "most_common_words": most_common_words,
+        "most_common_phrases": most_common_phrases,
+        "tone": tone,
+        "voice_preference": voice_preference,
+        "personal_vs_impersonal": personal_vs_impersonal,
+    }
+
+
+#-------------Modify the API to return the linguistic print
+
+@app.get("/get-linguistic-print/{user_id}")
+async def get_linguistic_print(user_id: str):
+    """
+    Retrieves past articles and analyzes linguistic style.
+    """
+    try:
+        doc_ref = firestore_client.collection("Journalists").document(user_id)
+        doc = doc_ref.get()
+        if doc.exists:
+            data = doc.to_dict()
+            articles = data.get("savedArticles", [])
+            linguistic_print = extract_linguistic_print(articles)
+            return {"linguistic_print": linguistic_print}
+        else:
+            return {"message": "No articles found for this user."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
