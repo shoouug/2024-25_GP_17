@@ -455,6 +455,7 @@ def extract_linguistic_print(articles):
 
 
 #-------------Modify the API to return the linguistic print
+#hhhhhhh
 
 @app.get("/get-linguistic-print/{user_id}")
 async def get_linguistic_print(user_id: str):
