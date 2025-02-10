@@ -6,6 +6,7 @@ import os
 import requests
 import json
 from pydantic import BaseModel#----------task3Correction
+from services.news_api_service import fetch_trending_news
 
 
 # Pinecone - NEW USAGE
@@ -25,6 +26,7 @@ from nltk.corpus import stopwords
 # Load environment variables
 load_dotenv()
 
+NEWS_API_KEY = os.getenv("NEWS_API_KEY")
 
 
 API_KEY = os.getenv("API_KEY")
@@ -471,3 +473,9 @@ async def get_linguistic_print(user_id: str):
             return {"message": "No articles found for this user."}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+
+@app.get("/news")
+def get_news(country: str = "us"):
+    articles = fetch_trending_news(country)
+    return {"articles": articles}
