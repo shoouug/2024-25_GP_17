@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
@@ -37,6 +36,13 @@ const HomePage = () => {
   const [popupKeyword, setPopupKeyword] = useState(""); // For the popup keyword input
   const [showKeywordPopup, setShowKeywordPopup] = useState(false); // To toggle the popup
   const [currentVersionIndex, setCurrentVersionIndex] = useState(0);
+
+useEffect(() => {
+  if (selectedChat) {
+    setArticleContent(selectedChat.versions[0] || ""); // Show first version of article
+    setIsArticleGenerated(true);
+  }
+}, [selectedChat]);
 
 const handleKeywordPopupOpen = () => {
   setPopupKeyword(keyword);
@@ -148,145 +154,67 @@ const handleKeywordPopupCancel = () => {
     setKeyword("");
   };
 
-  // const handleGenerateArticle = async () => {
-  //   if (!topic.trim()) {
-  //     setTopicError("Topic is required to generate an article.");
-  //     return;
-  //   }
-  
-  //   setTopicError("");
-  
-  //   const newVersion = {
-  //     content: `This is an article about ${topic}${keyword ? ` ${keyword}` : ""}.`,
-  //     timestamp: new Date().toLocaleString("en-US", {
-  //       year: "numeric",
-  //       month: "2-digit",
-  //       day: "2-digit",
-  //       hour: "numeric",
-  //       minute: "numeric",
-  //       second: "numeric",
-  //       hour12: true,
-  //     }),
-  //   };
-  
-  //   if (selectedChat) {
-  //     // Append the new version to the selected chat's versions
-  //     const updatedChat = {
-  //       ...selectedChat,
-  //       versions: [...(selectedChat.versions || []), newVersion],
-  //     };
-  
-  //     setSelectedChat(updatedChat);
-  //     setArticleContent(newVersion.content);
-  //     setCurrentVersionIndex((updatedChat.versions || []).length - 1);
-  
-  //     // Update chats in the state
-  //     const updatedChats = chats.map((chat) =>
-  //       chat === selectedChat ? updatedChat : chat
-  //     );
-  //     setChats(updatedChats);
-  
-  //     // Save to Firestore
-  //     const user = auth.currentUser;
-  //     if (user) {
-  //       try {
-  //         const userRef = doc(db, "Journalists", user.uid);
-  //         await updateDoc(userRef, {
-  //           savedArticles: updatedChats,
-  //         });
-  //       } catch (error) {
-  //         console.error("Error saving article:", error);
-  //       }
-  //     }
-  //   } else {
-  //     // Create a new chat with the first version
-  //     const newChat = {
-  //       title: topic,
-  //       versions: [newVersion],
-  //     };
-  
-  //     setChats([newChat, ...chats]);
-  //     setSelectedChat(newChat);
-  //     setArticleContent(newVersion.content);
-  //     setCurrentVersionIndex(0);
-  
-  //     const user = auth.currentUser;
-  //     if (user) {
-  //       try {
-  //         const userRef = doc(db, "Journalists", user.uid);
-  //         await updateDoc(userRef, {
-  //           savedArticles: [newChat, ...chats],
-  //         });
-  //       } catch (error) {
-  //         console.error("Error saving article:", error);
-  //       }
-  //     }
-  //   }
-  
-  //   setIsArticleGenerated(true);
-  // };
-  //
-
-  const handleGenerateArticle = async () => {
-    if (!topic.trim()) {
+  const handleGenerateArticle = async (selectedTopic, enteredKeywords) => {
+    if (!selectedTopic.trim()) {
       setTopicError("Topic is required to generate an article.");
       return;
     }
   
     setTopicError("");
   
-    const userPreferences = {
-      style: "concise",
-      keywords: keyword.split(","),
-    };
-  
     try {
-      const response = await fetch("http://127.0.0.1:8000/generate-article", {
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error("User not authenticated");
+      }
+  
+      // Call AI API with topic & keywords
+      const aiResponse = await fetch("http://127.0.0.1:8000/generate-article/", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          topic: topic,
-          context: "Contextual data or retrieved information here",
-          preferences: userPreferences,
+          prompt: selectedTopic,
+          user_id: user.uid,
+          keywords: enteredKeywords, // ✅ Pass keywords to backend
         }),
       });
   
-      if (!response.ok) {
-        throw new Error("Failed to generate article");
+      if (!aiResponse.ok) {
+        throw new Error("AI article generation failed");
       }
   
-      const data = await response.json();
-      setArticleContent(data.generated_article);
+      const aiData = await aiResponse.json();
+
+      // Check if article is valid
+      if (!aiData || !aiData.article) {
+        throw new Error("AI did not return a valid article");
+      }
+  
+      // Set the article in state
+      setArticleContent(aiData.article);
       setIsArticleGenerated(true);
   
-      // Save the article content as a new version
-      const newVersion = data.generated_article;
-      if (selectedChat) {
-        const updatedVersions = [...selectedChat.versions, newVersion];
-        const updatedChat = { ...selectedChat, versions: updatedVersions };
-        const updatedChats = chats.map((chat) =>
-          chat === selectedChat ? updatedChat : chat
-        );
-        setChats(updatedChats);
-        setSelectedChat(updatedChat);
-        setCurrentVersionIndex(updatedVersions.length - 1);
-      } else {
-        const newChat = {
-          title: topic,
-          versions: [newVersion],
-          timestamp: new Date().toLocaleString(),
-        };
-        setChats([newChat, ...chats]);
-        setSelectedChat(newChat);
-        setCurrentVersionIndex(0);
-      }
+      // Save the article as a new version
+      const newChat = {
+        title: selectedTopic,
+        versions: [aiData.article],
+        timestamp: new Date().toLocaleString(),
+      };
+  
+      setChats([newChat, ...chats]);
+      setSelectedChat(newChat);
+      setCurrentVersionIndex(0);
+  
+      // Save to Firestore
+      const userRef = doc(db, "Journalists", user.uid);
+      await updateDoc(userRef, {
+        savedArticles: [newChat, ...chats],
+      });
     } catch (error) {
       console.error("Error generating article:", error);
       setTopicError("Failed to generate article. Please try again.");
     }
-  };
+};
   
   const handleBackward = () => {
     if (selectedChat && currentVersionIndex > 0) {
@@ -445,48 +373,73 @@ const handleKeywordPopupCancel = () => {
     }
   };
 
-  const handleTopicCardClick = (selectedTopic) => {
-    setTopic(selectedTopic); // Set the topic state to the selected topic
-  
-    // Generate an article based on the selected topic
-    const newChat = {
-      title: selectedTopic,
-      content: `This is an article about ${selectedTopic}.`,
-      timestamp: new Date().toLocaleString("en-US", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-        hour12: true,
-      }),
-      versions: [{ content: `This is an article about ${selectedTopic}.` }],
-    };
-  
-    // Update the chats state
-    const updatedChats = [newChat, ...chats];
-    setChats(updatedChats);
-    setSelectedChat(newChat);
-    setArticleContent(newChat.content);
-    setIsArticleGenerated(true);
-  
-    // Save the new chat to Firestore
-    const saveToFirestore = async () => {
-      const user = auth.currentUser;
-      if (user) {
-        const userRef = doc(db, "Journalists", user.uid);
-        try {
-          await updateDoc(userRef, {
-            savedArticles: updatedChats,
-          });
-        } catch (error) {
-          console.error("Error saving topic-selected article:", error);
-        }
+  const handleTopicCardClick = async (selectedTopic) => {
+    setTopic(selectedTopic);
+    setIsArticleGenerated(false); // Ensure UI updates
+    
+    try {
+      // Fetch news articles related to the selected topic
+      const newsResponse = await fetch(`http://127.0.0.1:8000/news?topic=${selectedTopic}`);
+      
+      if (!newsResponse.ok) {
+        throw new Error("Failed to fetch news articles");
       }
-    };
   
-    saveToFirestore();
+      const newsData = await newsResponse.json();
+  
+      if (!newsData.articles || newsData.articles.length === 0) {
+        throw new Error("No articles found for this topic.");
+      }
+  
+      // Extract details from the first relevant article
+      const article = newsData.articles[0];
+  
+      const formattedArticle = `
+        **${article.title}**  
+        _Published on: ${article.publishedAt}_  
+  
+        **Introduction**  
+        ${article.description || "No description available."}  
+  
+        **Main Content**  
+        ${article.content || "Full article content is unavailable. Read more at the source link below."}  
+  
+        **Source:** [Read More](${article.url})
+      `;
+  
+      // Update the state with the real article
+      const newChat = {
+        title: selectedTopic,
+        versions: [formattedArticle], 
+        timestamp: new Date().toLocaleString(),
+      };
+  
+      setChats((prevChats) => [newChat, ...prevChats]);
+      setSelectedChat(newChat);
+      setArticleContent(formattedArticle);
+      setCurrentVersionIndex(0);
+      setIsArticleGenerated(true);
+  
+      // Save to Firestore
+      const saveToFirestore = async () => {
+        const user = auth.currentUser;
+        if (user) {
+          const userRef = doc(db, "Journalists", user.uid);
+          try {
+            await updateDoc(userRef, {
+              savedArticles: [newChat, ...chats],
+            });
+          } catch (error) {
+            console.error("Error saving topic-selected article:", error);
+          }
+        }
+      };
+  
+      saveToFirestore();
+    } catch (error) {
+      console.error("Error fetching and generating article:", error);
+      setTopicError("Failed to fetch a real article. Please try again.");
+    }
   };
 
   return (
@@ -623,7 +576,7 @@ const handleKeywordPopupCancel = () => {
             setTopicError("Topic is required to generate an article.");
             return;
           }
-          handleGenerateArticle(); // Generate article and navigate to generated article page
+          handleGenerateArticle(topic, keyword); // ✅ Pass both topic and keyword
           setTopic(""); // Clear the input field
         }}
       />

@@ -6,27 +6,28 @@ import os
 import requests
 import json
 from pydantic import BaseModel#----------task3Correction
-from services.news_api_service import fetch_trending_news
-
-
 # Pinecone - NEW USAGE
 from pinecone import Pinecone, ServerlessSpec
-
 # Firestore (Firebase)
 from google.cloud import firestore
-
 import re
 import nltk
 from collections import Counter
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi import Query
+from services.news_api_service import fetch_trending_news_by_topic
 
+env_path = os.path.join(os.path.dirname(__file__), ".env")
+load_dotenv(dotenv_path=env_path, override=True) 
 
-
-# Load environment variables
-load_dotenv()
+print("DEBUG: NEWS_API_KEY =", os.getenv("NEWS_API_KEY"))  # ✅ Should print the key
+print("DEBUG: API_KEY =", os.getenv("API_KEY"))
 
 NEWS_API_KEY = os.getenv("NEWS_API_KEY")
+if not NEWS_API_KEY:
+    raise ValueError("NEWS_API_KEY is missing! Check your .env file.")
 
 
 API_KEY = os.getenv("API_KEY")
@@ -44,6 +45,14 @@ if not PINECONE_API_KEY or not PINECONE_ENVIRONMENT:
 
 # Initialize FastAPI app
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # ⚠️ Only for debugging, NOT for production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Set the path for Google credentials (for Firebase/Firestore)
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./credentials/gennews-2e5b4-f984c5782159-1.json"
@@ -151,39 +160,13 @@ async def search_pinecone(query: str, top_k: int = 5):
 
 
 @app.post("/generate-article/")
-
-async def preflight():#--------------------------for task3
-    return {}#-------------------------------------for task3
-
-async def generate_article(prompt: str):
+async def generate_article(prompt: str, user_id: str, keywords: str = ""):
     """
-    Example route to call DeepSeek-V3 (or any other LLM) using your API_KEY.
-    Adjust the endpoint if your actual DeepSeek URL differs.
+    Generates a properly structured news article using RAG-enhanced data.
     """
     headers = {"Authorization": f"Bearer {API_KEY}"}
-    payload = {"prompt": prompt}
 
-    try:
-        # Example placeholder URL (update with the real DeepSeek endpoint)
-        response = requests.post("https://api.deepseek.ai/v1/generate", json=payload, headers=headers)
-        if response.status_code == 200:
-            return response.json()
-        else:
-            raise HTTPException(status_code=response.status_code, detail=response.text)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-        #----------------("/generate-article/") when AI start to respone
-        '''
-        @app.post("/generate-article/")
-     async def generate_article(prompt: str, user_id: str):
-    """
-    Calls DeepSeek-V3 to generate an article while incorporating user style.
-    """
-    headers = {"Authorization": f"Bearer {API_KEY}"}
-    
-    # Fetch user linguistic print
+    # Fetch user writing style
     doc_ref = firestore_client.collection("Journalists").document(user_id)
     doc = doc_ref.get()
     linguistic_print = {}
@@ -192,32 +175,50 @@ async def generate_article(prompt: str):
         articles = doc.to_dict().get("savedArticles", [])
         linguistic_print = extract_linguistic_print(articles)
 
-    payload = {
-        "prompt": prompt,
-        "context": "User's writing style preferences",
-        "preferences": linguistic_print
-    }
+    # Retrieve relevant news content via RAG
+    news_response = fetch_trending_news_by_topic(prompt)
+
+    if not news_response or "error" in news_response:
+        return {"error": "No relevant news found for the topic."}
+
+    # Select the best-matching article
+    selected_article = news_response[0]
+
+    # Extract content and clean unnecessary formatting
+    raw_content = selected_article["content"].split("Read more")[0] if "Read more" in selected_article["content"] else selected_article["content"]
+    
+    # **New Prompt: Enforce a Clear Narrative Flow**
+    ai_prompt = f"""
+    You are an AI journalist. Rewrite the given information into a properly **structured news article**.
+
+    **Guidelines:**
+    - Avoid using markdown headers (e.g., 'Introduction', 'Main Content').
+    - Instead, structure it **organically like a professional news article**.
+    - The **opening paragraph** should introduce the event concisely.
+    - The **middle section** should elaborate with details, including background and expert insights.
+    - The **final section** should summarize the impact or future implications.
+    - Ensure a **smooth narrative flow**, avoiding robotic formatting.
+    - Integrate the following **keywords naturally**: {keywords}
+
+    **Relevant Information:**
+    - **Title**: {selected_article["title"]}
+    - **Source**: {selected_article["source"]}
+    - **Published Date**: {selected_article["publishedAt"]}
+    - **Extracted Content**: "{raw_content}"
+
+    🎯 **Generate a fully written article that reads like professional journalism.**
+    """
+
+    payload = {"prompt": ai_prompt}
 
     try:
         response = requests.post("https://api.deepseek.ai/v1/generate", json=payload, headers=headers)
-        if response.status_code == 200:
-            return response.json()
-        else:
-            raise HTTPException(status_code=response.status_code, detail=response.text)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-'''
+        ai_data = response.json()
 
+        # 🚀 **Log AI Response for Debugging**
+        print("\n\n🛠 DEBUG: AI Response from DeepSeek API 🛠\n", json.dumps(ai_data, indent=2))
 
-@app.post("/save-preferences/")
-async def save_preferences(user_id: str, preferences: dict):
-    """
-    Stores user preferences in Firestore under the 'users' collection.
-    """
-    try:
-        doc_ref = firestore_client.collection("users").document(user_id)
-        doc_ref.set(preferences)
-        return {"message": "Preferences saved successfully."}
+        return ai_data
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -267,18 +268,6 @@ from firebase_admin import credentials, firestore
 if not firebase_admin._apps:  # Prevent initializing multiple times
     cred = credentials.Certificate("./credentials/gennews-2e5b4-firebase-adminsdk-k3adz-af7308d3ec.json")
     firebase_admin.initialize_app(cred)
-
-
-from fastapi.middleware.cors import CORSMiddleware
-
-# Add CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Allow frontend React app
-    allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods (GET, POST, PUT, DELETE, etc.)
-    allow_headers=["*"],  # Allow all headers
-)
 
 #--------------------retrave articles
 @app.get("/get-user-articles/{user_id}")
@@ -474,9 +463,16 @@ async def get_linguistic_print(user_id: str):
             return {"message": "No articles found for this user."}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
 
 @app.get("/news")
-def get_news(country: str = "us"):
-    articles = fetch_trending_news(country)
+def get_news(topic: str = Query(..., description="The topic to search for")):
+    """
+    Fetches news articles based on a given topic.
+    Example usage: /news?topic=Technology
+    """
+    articles = fetch_trending_news_by_topic(topic)
+
+    if "error" in articles:
+        raise HTTPException(status_code=500, detail=articles["error"])
+
     return {"articles": articles}

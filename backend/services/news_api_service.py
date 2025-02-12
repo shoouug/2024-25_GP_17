@@ -1,50 +1,65 @@
 import os
 import requests
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, HTTPException
+
 router = APIRouter()
+
+# Load News API Key
 NEWS_API_KEY = os.getenv("NEWS_API_KEY", "")
 
-NEWS_API_ENDPOINT = "https://newsapi.org/v2/top-headlines"
+# Ensure the API key is loaded
+if not NEWS_API_KEY:
+    raise ValueError("Missing NEWS_API_KEY. Ensure it is set in the environment variables.")
 
-def fetch_trending_news(country="us"):
-    api_key = os.getenv("NEWS_API_KEY")
+# News API Endpoint
+NEWS_API_URL = "https://newsapi.org/v2/everything"
+
+def fetch_trending_news_by_topic(topic):
+    """
+    Fetches news articles based on a specific topic.
+    """
+    if not topic or len(topic) < 2:
+        return {"error": "Invalid topic. Please provide a valid topic."}
+
     params = {
-        "country": country,
-        "apiKey": api_key
+        "q": topic,
+        "apiKey": NEWS_API_KEY,
+        "sortBy": "relevancy",
+        "language": "en",
     }
-    response = requests.get(NEWS_API_ENDPOINT, params=params)
-    response.raise_for_status()
-    data = response.json()
-    # data["articles"] is typically the array of news articles
-    return data["articles"]
 
+    try:
+        response = requests.get(NEWS_API_URL, params=params)
+        response.raise_for_status()
+        data = response.json()
+        
+        if data.get("status") != "ok":
+            return {"error": f"News API Error: {data.get('message', 'Unknown error')}"}
+
+        return [
+            {
+                "title": article.get("title", "No title available"),
+                "description": article.get("description", "No description available."),
+                "url": article.get("url", "#"),
+                "source": article.get("source", {}).get("name", "Unknown Source"),
+                "publishedAt": article.get("publishedAt", "Unknown Date"),
+                "content": article.get("content", "Full article content is unavailable."),
+            }
+            for article in data.get("articles", [])
+        ]
+
+    except requests.exceptions.RequestException as e:
+        return {"error": f"Failed to fetch news: {str(e)}"}
 
 @router.get("/news")
 def get_news(topic: str = Query(..., description="The topic to search for")):
     """
-    Example route: /news?topic=Technology
-    Calls the News API to get top headlines or articles about the specified topic.
+    Fetches relevant news articles based on a given topic.
+    Example usage: /news?topic=Technology
     """
-    if not NEWS_API_KEY:
-        return {"error": "Missing NEWS_API_KEY"}
+    articles = fetch_trending_news_by_topic(topic)
 
-    url = "https://newsapi.org/v2/everything"
-    params = {
-        "apiKey": NEWS_API_KEY,
-        "q": topic,          # Search for articles matching the topic
-        "sortBy": "relevancy",
-        "language": "en"
-    }
-    response = requests.get(url, params=params)
-    data = response.json()
+    if "error" in articles:
+        raise HTTPException(status_code=500, detail=articles["error"])
 
-    # Potential error checking
-    if data.get("status") != "ok":
-        return {"error": data.get("message", "Unknown error")}
-
-    return {"articles": data.get("articles", [])}
-
-#for test
-if __name__ == "__main__":
-    articles = fetch_trending_news(country="us")
-    print(articles)
+    return {"articles": articles}
