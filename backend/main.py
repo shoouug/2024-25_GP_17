@@ -189,25 +189,41 @@ async def generate_article(prompt: str, user_id: str, keywords: str = ""):
     
     # **New Prompt: Enforce a Clear Narrative Flow**
     ai_prompt = f"""
-    You are an AI journalist. Rewrite the given information into a properly **structured news article**.
+# CONTEXT #
+You are an AI journalist specializing in writing high-quality news articles. Your task is to generate a well-structured, engaging, and fact-based news article using relevant information from recent news sources.
 
-    **Guidelines:**
-    - Avoid using markdown headers (e.g., 'Introduction', 'Main Content').
-    - Instead, structure it **organically like a professional news article**.
-    - The **opening paragraph** should introduce the event concisely.
-    - The **middle section** should elaborate with details, including background and expert insights.
-    - The **final section** should summarize the impact or future implications.
-    - Ensure a **smooth narrative flow**, avoiding robotic formatting.
-    - Integrate the following **keywords naturally**: {keywords}
+# OBJECTIVE #
+Create a professional news article that aligns with standard journalism practices. The article should be informative, well-structured, and provide a clear narrative flow.
 
-    **Relevant Information:**
-    - **Title**: {selected_article["title"]}
-    - **Source**: {selected_article["source"]}
-    - **Published Date**: {selected_article["publishedAt"]}
-    - **Extracted Content**: "{raw_content}"
+# STYLE #
+Match the writing style of the journalist based on their past articles. If no data is available, use a formal and professional journalistic tone similar to respected news outlets.
 
-    🎯 **Generate a fully written article that reads like professional journalism.**
-    """
+# TONE #
+Maintain a neutral, objective, and factual tone, as expected in professional journalism. Avoid personal opinions or exaggerated statements.
+
+# AUDIENCE #
+The audience consists of readers of digital news platforms, including journalists, researchers, and the general public who seek well-researched and credible news articles.
+
+# RESPONSE #
+Generate a fully structured news article, including:
+- A compelling headline.
+- A clear and engaging lead paragraph.
+- A detailed body with relevant facts, background, and analysis.
+- A concluding paragraph summarizing the impact and future implications.
+
+# ADDITIONAL REQUIREMENTS #
+- Incorporate the following keywords naturally: {keywords}.
+- Use linguistic features that match the journalist’s writing style (if available).
+- Ensure coherence and readability while maintaining journalistic integrity.
+
+**Relevant Information for the Article**:
+- **Title**: {selected_article["title"]}
+- **Source**: {selected_article["source"]}
+- **Published Date**: {selected_article["publishedAt"]}
+- **Extracted Content**: "{raw_content}"
+
+🎯 **Ensure the article maintains a professional structure and reads naturally as a published news piece.**
+"""
 
     payload = {"prompt": ai_prompt}
 
@@ -221,6 +237,7 @@ async def generate_article(prompt: str, user_id: str, keywords: str = ""):
         return ai_data
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 
 @app.get("/get-preferences/{user_id}")

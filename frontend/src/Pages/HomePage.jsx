@@ -378,69 +378,59 @@ const handleKeywordPopupCancel = () => {
     setIsArticleGenerated(false); // Ensure UI updates
     
     try {
-      // Fetch news articles related to the selected topic
-      const newsResponse = await fetch(`http://127.0.0.1:8000/news?topic=${selectedTopic}`);
-      
-      if (!newsResponse.ok) {
-        throw new Error("Failed to fetch news articles");
-      }
-  
-      const newsData = await newsResponse.json();
-  
-      if (!newsData.articles || newsData.articles.length === 0) {
-        throw new Error("No articles found for this topic.");
-      }
-  
-      // Extract details from the first relevant article
-      const article = newsData.articles[0];
-  
-      const formattedArticle = `
-        **${article.title}**  
-        _Published on: ${article.publishedAt}_  
-  
-        **Introduction**  
-        ${article.description || "No description available."}  
-  
-        **Main Content**  
-        ${article.content || "Full article content is unavailable. Read more at the source link below."}  
-  
-        **Source:** [Read More](${article.url})
-      `;
-  
-      // Update the state with the real article
-      const newChat = {
-        title: selectedTopic,
-        versions: [formattedArticle], 
-        timestamp: new Date().toLocaleString(),
-      };
-  
-      setChats((prevChats) => [newChat, ...prevChats]);
-      setSelectedChat(newChat);
-      setArticleContent(formattedArticle);
-      setCurrentVersionIndex(0);
-      setIsArticleGenerated(true);
-  
-      // Save to Firestore
-      const saveToFirestore = async () => {
-        const user = auth.currentUser;
-        if (user) {
-          const userRef = doc(db, "Journalists", user.uid);
-          try {
-            await updateDoc(userRef, {
-              savedArticles: [newChat, ...chats],
-            });
-          } catch (error) {
-            console.error("Error saving topic-selected article:", error);
-          }
+        // Fetch news articles related to the selected topic
+        const newsResponse = await fetch(`http://127.0.0.1:8000/news?topic=${selectedTopic}`);
+
+        if (!newsResponse.ok) {
+            throw new Error("Failed to fetch news articles");
         }
-      };
-  
-      saveToFirestore();
+
+        const newsData = await newsResponse.json();
+
+        if (!newsData.articles || newsData.articles.length === 0) {
+            throw new Error("No articles found for this topic.");
+        }
+
+        // Extract details from the first relevant article
+        const article = newsData.articles[0];
+
+        // Use raw article content without formatting
+        const articleContent = article.content || "Full article content is unavailable.";
+
+        // Update the state with the raw article
+        const newChat = {
+            title: selectedTopic,
+            versions: [articleContent], 
+            timestamp: new Date().toLocaleString(),
+        };
+
+        setChats((prevChats) => [newChat, ...prevChats]);
+        setSelectedChat(newChat);
+        setArticleContent(articleContent);
+        setCurrentVersionIndex(0);
+        setIsArticleGenerated(true);
+
+        // Save to Firestore
+        const saveToFirestore = async () => {
+            const user = auth.currentUser;
+            if (user) {
+                const userRef = doc(db, "Journalists", user.uid);
+                try {
+                    await updateDoc(userRef, {
+                        savedArticles: [newChat, ...chats],
+                    });
+                } catch (error) {
+                    console.error("Error saving topic-selected article:", error);
+                }
+            }
+        };
+
+        saveToFirestore();
     } catch (error) {
-      console.error("Error fetching and generating article:", error);
-      setTopicError("Failed to fetch a real article. Please try again.");
+        console.error("Error fetching and generating article:", error);
+        setTopicError("Failed to fetch a real article. Please try again.");
     }
-  };
+};
 
   return (
     <div
