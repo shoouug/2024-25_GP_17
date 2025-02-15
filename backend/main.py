@@ -159,73 +159,76 @@ async def search_pinecone(query: str, top_k: int = 5):
 
 
 
+
 @app.post("/generate-article/")
 async def generate_article(prompt: str, user_id: str, keywords: str = ""):
     """
-    Generates a properly structured news article using RAG-enhanced data.
+    Fetches an article via RAG, then refines, expands, and structures it into a well-written, long-form article.
     """
+
     headers = {"Authorization": f"Bearer {API_KEY}"}
 
-    # Fetch user writing style
-    doc_ref = firestore_client.collection("Journalists").document(user_id)
-    doc = doc_ref.get()
-    linguistic_print = {}
-
-    if doc.exists:
-        articles = doc.to_dict().get("savedArticles", [])
-        linguistic_print = extract_linguistic_print(articles)
-
-    # Retrieve relevant news content via RAG
+    # 🔹 1️⃣ Fetch relevant article using RAG
     news_response = fetch_trending_news_by_topic(prompt)
 
     if not news_response or "error" in news_response:
         return {"error": "No relevant news found for the topic."}
 
-    # Select the best-matching article
+    # 🔹 2️⃣ Select the best-matching article
     selected_article = news_response[0]
 
-    # Extract content and clean unnecessary formatting
-    raw_content = selected_article["content"].split("Read more")[0] if "Read more" in selected_article["content"] else selected_article["content"]
-    
-    # **New Prompt: Enforce a Clear Narrative Flow**
+    # 🔹 3️⃣ Extract & clean article content
+    base_article = selected_article.get("content", "Content unavailable.").split("Read more")[0]
+
+    # 🔹 4️⃣ Send the full article to LLM for expansion & refinement
     ai_prompt = f"""
 # CONTEXT #
-You are an AI journalist specializing in writing high-quality news articles. Your task is to generate a well-structured, engaging, and fact-based news article using relevant information from recent news sources.
+You are a professional AI journalist writing a **fully developed, long-form news article** for a wide audience. Your goal is to create an **engaging, factual, and comprehensive** article.
 
 # OBJECTIVE #
-Create a professional news article that aligns with standard journalism practices. The article should be informative, well-structured, and provide a clear narrative flow.
+Refine and expand the provided article into a **high-quality, long-form news piece (1,500+ words)** that reads like professional journalism.
 
 # STYLE #
-Match the writing style of the journalist based on their past articles. If no data is available, use a formal and professional journalistic tone similar to respected news outlets.
+Write in a **newsroom-quality style**, following major news outlets (e.g., New York Times, Reuters, BBC). Maintain an **objective, detailed, and structured approach**.
 
 # TONE #
-Maintain a neutral, objective, and factual tone, as expected in professional journalism. Avoid personal opinions or exaggerated statements.
+The article should be **neutral, authoritative, and informative**, ensuring **clarity, depth, and accessibility** for a broad audience.
 
-# AUDIENCE #
-The audience consists of readers of digital news platforms, including journalists, researchers, and the general public who seek well-researched and credible news articles.
+# RESPONSE FORMAT #
+Your article should:
+- Have an **engaging headline** that grabs attention.
+- Begin with a **compelling lead paragraph** that sets up the story.
+- Develop **clear, well-structured paragraphs** with smooth transitions.
+- Incorporate **expert quotes, background details, and factual insights**.
+- Have a **logical progression from the introduction to the conclusion**.
+- **DO NOT break the article into sections with headers**—use natural flow instead.
+- Ensure the article **expands on key details rather than summarizing**.
 
-# RESPONSE #
-Generate a fully structured news article, including:
-- A compelling headline.
-- A clear and engaging lead paragraph.
-- A detailed body with relevant facts, background, and analysis.
-- A concluding paragraph summarizing the impact and future implications.
+**Base Article Content:**  
+"{base_article}"
 
 # ADDITIONAL REQUIREMENTS #
-- Incorporate the following keywords naturally: {keywords}.
-- Use linguistic features that match the journalist’s writing style (if available).
-- Ensure coherence and readability while maintaining journalistic integrity.
+- Expand each aspect of the article with **rich details, expert opinions, and context**.
+- **Do NOT generate a summary**—write a **fully developed, long-form article**.
+- **Ensure at least 1,500+ words** with an engaging, narrative flow.
+- **Use natural transitions** to connect paragraphs smoothly.
+- **Incorporate these keywords naturally**: {keywords}.
+- **If available, match the journalist's writing style from linguistic analysis**.
 
-**Relevant Information for the Article**:
-- **Title**: {selected_article["title"]}
-- **Source**: {selected_article["source"]}
-- **Published Date**: {selected_article["publishedAt"]}
-- **Extracted Content**: "{raw_content}"
-
-🎯 **Ensure the article maintains a professional structure and reads naturally as a published news piece.**
+🚨 **IMPORTANT:**  
+- This is NOT a summary.  
+- The article must be **long, fully structured, and engaging**.  
+- **Ensure a strong narrative with depth and clarity.**  
 """
 
-    payload = {"prompt": ai_prompt}
+    payload = {
+        "prompt": ai_prompt,
+        "max_tokens": 8192,  # 🚀 Maximize word count for a full-length article
+        "temperature": 0.6,  # Ensures factual accuracy while allowing creativity
+        "top_p": 0.9,  # Encourages diverse, rich output
+        "frequency_penalty": 0.2,  # Reduces repetition
+        "presence_penalty": 0.1,  # Encourages new, unique details
+    }
 
     try:
         response = requests.post("https://api.deepseek.ai/v1/generate", json=payload, headers=headers)
@@ -234,7 +237,8 @@ Generate a fully structured news article, including:
         # 🚀 **Log AI Response for Debugging**
         print("\n\n🛠 DEBUG: AI Response from DeepSeek API 🛠\n", json.dumps(ai_data, indent=2))
 
-        return ai_data
+        return {"article": ai_data.get("choices", [{}])[0].get("text", "").strip()}
+    
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
