@@ -19,6 +19,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi import Query
 from services.news_api_service import fetch_trending_news_by_topic
 import cohere
+import string
+from textstat import flesch_reading_ease
 
 env_path = os.path.join(os.path.dirname(__file__), ".env")
 load_dotenv(dotenv_path=env_path, override=True) 
@@ -174,7 +176,7 @@ async def search_pinecone(query: str, top_k: int = 5):
 @app.post("/generate-article/")
 async def generate_article(request: ArticleRequest):
     """
-    Generates a long, fully developed news article using Cohere AI.
+    Generates a news article using Cohere AI, incorporating the journalist's detailed writing style.
     """
     print(f"🔎 Received request: {request}")
 
@@ -182,47 +184,60 @@ async def generate_article(request: ArticleRequest):
     user_id = request.user_id
     keywords = request.keywords
 
-    # ✅ Cohere API Prompt for Long-Form Article
+    # Fetch Linguistic Print
+    doc_ref = firestore_client.collection("Journalists").document(user_id)
+    doc = doc_ref.get()
+
+    linguistic_print = {}
+
+    if doc.exists:
+        data = doc.to_dict()
+        previous_articles = data.get("previousArticles", [])
+        if previous_articles:
+            linguistic_print = extract_linguistic_print(previous_articles)
+            print("\n✅ DEBUG: Extracted Linguistic Print:", linguistic_print)
+
+    # Apply Linguistic Print to AI Prompt
     cohere_prompt = f"""
-You are an AI journalist writing a **long-form news article** (at least **1,500+ words**).  
-Your goal is to create an **engaging, factual, and well-structured** article.
+You are an AI journalist writing in the style of a specific journalist.
+Analyze and replicate their unique **writing structure, tone, and word usage**.
+
+# Writing Style:
+- **Tone:** {linguistic_print.get("tone", "Neutral")}
+- **Sentence Length:** {linguistic_print.get("avg_sentence_length", "Moderate")}
+- **Readability Score:** {linguistic_print.get("readability_score", "Standard")}
+- **Common Words:** {", ".join([word[0] for word in linguistic_print.get("most_common_words", [])])}
+- **Common Punctuation:** {", ".join([punct[0] for punct in linguistic_print.get("most_common_punctuation", [])])}
+- **Voice Preference:** {linguistic_print.get("voice_preference", "Balanced")}
+- **Personal vs. Impersonal Style:** {linguistic_print.get("personal_vs_impersonal", "Neutral")}
 
 # Instructions:
-- Expand the article to **at least 1,500+ words**.
-- Write in **professional journalism style** (New York Times, Reuters, BBC).
-- Maintain **neutral, authoritative tone** with **clear structure**.
-- Include **expert quotes, real-world examples, and background information**.
-- **Ensure smooth transitions** between paragraphs.
-- Incorporate these keywords naturally: {keywords}.
+- **Generate a fully structured news article**.
+- Ensure the article **matches the journalist's writing style**.
+- Incorporate **keywords naturally**: {keywords}.
+- Maintain **coherence and factual accuracy**.
 
 **Topic:** {prompt}
 """
 
-
     try:
         response = co.generate(
-            model="command",  
+            model="command",
             prompt=cohere_prompt,
-            max_tokens=4096,  
-            temperature=0.7,  
-         
-            frequency_penalty=0.1,  
-            presence_penalty=0.2  
+            max_tokens=4096,
+            temperature=0.7,
+            frequency_penalty=0.1,
+            presence_penalty=0.2
         )
 
-        # ✅ Extract Full Generated Text Without Truncation
         generated_article = response.generations[0].text.strip()
 
-        # ✅ Debugging: Check If Content is Cut Off
-        if "[+2728 chars]" in generated_article:
-            print("❌ WARNING: Truncated Response Detected! Fixing it...")
-
-        # ✅ Remove Truncated Markers (If Any)
+        # ✅ Ensure Full Article is Set
         generated_article = generated_article.replace("[+2728 chars]", "")
 
-        print("\n📝 Full Generated Article Preview:\n", generated_article[:500])  
+        print("\n📝 Full Generated Article Preview:\n", generated_article[:500])
 
-        return {"article": generated_article}  # ✅ Full text returned
+        return {"article": generated_article}  # ✅ Full text returned to frontend
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"❌ Cohere API Error: {str(e)}")
@@ -289,7 +304,7 @@ async def get_user_articles(user_id: str):
             data = doc.to_dict()
             return {
                 "previousArticles": data.get("previousArticles", []),
-                "savedArticles": data.get("savedArticles", [])
+                #"savedArticles": data.get("savedArticles", [])
             }
         else:
             return {"message": "No articles found for this user."}
@@ -354,14 +369,14 @@ text = "This is a test sentence. Let's see if NLTK works properly!" #working che
 print(sent_tokenize(text))
 
 
-import nltk
-import os
+#import nltk
+#import os
 
 # Tell NLTK where to find the data
 nltk.data.path.append(os.path.join(os.getcwd(), "nltk_data"))
 
-import nltk
-import os
+#import nltk
+#import os
 
 # Set the path where NLTK should look for the data
 NLTK_DATA_PATH = os.path.join(os.getcwd(), "venv", "lib", "python3.12", "site-packages", "nltk_data")
@@ -375,18 +390,12 @@ nltk.download("stopwords", download_dir=NLTK_DATA_PATH)
 
 def extract_linguistic_print(articles):
     """
-    Analyzes linguistic patterns from saved articles.
-    Returns:
-    - avg_sentence_length: The average length of sentences.
-    - most_common_words: The most frequent words used.
-    - most_common_phrases: The most frequent 2-word phrases.
-    - tone: Estimated writing tone (formal, casual, storytelling, news-style).
-    - voice_preference: Active vs. passive voice usage.
-    - personal_vs_impersonal: Determines if the user writes with personal pronouns.
+    Extracts a detailed linguistic profile from previous articles.
+    This captures deeper writing patterns beyond basic word and sentence statistics.
     """
-    
-    all_text = " ".join([article["content"] for article in articles if "content" in article])
-    
+
+    all_text = " ".join(articles)#without content________________________________________
+
     if not all_text:
         return {}
 
@@ -394,26 +403,32 @@ def extract_linguistic_print(articles):
     sentences = sent_tokenize(all_text)
     words = word_tokenize(all_text.lower())
 
-    # Calculate sentence length
-    avg_sentence_length = sum(len(word_tokenize(sentence)) for sentence in sentences) / len(sentences)
-
-    # Count most common words (excluding stopwords)
+    # Remove punctuation & stopwords
     stop_words = set(stopwords.words("english"))
-    word_freq = Counter([word for word in words if word.isalpha() and word not in stop_words])
-    most_common_words = word_freq.most_common(10)
+    words_cleaned = [word for word in words if word.isalpha() and word not in stop_words]
 
-    # Find most common phrases (bigrams)
-    bigrams = Counter(zip(words[:-1], words[1:]))
-    most_common_phrases = bigrams.most_common(10)
+    # **Sentence Length & Complexity**
+    avg_sentence_length = sum(len(word_tokenize(sentence)) for sentence in sentences) / len(sentences)
+    readability_score = flesch_reading_ease(all_text)  # Measures writing complexity
 
-    # **Tone Detection**
+    # **Most Common Words & Phrases**
+    word_freq = Counter(words_cleaned)
+    most_common_words = word_freq.most_common(15)  # 🔹 Increased to 15 words
+    bigrams = Counter(zip(words_cleaned[:-1], words_cleaned[1:]))
+    most_common_phrases = bigrams.most_common(15)  # 🔹 Increased to 15 phrases
+
+    # **Punctuation & Writing Style**
+    punctuation_freq = Counter(char for char in all_text if char in string.punctuation)
+    most_common_punctuation = punctuation_freq.most_common(5)
+
+    # **Tone Analysis**
     formal_words = {"hence", "thus", "therefore", "moreover", "consequently", "furthermore"}
     casual_words = {"lol", "hey", "gonna", "wanna", "gotta", "idk", "omg"}
-    storytelling_words = {"once", "upon", "suddenly", "moment", "felt", "realized"}
+    storytelling_words = {"once", "upon", "suddenly", "moment", "felt", "realized", "narrative"}
 
-    formal_count = sum(1 for word in words if word in formal_words)
-    casual_count = sum(1 for word in words if word in casual_words)
-    storytelling_count = sum(1 for word in words if word in storytelling_words)
+    formal_count = sum(1 for word in words_cleaned if word in formal_words)
+    casual_count = sum(1 for word in words_cleaned if word in casual_words)
+    storytelling_count = sum(1 for word in words_cleaned if word in storytelling_words)
 
     if max(formal_count, casual_count, storytelling_count) == formal_count:
         tone = "Formal"
@@ -422,9 +437,9 @@ def extract_linguistic_print(articles):
     else:
         tone = "Storytelling"
 
-    # **Active vs. Passive Voice Detection**
-    active_voice_count = sum(1 for word in words if word in {"is", "was", "were", "been", "being"})
+    # **Active vs. Passive Voice**
     passive_voice_count = sum(1 for word in words if word in {"by", "was", "were", "had been"})
+    active_voice_count = sum(1 for word in words if word in {"do", "does", "did", "has", "have", "had"})
 
     if active_voice_count > passive_voice_count:
         voice_preference = "Active Voice"
@@ -433,17 +448,19 @@ def extract_linguistic_print(articles):
 
     # **Personal vs. Impersonal Writing**
     personal_words = {"i", "we", "me", "my", "mine", "our", "ours"}
-    personal_count = sum(1 for word in words if word in personal_words)
+    personal_count = sum(1 for word in words_cleaned if word in personal_words)
 
-    if personal_count > len(words) * 0.02:  # If more than 2% of words are personal
+    if personal_count > len(words_cleaned) * 0.02:
         personal_vs_impersonal = "Personal"
     else:
         personal_vs_impersonal = "Impersonal"
 
     return {
         "avg_sentence_length": avg_sentence_length,
+        "readability_score": readability_score,
         "most_common_words": most_common_words,
         "most_common_phrases": most_common_phrases,
+        "most_common_punctuation": most_common_punctuation,
         "tone": tone,
         "voice_preference": voice_preference,
         "personal_vs_impersonal": personal_vs_impersonal,
@@ -463,7 +480,7 @@ async def get_linguistic_print(user_id: str):
         doc = doc_ref.get()
         if doc.exists:
             data = doc.to_dict()
-            articles = data.get("savedArticles", [])
+            articles = data.get("previousArticles", [])
             linguistic_print = extract_linguistic_print(articles)
             return {"linguistic_print": linguistic_print}
         else:

@@ -192,20 +192,40 @@ const handleKeywordPopupCancel = () => {
             throw new Error("AI did not return a valid article");
         }
 
-        // ✅ Fix: Ensure Full Article is Set
-        let fullArticle = aiData.article;
-
-        // ✅ Remove Truncated Markers If Any
-        fullArticle = fullArticle.replace("[+2728 chars]", "");
-
         // ✅ Store and Display the Full Article
-        setArticleContent(fullArticle);
+        setArticleContent(aiData.article);
         setIsArticleGenerated(true);
+
+        // ✅ Save to Firestore
+        const saveToFirestore = async () => {
+            const newChat = {
+                title: selectedTopic,
+                versions: [aiData.article], 
+                timestamp: new Date().toLocaleString(),
+            };
+
+            setChats((prevChats) => [newChat, ...prevChats]);
+            setSelectedChat(newChat);
+
+            if (user) {
+                const userRef = doc(db, "Journalists", user.uid);
+                try {
+                    await updateDoc(userRef, {
+                        savedArticles: [newChat, ...chats],
+                    });
+                } catch (error) {
+                    console.error("Error saving generated article:", error);
+                }
+            }
+        };
+
+        saveToFirestore();
     } catch (error) {
         console.error("❌ Error generating article:", error);
         setTopicError("Failed to generate article. Please try again.");
     }
 };
+
   
   const handleBackward = () => {
     if (selectedChat && currentVersionIndex > 0) {
