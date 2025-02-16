@@ -449,8 +449,9 @@ margin-left: -90px;
   
   .article-contentH {
     width: 100%;
-    min-height: 300px; /* ✅ Automatically expands */
+    min-height: 600px;  /* ✅ Automatically expands */
     max-height: auto;
+    white-space: pre-wrap;
     border: 1px solid #5B95A1;
     resize: vertical; /* ✅ Allows resizing */
     font-size: 14px;

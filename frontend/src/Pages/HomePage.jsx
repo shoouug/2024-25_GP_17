@@ -156,63 +156,54 @@ const handleKeywordPopupCancel = () => {
 
   const handleGenerateArticle = async (selectedTopic, enteredKeywords) => {
     if (!selectedTopic.trim()) {
-      setTopicError("Topic is required to generate an article.");
-      return;
+        setTopicError("Topic is required to generate an article.");
+        return;
     }
-  
-    setTopicError("");
-  
-    try {
-      const user = auth.currentUser;
-      if (!user) {
-        throw new Error("User not authenticated");
-      }
-  
-      // Call AI API with topic & keywords
-      const aiResponse = await fetch("http://127.0.0.1:8000/generate-article/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          prompt: selectedTopic,
-          user_id: user.uid,
-          keywords: enteredKeywords, // ✅ Pass keywords to backend
-        }),
-      });
-  
-      if (!aiResponse.ok) {
-        throw new Error("AI article generation failed");
-      }
-  
-      const aiData = await aiResponse.json();
 
-      // Check if article is valid
-      if (!aiData || !aiData.article) {
-        throw new Error("AI did not return a valid article");
-      }
-  
-      // Set the article in state
-      setArticleContent(aiData.article);
-      setIsArticleGenerated(true);
-  
-      // Save the article as a new version
-      const newChat = {
-        title: selectedTopic,
-        versions: [aiData.article],
-        timestamp: new Date().toLocaleString(),
-      };
-  
-      setChats([newChat, ...chats]);
-      setSelectedChat(newChat);
-      setCurrentVersionIndex(0);
-  
-      // Save to Firestore
-      const userRef = doc(db, "Journalists", user.uid);
-      await updateDoc(userRef, {
-        savedArticles: [newChat, ...chats],
-      });
+    try {
+        const user = auth.currentUser;
+        if (!user) {
+            throw new Error("User not authenticated");
+        }
+
+        console.log("📡 Sending request to backend...");
+
+        const response = await fetch("http://127.0.0.1:8000/generate-article/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                prompt: selectedTopic,
+                user_id: user.uid,
+                keywords: enteredKeywords,
+            }),
+        });
+
+        console.log(user.uid);
+        console.log("🔎 Backend response status:", response.status);
+
+        if (!response.ok) {
+            throw new Error("AI article generation failed");
+        }
+
+        const aiData = await response.json();
+        console.log("📝 AI Response:", aiData);
+
+        if (!aiData || !aiData.article) {
+            throw new Error("AI did not return a valid article");
+        }
+
+        // ✅ Fix: Ensure Full Article is Set
+        let fullArticle = aiData.article;
+
+        // ✅ Remove Truncated Markers If Any
+        fullArticle = fullArticle.replace("[+2728 chars]", "");
+
+        // ✅ Store and Display the Full Article
+        setArticleContent(fullArticle);
+        setIsArticleGenerated(true);
     } catch (error) {
-      console.error("Error generating article:", error);
-      setTopicError("Failed to generate article. Please try again.");
+        console.error("❌ Error generating article:", error);
+        setTopicError("Failed to generate article. Please try again.");
     }
 };
   
@@ -379,13 +370,40 @@ const handleKeywordPopupCancel = () => {
     
     try {
         // Fetch news articles related to the selected topic
-        const newsResponse = await fetch(`http://127.0.0.1:8000/news?topic=${selectedTopic}`);
 
-        if (!newsResponse.ok) {
-            throw new Error("Failed to fetch news articles");
+        //const newsResponse = await fetch(`http://127.0.0.1:8000/news?topic=${selectedTopic}`);
+
+       // if (!newsResponse.ok) {
+          //  throw new Error("Failed to fetch news articles");
+      //  }
+
+      const user = auth.currentUser;
+        if (!user) {
+            throw new Error("User not authenticated");
         }
 
-        const newsData = await newsResponse.json();
+        console.log("📡 Sending request to backend...");
+
+        const response = await fetch("http://127.0.0.1:8000/generate-article/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                prompt: selectedTopic,
+                user_id: user.uid,
+                keywords: ""
+            }),
+        });
+
+        console.log(user.uid);
+        console.log("🔎 Backend response status:", response.status);
+
+        if (!response.ok) {
+            throw new Error("AI article generation failed");
+        }
+
+        const aiData = await response.json();
+
+       const newsData = await response.json();
 
         if (!newsData.articles || newsData.articles.length === 0) {
             throw new Error("No articles found for this topic.");
@@ -606,6 +624,7 @@ const handleKeywordPopupCancel = () => {
     value={articleContent}
     onChange={(e) => setArticleContent(e.target.value)}
     readOnly={!isEditing}
+    style={{ height: "600px", overflow: "auto", whiteSpace: "pre-wrap" }} 
   />
   <div className="article-actionsH">
   {isEditing ? (

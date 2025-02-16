@@ -18,6 +18,7 @@ from nltk.corpus import stopwords
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import Query
 from services.news_api_service import fetch_trending_news_by_topic
+import cohere
 
 env_path = os.path.join(os.path.dirname(__file__), ".env")
 load_dotenv(dotenv_path=env_path, override=True) 
@@ -43,6 +44,9 @@ if not PINECONE_API_KEY or not PINECONE_ENVIRONMENT:
         "Check PINECONE_API_KEY and PINECONE_ENVIRONMENT."
     )
 
+# ✅ Initialize Cohere client
+co = cohere.Client(API_KEY)
+
 # Initialize FastAPI app
 app = FastAPI()
 
@@ -53,6 +57,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+class ArticleRequest(BaseModel):
+    prompt: str
+    user_id: str
+    keywords: str = ""
 
 # Set the path for Google credentials (for Firebase/Firestore)
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./credentials/gennews-2e5b4-f984c5782159-1.json"
@@ -160,87 +169,64 @@ async def search_pinecone(query: str, top_k: int = 5):
 
 
 
+
+
 @app.post("/generate-article/")
-async def generate_article(prompt: str, user_id: str, keywords: str = ""):
+async def generate_article(request: ArticleRequest):
     """
-    Fetches an article via RAG, then refines, expands, and structures it into a well-written, long-form article.
+    Generates a long, fully developed news article using Cohere AI.
     """
+    print(f"🔎 Received request: {request}")
 
-    headers = {"Authorization": f"Bearer {API_KEY}"}
+    prompt = request.prompt
+    user_id = request.user_id
+    keywords = request.keywords
 
-    # 🔹 1️⃣ Fetch relevant article using RAG
-    news_response = fetch_trending_news_by_topic(prompt)
+    # ✅ Cohere API Prompt for Long-Form Article
+    cohere_prompt = f"""
+You are an AI journalist writing a **long-form news article** (at least **1,500+ words**).  
+Your goal is to create an **engaging, factual, and well-structured** article.
 
-    if not news_response or "error" in news_response:
-        return {"error": "No relevant news found for the topic."}
+# Instructions:
+- Expand the article to **at least 1,500+ words**.
+- Write in **professional journalism style** (New York Times, Reuters, BBC).
+- Maintain **neutral, authoritative tone** with **clear structure**.
+- Include **expert quotes, real-world examples, and background information**.
+- **Ensure smooth transitions** between paragraphs.
+- Incorporate these keywords naturally: {keywords}.
 
-    # 🔹 2️⃣ Select the best-matching article
-    selected_article = news_response[0]
-
-    # 🔹 3️⃣ Extract & clean article content
-    base_article = selected_article.get("content", "Content unavailable.").split("Read more")[0]
-
-    # 🔹 4️⃣ Send the full article to LLM for expansion & refinement
-    ai_prompt = f"""
-# CONTEXT #
-You are a professional AI journalist writing a **fully developed, long-form news article** for a wide audience. Your goal is to create an **engaging, factual, and comprehensive** article.
-
-# OBJECTIVE #
-Refine and expand the provided article into a **high-quality, long-form news piece (1,500+ words)** that reads like professional journalism.
-
-# STYLE #
-Write in a **newsroom-quality style**, following major news outlets (e.g., New York Times, Reuters, BBC). Maintain an **objective, detailed, and structured approach**.
-
-# TONE #
-The article should be **neutral, authoritative, and informative**, ensuring **clarity, depth, and accessibility** for a broad audience.
-
-# RESPONSE FORMAT #
-Your article should:
-- Have an **engaging headline** that grabs attention.
-- Begin with a **compelling lead paragraph** that sets up the story.
-- Develop **clear, well-structured paragraphs** with smooth transitions.
-- Incorporate **expert quotes, background details, and factual insights**.
-- Have a **logical progression from the introduction to the conclusion**.
-- **DO NOT break the article into sections with headers**—use natural flow instead.
-- Ensure the article **expands on key details rather than summarizing**.
-
-**Base Article Content:**  
-"{base_article}"
-
-# ADDITIONAL REQUIREMENTS #
-- Expand each aspect of the article with **rich details, expert opinions, and context**.
-- **Do NOT generate a summary**—write a **fully developed, long-form article**.
-- **Ensure at least 1,500+ words** with an engaging, narrative flow.
-- **Use natural transitions** to connect paragraphs smoothly.
-- **Incorporate these keywords naturally**: {keywords}.
-- **If available, match the journalist's writing style from linguistic analysis**.
-
-🚨 **IMPORTANT:**  
-- This is NOT a summary.  
-- The article must be **long, fully structured, and engaging**.  
-- **Ensure a strong narrative with depth and clarity.**  
+**Topic:** {prompt}
 """
 
-    payload = {
-        "prompt": ai_prompt,
-        "max_tokens": 8192,  # 🚀 Maximize word count for a full-length article
-        "temperature": 0.6,  # Ensures factual accuracy while allowing creativity
-        "top_p": 0.9,  # Encourages diverse, rich output
-        "frequency_penalty": 0.2,  # Reduces repetition
-        "presence_penalty": 0.1,  # Encourages new, unique details
-    }
 
     try:
-        response = requests.post("https://api.deepseek.ai/v1/generate", json=payload, headers=headers)
-        ai_data = response.json()
+        response = co.generate(
+            model="command",  
+            prompt=cohere_prompt,
+            max_tokens=4096,  
+            temperature=0.7,  
+         
+            frequency_penalty=0.1,  
+            presence_penalty=0.2  
+        )
 
-        # 🚀 **Log AI Response for Debugging**
-        print("\n\n🛠 DEBUG: AI Response from DeepSeek API 🛠\n", json.dumps(ai_data, indent=2))
+        # ✅ Extract Full Generated Text Without Truncation
+        generated_article = response.generations[0].text.strip()
 
-        return {"article": ai_data.get("choices", [{}])[0].get("text", "").strip()}
-    
+        # ✅ Debugging: Check If Content is Cut Off
+        if "[+2728 chars]" in generated_article:
+            print("❌ WARNING: Truncated Response Detected! Fixing it...")
+
+        # ✅ Remove Truncated Markers (If Any)
+        generated_article = generated_article.replace("[+2728 chars]", "")
+
+        print("\n📝 Full Generated Article Preview:\n", generated_article[:500])  
+
+        return {"article": generated_article}  # ✅ Full text returned
+
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=f"❌ Cohere API Error: {str(e)}")
+
 
 
 
