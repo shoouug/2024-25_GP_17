@@ -154,17 +154,19 @@ const handleKeywordPopupCancel = () => {
     setKeyword("");
   };
 
+  const [isLoading, setIsLoading] = useState(false); // ✅ Loading state
+
   const handleGenerateArticle = async (selectedTopic, enteredKeywords) => {
     if (!selectedTopic.trim()) {
         setTopicError("Topic is required to generate an article.");
         return;
     }
 
+    setIsLoading(true);  // ✅ Start loading spinner
+
     try {
         const user = auth.currentUser;
-        if (!user) {
-            throw new Error("User not authenticated");
-        }
+        if (!user) throw new Error("User not authenticated");
 
         console.log("📡 Sending request to backend...");
 
@@ -178,51 +180,38 @@ const handleKeywordPopupCancel = () => {
             }),
         });
 
-        console.log(user.uid);
-        console.log("🔎 Backend response status:", response.status);
-
-        if (!response.ok) {
-            throw new Error("AI article generation failed");
-        }
+        if (!response.ok) throw new Error("AI article generation failed");
 
         const aiData = await response.json();
-        console.log("📝 AI Response:", aiData);
 
-        if (!aiData || !aiData.article) {
-            throw new Error("AI did not return a valid article");
-        }
+        if (!aiData || !aiData.article) throw new Error("AI did not return a valid article");
 
-        // ✅ Store and Display the Full Article
-        setArticleContent(aiData.article);
-        setIsArticleGenerated(true);
+        console.log("📝 Full AI Article Received:", aiData.article);
 
-        // ✅ Save to Firestore
-        const saveToFirestore = async () => {
-            const newChat = {
-                title: selectedTopic,
-                versions: [aiData.article], 
-                timestamp: new Date().toLocaleString(),
-            };
-
-            setChats((prevChats) => [newChat, ...prevChats]);
-            setSelectedChat(newChat);
-
-            if (user) {
-                const userRef = doc(db, "Journalists", user.uid);
-                try {
-                    await updateDoc(userRef, {
-                        savedArticles: [newChat, ...chats],
-                    });
-                } catch (error) {
-                    console.error("Error saving generated article:", error);
-                }
-            }
+        // ✅ Save & Display the Article
+        const newChat = {
+            title: selectedTopic,
+            versions: [aiData.article], 
+            timestamp: new Date().toLocaleString(),
         };
 
-        saveToFirestore();
+        // ✅ Save in Firestore
+        const userRef = doc(db, "Journalists", user.uid);
+        await updateDoc(userRef, {
+            savedArticles: [newChat, ...chats], // Save article to Firestore
+        });
+
+        setChats((prevChats) => [newChat, ...prevChats]);
+        setSelectedChat(newChat);
+        setArticleContent(aiData.article);
+        setCurrentVersionIndex(0);
+        setIsArticleGenerated(true);
+        setIsLoading(false);  // ✅ Stop loading
+
     } catch (error) {
         console.error("❌ Error generating article:", error);
         setTopicError("Failed to generate article. Please try again.");
+        setIsLoading(false);  // ✅ Hide loading on error
     }
 };
 
@@ -595,25 +584,30 @@ const handleKeywordPopupCancel = () => {
       <button className="keyword-button" onClick={() => setShowKeywordPopup(true)}>
         Keyword
       </button>
-      <img
-        src={sendIcon}
-        alt="Send Icon"
-        className="send-icon"
-        onClick={() => {
-          if (!topic.trim()) {
-            setTopicError("Topic is required to generate an article.");
-            return;
-          }
-          handleGenerateArticle(topic, keyword); // ✅ Pass both topic and keyword
-          setTopic(""); // Clear the input field
-        }}
-      />
+      {isLoading ? (
+  <div className="loading-spinner"></div> // ✅ Show spinner while loading
+) : (
+  <img
+    src={sendIcon}
+    alt="Send Icon"
+    className="send-icon"
+    onClick={() => {
+      if (!topic.trim()) {
+        setTopicError("Topic is required to generate an article.");
+        return;
+      }
+      handleGenerateArticle(topic, keyword); // ✅ Pass both topic and keyword
+      setTopic(""); // Clear the input field
+    }}
+  />
+)}
     </div>
 
     {showKeywordPopup && (
       <div className="keyword-popup">
         <textarea
-          placeholder="Enter keywords separated by commas..."
+          placeholder="Enter keywords separated by commas... 
+          For example: Saudi arabia, Vision 2023"
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
         ></textarea>
@@ -621,64 +615,69 @@ const handleKeywordPopupCancel = () => {
       </div>
     )}
 
-{isArticleGenerated && selectedChat && (
-  <>
-    <div className="generated-articleH">
+{isLoading ? (
+    <div className="loading-spinner"></div> // ✅ Show spinner while loading
+) : isArticleGenerated && selectedChat ? (
+    <>
+        <div className="generated-articleH">
+            <h3 className="article-titleH">
+                {isEditing ? (
+                    <input
+                        type="text"
+                        value={selectedChat?.title}
+                        onChange={(e) => handleTitleChange(e.target.value)}
+                        className="title-edit-input"
+                    />
+                ) : (
+                    selectedChat?.title
+                )}
+            </h3>
 
-    <h3 className="article-titleH">
-  {isEditing ? (
-    <input
-      type="text"
-      value={selectedChat?.title}
-      onChange={(e) => handleTitleChange(e.target.value)}
-      className="title-edit-input"
-    />
-  ) : (
-    selectedChat?.title
-  )}
-</h3>
-
-  <p className="article-timestampH">{selectedChat?.timestamp}</p>
-  <textarea
-    className="article-contentH"
-    value={articleContent}
-    onChange={(e) => setArticleContent(e.target.value)}
-    readOnly={!isEditing}
-    style={{ height: "600px", overflow: "auto", whiteSpace: "pre-wrap" }} 
-  />
-  <div className="article-actionsH">
-  {isEditing ? (
-    <button className="save-btnH" onClick={handleSave}>
-      Save
-    </button>
-  ) : (
-    <button className="edit-btnH" onClick={() => setIsEditing(true)}>
-      Edit
-    </button>
-  )}
-  <button className="export-btnH" onClick={handleExport}>
-    Export
-  </button>
-  <button
-    className="backward-btn"
-    onClick={handleBackward}
-    disabled={currentVersionIndex === 0}
-  >
-    <img src={Backward} alt="Backward" />
-  </button>
-  <button
-    className="forward-btn"
-    onClick={handleForward}
-    disabled={
-      !selectedChat || currentVersionIndex >= selectedChat.versions.length - 1
-    }
-  >
-    <img src={forward} alt="Forward" />
-  </button>
-</div>
-</div>
-  </>
-)}
+            <p className="article-timestampH">{selectedChat?.timestamp}</p>
+            
+            <textarea
+                className="article-contentH"
+                value={articleContent}
+                onChange={(e) => setArticleContent(e.target.value)}
+                readOnly={!isEditing}
+                style={{
+                    height: "600px",
+                    overflowY: "auto",
+                    whiteSpace: "pre-wrap", // ✅ Ensures line breaks are preserved
+                    wordWrap: "break-word", // ✅ Prevents text from being cut off
+                }}
+            />
+            <div className="article-actionsH">
+                {isEditing ? (
+                    <button className="save-btnH" onClick={handleSave}>
+                        Save
+                    </button>
+                ) : (
+                    <button className="edit-btnH" onClick={() => setIsEditing(true)}>
+                        Edit
+                    </button>
+                )}
+                <button className="export-btnH" onClick={handleExport}>
+                    Export
+                </button>
+                <button
+                    className="backward-btn"
+                    onClick={handleBackward}
+                    disabled={currentVersionIndex === 0}
+                >
+                    <img src={Backward} alt="Backward" />
+                </button>
+                <button
+                    className="forward-btn"
+                    onClick={handleForward}
+                    disabled={!selectedChat || currentVersionIndex >= selectedChat.versions.length - 1}
+                >
+                    <img src={forward} alt="Forward" />
+                </button>
+            </div>
+        </div>
+    </>
+) : null}
 
         {isProfileEditing && (
           <EditProfile

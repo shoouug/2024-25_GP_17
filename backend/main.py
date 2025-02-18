@@ -235,7 +235,7 @@ Analyze and replicate their unique **writing structure, tone, and word usage**.
         # ✅ Ensure Full Article is Set
         generated_article = generated_article.replace("[+2728 chars]", "")
 
-        print("\n📝 Full Generated Article Preview:\n", generated_article[:500])
+        print("\n📝 Full Generated Article Preview:\n", generated_article)
 
         return {"article": generated_article}  # ✅ Full text returned to frontend
 
