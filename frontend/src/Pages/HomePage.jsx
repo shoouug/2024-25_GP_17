@@ -137,6 +137,22 @@ const handleKeywordPopupCancel = () => {
       navigate("/");
     }
   };
+// Helper function to extract the publisher's name from a URL
+const extractPublisher = (url) => {
+  try {
+    const parsedUrl = new URL(url);
+    let hostname = parsedUrl.hostname;
+    // Remove 'www.' if present
+    if (hostname.startsWith("www.")) {
+      hostname = hostname.substring(4);
+    }
+    // Optionally, take the first part of the domain (e.g., "yahoo" from "yahoo.com")
+    const parts = hostname.split(".");
+    return parts[0];
+  } catch (err) {
+    return "unknown";
+  }
+};
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -405,60 +421,75 @@ const handleKeywordPopupCancel = () => {
     }
   };
 //here also changes
-  const handleTopicCardClick = async (selectedTopic) => {
-    // Do not set the topic input field—use the selected topic directly.
-    setIsArticleGenerated(false);
-    setTopicError("");
+  // In your HomePage component, add this new handler function:
+// Helper function to extract domain name from a URL
+const extractDomain = (url) => {
+  try {
+    const parsedUrl = new URL(url);
+    // Remove "www." for a cleaner appearance
+    return parsedUrl.hostname.replace('www.', '');
+  } catch (e) {
+    return url;
+  }
+};
+
+const handleResourceClick = async (article) => {
+  try {
+    const user = auth.currentUser;
+    if (!user) throw new Error("User not authenticated");
+
+    console.log("📡 Generating full article for:", article.title);
+
+    // Call your backend to generate the full article using the article title as the prompt.
+    const response = await fetch("http://127.0.0.1:8000/generate-article/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prompt: article.title,
+        user_id: user.uid,
+        keywords: "" // No extra keywords for resource-based generation
+      }),
+    });
+
+    if (!response.ok) throw new Error("AI article generation failed");
+
+    const aiData = await response.json();
+    if (!aiData || !aiData.article) throw new Error("No article generated");
+
+    const fullArticle = aiData.article;
+    // Extract a professional domain name from the article URL, if available.
+    const domain = article.url ? extractDomain(article.url) : "the original source";
+    // Append a professional source line at the end of the article.
+    const fullArticleWithSource = `${fullArticle}\n\nSource: Originally published on ${domain}`;
+
+    console.log("📝 Full article received:", fullArticleWithSource);
+
+    // Create a new chat entry with the full article (including the professional source)
+    const newChat = {
+      title: article.title,
+      versions: [fullArticleWithSource],
+      timestamp: new Date().toLocaleString(),
+    };
+
+    // Update state to display the full article in the article section.
+    setChats((prevChats) => [newChat, ...prevChats]);
+    setSelectedChat(newChat);
+    setArticleContent(fullArticleWithSource);
+    setCurrentVersionIndex(0);
+    setIsArticleGenerated(true);
+
+    // Save the new chat to Firestore.
+    const userRef = doc(db, "Journalists", user.uid);
+    await updateDoc(userRef, {
+      savedArticles: [newChat, ...chats],
+    });
+  } catch (error) {
+    console.error("Error generating full article from resource:", error);
+    setTopicError("Failed to generate full article from the resource. Please try again.");
+  }
+};
+
   
-    try {
-      const user = auth.currentUser;
-      if (!user) throw new Error("User not authenticated");
-  
-      console.log("📡 Sending request for topic:", selectedTopic);
-  
-      // Call your backend to generate the full article for the selected topic
-      const response = await fetch("http://127.0.0.1:8000/generate-article/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          prompt: selectedTopic,
-          user_id: user.uid,
-          keywords: "" // No extra keywords when clicking from the topic grid
-        }),
-      });
-  
-      if (!response.ok) throw new Error("AI article generation failed");
-  
-      const aiData = await response.json();
-      if (!aiData || !aiData.article) throw new Error("No article generated");
-  
-      const fullArticle = aiData.article;
-      console.log("📝 Full article received:", fullArticle);
-  
-      // Create a new chat entry with the generated article
-      const newChat = {
-        title: selectedTopic,
-        versions: [fullArticle],
-        timestamp: new Date().toLocaleString(),
-      };
-  
-      // Update state to display the full article (and allow editing/export)
-      setChats((prevChats) => [newChat, ...prevChats]);
-      setSelectedChat(newChat);
-      setArticleContent(fullArticle);
-      setCurrentVersionIndex(0);
-      setIsArticleGenerated(true);
-  
-      // Save the new article in Firestore
-      const userRef = doc(db, "Journalists", user.uid);
-      await updateDoc(userRef, {
-        savedArticles: [newChat, ...chats],
-      });
-    } catch (error) {
-      console.error("Error fetching and generating article:", error);
-      setTopicError("Failed to fetch a full article. Please try again.");
-    }
-  };
   
   
   
@@ -553,7 +584,7 @@ const handleKeywordPopupCancel = () => {
 </div>
 
         {/* Conditionally render the topics section and prompt */}
-{!isArticleGenerated && (
+        {!isArticleGenerated && (
   <>
     <div className="topics-sectionH">
       <h2>Start writing what’s happening now</h2>
@@ -561,24 +592,37 @@ const handleKeywordPopupCancel = () => {
         <p>Loading topics...</p>
       ) : (
         <div className="topics-gridH">
-        {Object.entries(topicArticles).map(([topicName, articles]) => (
-          <div
-            key={topicName}
-            className="topic-columnH"
-            onClick={() => handleTopicCardClick(topicName)}
-            style={{ cursor: "pointer" }}
-          >
-            <h3>{topicName}</h3>
-            {articles.slice(0, 3).map((article, idx) => (
-              <div key={idx} className="article-cardH">
-                <h4>{article.title}</h4>
-                <p>{article.description}</p>
-                
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
+          {Object.entries(topicArticles).map(([topicName, articles]) => (
+            <div
+              key={topicName}
+              className="topic-columnH"
+              // Optionally, you can leave the column clickable to generate by topic name;
+              // or you can let each article card be clickable individually.
+              // Here we let each article card handle its own click.
+            >
+             <h3>{topicName}</h3>
+{articles.slice(0, 3).map((article, idx) => (
+  <div
+    key={idx}
+    className="article-cardH"
+    onClick={(e) => {
+      e.stopPropagation(); // Prevent parent onClick from triggering
+      handleResourceClick(article);
+    }}
+    style={{ cursor: "pointer" }}
+  >
+    <h3>{article.title}</h3>
+    <p>{article.description}</p>
+    {article.url && (
+      <p className="article-resource" style={{ fontSize: "10px", color: "#007bff" }}>
+        The resource from {extractPublisher(article.url)}
+      </p>
+    )}
+  </div>
+))}
+            </div>
+          ))}
+        </div>
       )}
     </div>
 
