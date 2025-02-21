@@ -288,7 +288,7 @@ from firebase_admin import credentials, firestore
 
 # Initialize Firebase Admin SDK
 if not firebase_admin._apps:  # Prevent initializing multiple times
-    cred = credentials.Certificate("./credentials/gennews-2e5b4-firebase-adminsdk-k3adz-af7308d3ec.json")
+    cred = credentials.Certificate("./credentials/gennews-2e5b4-firebase-adminsdk-k3adz-af7308d3ec2.json")
     firebase_admin.initialize_app(cred)
 
 #--------------------retrave articles

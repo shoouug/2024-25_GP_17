@@ -36,6 +36,9 @@ const HomePage = () => {
   const [popupKeyword, setPopupKeyword] = useState(""); // For the popup keyword input
   const [showKeywordPopup, setShowKeywordPopup] = useState(false); // To toggle the popup
   const [currentVersionIndex, setCurrentVersionIndex] = useState(0);
+  const [topicArticles, setTopicArticles] = useState({}); 
+  const [isLoadingTopics, setIsLoadingTopics] = useState(false);
+
 
 useEffect(() => {
   if (selectedChat) {
@@ -145,6 +148,35 @@ const handleKeywordPopupCancel = () => {
     });
     return () => unsubscribe();
   }, [navigate]);
+  // NEW: After we have the selectedTopics, fetch news for each topic
+  useEffect(() => {
+    if (selectedTopics.length > 0) {
+      const fetchAllTopics = async () => {
+        setIsLoadingTopics(true);
+        const newTopicArticles = {};
+
+        for (const t of selectedTopics) {
+          try {
+            // Replace 127.0.0.1 with your backend URL if needed
+            const res = await fetch(`http://127.0.0.1:8000/news?topic=${t}`);
+            if (!res.ok) {
+              throw new Error(`Failed to fetch news for topic: ${t}`);
+            }
+            const data = await res.json();
+            newTopicArticles[t] = data.articles || [];
+          } catch (err) {
+            console.error("Error fetching news for topic:", t, err);
+            newTopicArticles[t] = []; // fallback to empty
+          }
+        }
+
+        setTopicArticles(newTopicArticles);
+        setIsLoadingTopics(false);
+      };
+
+      fetchAllTopics();
+    }
+  }, [selectedTopics]);
 
   const handleNewChat = () => {
     setSelectedChat(null);
@@ -372,92 +404,64 @@ const handleKeywordPopupCancel = () => {
       updateTitleInFirestore();
     }
   };
-
+//here also changes
   const handleTopicCardClick = async (selectedTopic) => {
-    setTopic(selectedTopic);
-    setIsArticleGenerated(false); // Ensure UI updates
-    
+    // Do not set the topic input field—use the selected topic directly.
+    setIsArticleGenerated(false);
+    setTopicError("");
+  
     try {
-        // Fetch news articles related to the selected topic
-
-        //const newsResponse = await fetch(`http://127.0.0.1:8000/news?topic=${selectedTopic}`);
-
-       // if (!newsResponse.ok) {
-          //  throw new Error("Failed to fetch news articles");
-      //  }
-
       const user = auth.currentUser;
-        if (!user) {
-            throw new Error("User not authenticated");
-        }
-
-        console.log("📡 Sending request to backend...");
-
-        const response = await fetch("http://127.0.0.1:8000/generate-article/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                prompt: selectedTopic,
-                user_id: user.uid,
-                keywords: ""
-            }),
-        });
-
-        console.log(user.uid);
-        console.log("🔎 Backend response status:", response.status);
-
-        if (!response.ok) {
-            throw new Error("AI article generation failed");
-        }
-
-        const aiData = await response.json();
-
-       const newsData = await response.json();
-
-        if (!newsData.articles || newsData.articles.length === 0) {
-            throw new Error("No articles found for this topic.");
-        }
-
-        // Extract details from the first relevant article
-        const article = newsData.articles[0];
-
-        // Use raw article content without formatting
-        const articleContent = article.content || "Full article content is unavailable.";
-
-        // Update the state with the raw article
-        const newChat = {
-            title: selectedTopic,
-            versions: [articleContent], 
-            timestamp: new Date().toLocaleString(),
-        };
-
-        setChats((prevChats) => [newChat, ...prevChats]);
-        setSelectedChat(newChat);
-        setArticleContent(articleContent);
-        setCurrentVersionIndex(0);
-        setIsArticleGenerated(true);
-
-        // Save to Firestore
-        const saveToFirestore = async () => {
-            const user = auth.currentUser;
-            if (user) {
-                const userRef = doc(db, "Journalists", user.uid);
-                try {
-                    await updateDoc(userRef, {
-                        savedArticles: [newChat, ...chats],
-                    });
-                } catch (error) {
-                    console.error("Error saving topic-selected article:", error);
-                }
-            }
-        };
-
-        saveToFirestore();
+      if (!user) throw new Error("User not authenticated");
+  
+      console.log("📡 Sending request for topic:", selectedTopic);
+  
+      // Call your backend to generate the full article for the selected topic
+      const response = await fetch("http://127.0.0.1:8000/generate-article/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: selectedTopic,
+          user_id: user.uid,
+          keywords: "" // No extra keywords when clicking from the topic grid
+        }),
+      });
+  
+      if (!response.ok) throw new Error("AI article generation failed");
+  
+      const aiData = await response.json();
+      if (!aiData || !aiData.article) throw new Error("No article generated");
+  
+      const fullArticle = aiData.article;
+      console.log("📝 Full article received:", fullArticle);
+  
+      // Create a new chat entry with the generated article
+      const newChat = {
+        title: selectedTopic,
+        versions: [fullArticle],
+        timestamp: new Date().toLocaleString(),
+      };
+  
+      // Update state to display the full article (and allow editing/export)
+      setChats((prevChats) => [newChat, ...prevChats]);
+      setSelectedChat(newChat);
+      setArticleContent(fullArticle);
+      setCurrentVersionIndex(0);
+      setIsArticleGenerated(true);
+  
+      // Save the new article in Firestore
+      const userRef = doc(db, "Journalists", user.uid);
+      await updateDoc(userRef, {
+        savedArticles: [newChat, ...chats],
+      });
     } catch (error) {
-        console.error("Error fetching and generating article:", error);
-        setTopicError("Failed to fetch a real article. Please try again.");
+      console.error("Error fetching and generating article:", error);
+      setTopicError("Failed to fetch a full article. Please try again.");
     }
-};
+  };
+  
+  
+  
 
   return (
     <div
@@ -553,18 +557,31 @@ const handleKeywordPopupCancel = () => {
   <>
     <div className="topics-sectionH">
       <h2>Start writing what’s happening now</h2>
-      <div className="topics-gridH">
-        {selectedTopics.map((topic, index) => (
+      {isLoadingTopics ? (
+        <p>Loading topics...</p>
+      ) : (
+        <div className="topics-gridH">
+        {Object.entries(topicArticles).map(([topicName, articles]) => (
           <div
-            key={index}
-            className="topic-cardH"
-            onClick={() => handleTopicCardClick(topic)}
+            key={topicName}
+            className="topic-columnH"
+            onClick={() => handleTopicCardClick(topicName)}
+            style={{ cursor: "pointer" }}
           >
-            {topic}
+            <h3>{topicName}</h3>
+            {articles.slice(0, 3).map((article, idx) => (
+              <div key={idx} className="article-cardH">
+                <h4>{article.title}</h4>
+                <p>{article.description}</p>
+                
+              </div>
+            ))}
           </div>
         ))}
       </div>
+      )}
     </div>
+
 
     <p className="topic-promptH">Or enter a topic of your choice!</p>
   </>

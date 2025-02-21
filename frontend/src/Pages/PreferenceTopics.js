@@ -18,6 +18,15 @@ const PreferenceTopics = () => {
     } else {
       document.body.classList.remove('dark-mode'); // Ensure dark mode is off
     }
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log("User logged in:", user);
+        // Optionally, you can set the user into state if needed
+      } else {
+        console.log("No user is logged in.");
+      }
+    });
+    return () => unsubscribe();
   }, []);
 
   const topics = [
